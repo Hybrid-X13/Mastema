@@ -1,6 +1,6 @@
 # Mastema
 
-A mod for the game the Binding of Isaac: Rebirth.
+A mod for the game The Binding of Isaac: Rebirth.
 
 Adds Mastema, a new character with a tainted version and 26 unlocks.
 
