@@ -8,7 +8,7 @@ local itemPool = game:GetItemPool()
 
 local horns = Isaac.GetCostumeIdByPath("gfx/characters/character_mastema_horns.anm2")
 local bodyCostume = Isaac.GetCostumeIdByPath("gfx/characters/character_mastema_body.anm2")
---test
+
 local Stats = {
 	Speed = -0.1,
 	Tears = 0.8,
