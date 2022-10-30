@@ -1,0 +1,10 @@
+<costumes anm2root="gfx/characters/">
+	<costume anm2path="character_mastema_horns.anm2" type="none" priority="99" />
+	<costume anm2path="character_mastema_body.anm2" type="none" priority="98" />
+	<costume anm2path="mastemapog.anm2" priority="900" type="none"/>
+	<costume anm2path="character_mastema_b_horns.anm2" type="none" priority="99" />
+	<costume anm2path="mastemabpog.anm2" priority="900" type="none"/>
+	
+	<costume id="8" anm2path="tornwings.anm2" priority="25" type="passive" hasSkinAlt="true" />
+	<costume id="12" anm2path="sinistersight.anm2" type="passive" hasSkinAlt="true" />
+</costumes>

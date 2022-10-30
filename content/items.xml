@@ -1,0 +1,30 @@
+<items gfxroot="gfx/items/" version="1" deathanm2="gfx/death items.anm2">
+	<active id="1" name="Bloody Harvest" description="Ripe for the picking" gfx="mastema_bloodyharvest.png" maxcharges="4" quality="3" />
+	<active id="2" name="Raven Beak" description="Devour the seed of the land" gfx="mastema_ravenbeak.png" maxcharges="2" quality="2" tags="offensive" />
+	<active id="4" name="Devil's Bargain" description="Let's make a deal..." gfx="mastema_devilsbargain.png" maxcharges="12" quality="3" tags="nokeeper" />
+	<active id="0" name="Broken Dice" description="Reroll... but at what cost?" gfx="mastema_brokendice.png" maxcharges="0" quality="3" tags="offensive" />
+	
+	<passive id="7" name="Book of Jubilees" description="7" gfx="mastema_bookofjubilees.png" quality="3" tags="book nocantrip" />
+	<passive id="9" name="Mastema's Wrath" description="Slay the first-born" gfx="mastema_mastemaswrath.png" quality="3" tags="summonable offensive nocantrip" />
+	<passive id="8" name="Torn Wings" description="Fallen from glory" gfx="mastema_tornwings.png" cache="flying" quality="3" devilprice="2" tags="offensive nocantrip" /> 
+	<passive id="14" name="Bloodsplosion" description="IT'S A BAPTISM OF BLOOD" gfx="mastema_bloodsplosion.png" quality="4" devilprice="2" tags="summonable offensive" />
+	<passive id="12" name="Sinister Sight" description="Strike fear into their hearts" gfx="mastema_sinistersight.png" cache="tearflag tearcolor" quality="4" devilprice="2" tags="summonable offensive" />
+	<passive id="13" name="Corrupt Heart" description="Consumed by darkness" gfx="mastema_corruptheart.png" quality="2" blackhearts="2" tags="summonable offensive nocantrip" />
+	
+	<familiar id="3" name="Sacrificial Chalice" description="Spill your blood" gfx="mastema_sacrificialchalice.png" quality="3" devilprice="2" tags="nocantrip nolostbr uniquefamiliar" />
+
+	<trinket name="Eternal Card" description="May the cards grant you eternal rewards" gfx="mastema_eternalcard.png" />
+	<trinket name="Life Savings" description="Spend your life away!" gfx="mastema_lifesavings.png" />
+	<trinket name="Twisted Faith" description="Stray from the path of righteousness" gfx="mastema_twistedfaith.png" />
+	<trinket name="Mantled Heart" description="A blessing of protection" gfx="mastema_mantledheart.png" />
+	<trinket name="Goodwill Tag" description="Give to the less fortunate" gfx="mastema_goodwilltag.png" />
+	<trinket name="Shattered Soul" description="Broken by sin" gfx="mastema_shatteredsoul.png" />
+	<trinket name="Satanic Charm" description="Down the darkest path" gfx="mastema_sataniccharm.png" />
+	<trinket name="Purist's Heart" description="Power to the purest" gfx="mastema_puristsheart.png" />
+	<trinket name="Spirit's Heart" description="Weep what you sow" gfx="mastema_spiritsheart.png" />
+
+	<passive name="Satanic Ritual DMG" gfx="00_NULLITEM.png" persistent="true" cache="damage" hidden="true" />
+	<passive name="Satanic Ritual Tears" gfx="00_NULLITEM.png" persistent="true" cache="firedelay" hidden="true" />
+	<passive name="Satanic Ritual Speed" gfx="00_NULLITEM.png" persistent="true" cache="speed" hidden="true" />
+	<passive name="Satanic Ritual Luck" gfx="00_NULLITEM.png" persistent="true" cache="luck" hidden="true" />
+</items>

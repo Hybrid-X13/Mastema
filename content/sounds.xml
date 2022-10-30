@@ -1,0 +1,11 @@
+<sounds root="sfx/">
+	<sound name="SoulofMastema">
+		<sample weight="1" path="Soul Of Mastema.wav" />
+	</sound>
+	<sound name="PrayerofRepentance">
+		<sample weight="1" path="Prayer of Repentance.wav" />
+	</sound>
+	<sound name="UnholyCard">
+		<sample weight="1" path="Unholy Card.wav" />
+	</sound>
+</sounds>

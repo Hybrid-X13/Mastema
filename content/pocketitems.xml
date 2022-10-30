@@ -1,0 +1,7 @@
+<pocketitems>
+	<card type="rune" pickup="194" description="Reap temptation's rewards" hud="soulofmastema" name="Soul of Mastema" mimiccharge="6" />
+	<card type="special" pickup="195" description="You feel demonic" hud="unholycard" name="Unholy Card" mimiccharge="6" />
+	<card type="special" pickup="196" description="All will be forgiven" hud="prayerofrepentance" name="Prayer of Repentance" mimiccharge="6" />
+	<card type="object" pickup="197" description="Roll your fate" hud="lifedice" name="Life Dice" mimiccharge="12" />
+	<card type="rune" pickup="198" description="Evil elegance" hud="sanguinejewel" name="Sanguine Jewel" mimiccharge="6" />
+</pocketitems>
