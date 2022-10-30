@@ -1,6 +1,6 @@
 if EID then
 	local Enums = require("mastema_src.enums")
-	
+	--test
 	--Mimic charge info for cards/runes
 	EID:addCardMetadata(Enums.Cards.PRAYER_OF_REPENTANCE, 6, false)
 	EID:addCardMetadata(Enums.Cards.UNHOLY_CARD, 6, false)
