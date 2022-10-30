@@ -39,6 +39,11 @@ local CellHeart = {
 	DOUBLE = 122,
 }
 
+local PatchedHeart = {
+	FULL = 3320,
+	DOUBLE = 3321,
+}
+
 local heartMap = {
 	[HeartSubType.HEART_HALF] = 1,
 	[HeartSubType.HEART_FULL] = 2,
@@ -74,6 +79,9 @@ local heartMap = {
 	[CellHeart.HALF] = 1,
 	[CellHeart.FULL] = 2,
 	[CellHeart.DOUBLE] = 4,
+	--Patched Hearts
+	[PatchedHeart.FULL] = 2,
+	[PatchedHeart.DOUBLE] = 4,
 }
 
 local Item = {}
