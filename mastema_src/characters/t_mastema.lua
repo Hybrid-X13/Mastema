@@ -66,9 +66,16 @@ local function IsBlacklisted(itemID)
 		CollectibleType.COLLECTIBLE_BODY,
 		CollectibleType.COLLECTIBLE_BLACK_LOTUS,
 		CollectibleType.COLLECTIBLE_SUPER_BANDAGE,
+		--Fiend Folio items
 		Isaac.GetItemIdByName("Tea"),
 		Isaac.GetItemIdByName("Bacon Grease"),
 		Isaac.GetItemIdByName(">3"),
+		--Retribution items
+		Isaac.GetItemIdByName("Brunch"),
+		Isaac.GetItemIdByName("Hundred Dollar Steak"),
+		Isaac.GetItemIdByName("Philosopher's Stone"),
+		Isaac.GetItemIdByName("Bucket of Blood"),
+		Isaac.GetItemIdByName("Silver Charm"),
 	}
 	
 	for i = 1, #blacklist do
@@ -124,22 +131,24 @@ function Character.evaluateCache(player, cacheFlag)
 	end
 
 	if player:HasCollectible(CollectibleType.COLLECTIBLE_BIRTHRIGHT) then
+		local numBrokenHearts = player:GetBrokenHearts()
+
 		if cacheFlag == CacheFlag.CACHE_DAMAGE then
 			if player:HasCollectible(CollectibleType.COLLECTIBLE_SOY_MILK) then
-				player.Damage = player.Damage + (0.25 * player:GetBrokenHearts() * 0.2)
+				player.Damage = player.Damage + (0.25 * numBrokenHearts * 0.2)
 			elseif player:HasCollectible(CollectibleType.COLLECTIBLE_ALMOND_MILK) then
-				player.Damage = player.Damage + (0.25 * player:GetBrokenHearts() * 0.33)
+				player.Damage = player.Damage + (0.25 * numBrokenHearts * 0.33)
 			else
-				player.Damage = player.Damage + (0.25 * player:GetBrokenHearts())
+				player.Damage = player.Damage + (0.25 * numBrokenHearts)
 			end
 		end
 		
 		if cacheFlag == CacheFlag.CACHE_FIREDELAY then
-			player.MaxFireDelay = Functions.TearsUp(player.MaxFireDelay, 0.18 * player:GetBrokenHearts())
+			player.MaxFireDelay = Functions.TearsUp(player.MaxFireDelay, 0.18 * numBrokenHearts)
 		end
 		
 		if cacheFlag == CacheFlag.CACHE_RANGE then
-			player.TearRange = player.TearRange + (15 * player:GetBrokenHearts())
+			player.TearRange = player.TearRange + (15 * numBrokenHearts)
 		end
 	end
 end
@@ -239,13 +248,13 @@ function Character.entityTakeDmg(target, amount, flag, source, countdown)
 	or room:GetType() == RoomType.ROOM_DEVIL
 	or game:IsGreedMode()
 	then
-		local brokenHearts = player:GetBrokenHearts()
+		local numBrokenHearts = player:GetBrokenHearts()
 		local rng = player:GetCollectibleRNG(CollectibleType.COLLECTIBLE_SANGUINE_BOND)
 		local randNum = rng:RandomInt(100)
 		
 		--Percent chance is based on the number of broken hearts Tainted Mastema currently has
-		if randNum < ((brokenHearts * 6) + 30)
-		and brokenHearts > 0
+		if randNum < ((numBrokenHearts * 6) + 30)
+		and numBrokenHearts > 0
 		then
 			player:AddBrokenHearts(-1)
 			sfx:Play(SoundEffect.SOUND_THUMBSUP)
@@ -301,10 +310,10 @@ function Character.postPickupUpdate(pickup)
 
 		if player:GetPlayerType() ~= Enums.Characters.T_MASTEMA then return end
 		
-		--Passive devil deals only cost 1 soul heart
 		local itemID = pickup.SubType
 		local itemConfig = Isaac.GetItemConfig():GetCollectible(itemID)
 		
+		--Passive devil deals only cost 1 soul heart
 		if itemConfig.Type ~= ItemType.ITEM_ACTIVE then
 			pickup.Price = -7
 			pickup.AutoUpdatePrice = false
@@ -391,6 +400,7 @@ end
 function Character.postPEffectUpdate(player)
 	if player:GetPlayerType() ~= Enums.Characters.T_MASTEMA then return end
 
+	--Fix demon wings turning into angel wings when flying over grid objects
 	if not player:HasCollectible(CollectibleType.COLLECTIBLE_HOLY_GRAIL) then
 		local holyGrail = Isaac.GetItemConfig():GetCollectible(CollectibleType.COLLECTIBLE_HOLY_GRAIL)
 		player:RemoveCostume(holyGrail)
