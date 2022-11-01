@@ -12,7 +12,7 @@ function Commands.executeCMD(cmd)
 		print("mastemaunlockall: Unlocks all items for both characters")
 		print("mastemareset: Resets item progress for both characters")
 	elseif string == "mastemamarks"
-	or cmd == "tmastemamarks"
+	or string == "tmastemamarks"
 	then
 		local completionCount = 0
 		local boss = {
