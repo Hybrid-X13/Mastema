@@ -65,6 +65,7 @@ function Item.useItem(item, rng, player, flags, activeSlot, customVarData)
 		end
 
 		if devilItem.Price > 15
+		or (devilItem.Price == 15 and devilPrice == 2)
 		or devilItem.Price < 0
 		then
 			devilItem.AutoUpdatePrice = false
@@ -154,14 +155,6 @@ function Item.postPEffectUpdate(player)
 			if collectible.Price < 0 then
 				if player:HasTrinket(TrinketType.TRINKET_YOUR_SOUL) then
 					collectible.Price = PickupPrice.PRICE_SOUL
-				elseif player:GetPlayerType() == PlayerType.PLAYER_KEEPER
-				or player:GetPlayerType() == PlayerType.PLAYER_KEEPER_B
-				then
-					if devilPrice == 2 then
-						collectible.Price = math.floor(30 / (player:GetCollectibleNum(CollectibleType.COLLECTIBLE_STEAM_SALE) + 1))
-					else
-						collectible.Price = 15
-					end
 				elseif maxRedHearts > 0 then
 					if devilPrice == 2 then
 						if maxRedHearts >= 4 then
@@ -188,11 +181,7 @@ function Item.postPEffectUpdate(player)
 					collectible.ShopItemId = -1
 				end
 				
-				if collectible.Price > 15
-				or collectible.Price < 0
-				then
-					collectible.AutoUpdatePrice = false
-				end
+				collectible.AutoUpdatePrice = false
 			end
 		end
 	end
