@@ -429,10 +429,11 @@ function Character.postNewRoom()
 end
 
 function Character.postNewLevel()
+	local level = game:GetLevel()
+	local stageType = level:GetStageType()
+	
 	for i = 0, game:GetNumPlayers() - 1 do
 		local player = Isaac.GetPlayer(i)
-		local level = game:GetLevel()
-		local stageType = level:GetStageType()
 
 		if player:GetPlayerType() ~= Enums.Characters.MASTEMA then return end
 
@@ -442,13 +443,11 @@ function Character.postNewLevel()
 		or stageType == StageType.STAGETYPE_REPENTANCE_B
 		then
 			if Functions.HasInnateItem(CollectibleType.COLLECTIBLE_MORE_OPTIONS) then
-				Functions.RemoveInnateItem(player, CollectibleType.COLLECTIBLE_MORE_OPTIONS)
+				Functions.RemoveInnateItem(CollectibleType.COLLECTIBLE_MORE_OPTIONS)
 			end
 		else
 			if not Functions.HasInnateItem(CollectibleType.COLLECTIBLE_MORE_OPTIONS) then
-				local moreOptions = Isaac.GetItemConfig():GetCollectible(CollectibleType.COLLECTIBLE_MORE_OPTIONS)
-				Functions.AddInnateItem(player, CollectibleType.COLLECTIBLE_MORE_OPTIONS)
-				player:RemoveCostume(moreOptions)
+				Functions.AddInnateItem(player, CollectibleType.COLLECTIBLE_MORE_OPTIONS, true)
 			end
 		end
 	end
@@ -637,9 +636,7 @@ function Character.postPEffectUpdate(player)
 		end
 
 		if not Functions.HasInnateItem(CollectibleType.COLLECTIBLE_DUALITY) then
-			local duality = Isaac.GetItemConfig():GetCollectible(CollectibleType.COLLECTIBLE_DUALITY)
-			Functions.AddInnateItem(player, CollectibleType.COLLECTIBLE_DUALITY)
-			player:RemoveCostume(duality)
+			Functions.AddInnateItem(player, CollectibleType.COLLECTIBLE_DUALITY, true)
 		end
 	end
 
@@ -730,9 +727,7 @@ function Character.useItem(item, rng, player, flags, activeSlot, customVarData)
 	and stageType ~= StageType.STAGETYPE_REPENTANCE
 	and stageType ~= StageType.STAGETYPE_REPENTANCE_B
 	then
-		local moreOptions = Isaac.GetItemConfig():GetCollectible(CollectibleType.COLLECTIBLE_MORE_OPTIONS)
-		Functions.AddInnateItem(player, CollectibleType.COLLECTIBLE_MORE_OPTIONS)
-		player:RemoveCostume(moreOptions)
+		Functions.AddInnateItem(player, CollectibleType.COLLECTIBLE_MORE_OPTIONS, true)
 	end
 end
 

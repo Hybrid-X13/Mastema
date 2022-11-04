@@ -23,14 +23,25 @@ end
 local Functions = {}
 
 --Lemegeton wisp functions originally made by Aevilok, tweaked by me
-function Functions.AddInnateItem(player, collectibleID)
+function Functions.AddInnateItem(player, collectibleID, removeCostume)
+	if removeCostume == nil then
+		removeCostume = false
+	end
+	
 	local itemWisp = player:AddItemWisp(collectibleID, Vector.Zero, true)
+
     itemWisp:RemoveFromOrbit()
     itemWisp:ClearEntityFlags(EntityFlag.FLAG_APPEAR)
     itemWisp.Visible = false
     itemWisp.CollisionDamage = 0
 	itemWisp.EntityCollisionClass = EntityCollisionClass.ENTCOLL_NONE
 	itemWisp:GetData().mastemaWisp = true
+
+	if removeCostume then
+		local itemConfig = Isaac.GetItemConfig():GetCollectible(collectibleID)
+		player:RemoveCostume(itemConfig)
+	end
+
     return itemWisp
 end
 
@@ -47,17 +58,18 @@ function Functions.HasInnateItem(collectibleID)
 	return false
 end
 
-function Functions.RemoveInnateItem(player, collectibleID)
+function Functions.RemoveInnateItem(collectibleID)
     local itemWisps = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.ITEM_WISP, collectibleID)
-    if #itemWisps > 0 then
-        for i = 1, #itemWisps do
-			if itemWisps[i]:GetData().mastemaWisp then
-                itemWisps[i]:Kill()
-				sfx:Stop(SoundEffect.SOUND_STEAM_HALFSEC)
-                break
-            end
-        end
-    end
+	
+    if #itemWisps == 0 then return false end
+
+	for i = 1, #itemWisps do
+		if itemWisps[i]:GetData().mastemaWisp then
+			itemWisps[i]:Kill()
+			sfx:Stop(SoundEffect.SOUND_STEAM_HALFSEC)
+			break
+		end
+	end
 end
 
 function Functions.AnyPlayerHasCollectible(itemID, ignoreModifiers)
@@ -158,7 +170,7 @@ function Functions.HasFullCompletion(mastema)
 		marks = SaveData.UnlockData.T_Mastema
 	end
 	
-	for completion, val in pairs(marks) do
+	for _, val in pairs(marks) do
 		if not val then
 			return false
 		end
