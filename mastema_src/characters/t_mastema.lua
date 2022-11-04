@@ -376,24 +376,24 @@ function Character.prePickupCollision(pickup, collider, low)
 end
 
 function Character.postLaserUpdate(laser)
+	if laser.SpawnerEntity == nil then return end
 	if laser.SpawnerType ~= EntityType.ENTITY_PLAYER then return end
-	
-	for i = 0, game:GetNumPlayers() - 1 do
-		local player = Isaac.GetPlayer(i)
-		
-		if player:GetPlayerType() ~= Enums.Characters.T_MASTEMA then return end
-		if player:HasCollectible(CollectibleType.COLLECTIBLE_PLAYDOUGH_COOKIE) then return end
 
-		local color = Color(1, 0, 1, 1, 0, 0, 0)
-		local sprite = laser:GetSprite()
+	local player = laser.SpawnerEntity:ToPlayer()
 
-		color:SetColorize(4, 0, 4, 1)
-		sprite.Color = color
+	if player == nil then return end
+	if player:GetPlayerType() ~= Enums.Characters.T_MASTEMA then return end
+	if player:HasCollectible(CollectibleType.COLLECTIBLE_PLAYDOUGH_COOKIE) then return end
 
-		if laser.Child then
-			local impactSprite = laser.Child:GetSprite()
-			impactSprite.Color = color
-		end
+	local color = Color(1, 0, 1, 1, 0, 0, 0)
+	local sprite = laser:GetSprite()
+
+	color:SetColorize(4, 0, 4, 1)
+	sprite.Color = color
+
+	if laser.Child then
+		local impactSprite = laser.Child:GetSprite()
+		impactSprite.Color = color
 	end
 end
 
