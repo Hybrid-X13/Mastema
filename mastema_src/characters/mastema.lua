@@ -131,9 +131,9 @@ local function UpdateItemPrices(player)
 						if quality > 2 then
 							pickup.Price = PickupPrice.PRICE_THREE_SOULHEARTS
 						elseif quality == 2 then
-							pickup.Price = -8
+							pickup.Price = PickupPrice.PRICE_TWO_SOUL_HEARTS
 						else
-							pickup.Price = -7
+							pickup.Price = PickupPrice.PRICE_ONE_SOUL_HEART
 						end
 					end
 					
@@ -197,20 +197,20 @@ local function AlternateItemPrices(player)
 				and maxRedHearts > 0
 				then
 					collectible.Price = PickupPrice.PRICE_ONE_HEART
-				elseif collectible.Price ~= -8
+				elseif collectible.Price ~= PickupPrice.PRICE_TWO_SOUL_HEARTS
 				and soulHearts >= 4
 				then
-					collectible.Price = -8
+					collectible.Price = PickupPrice.PRICE_TWO_SOUL_HEARTS
 				end
 			else
 				if collectible.Price ~= PickupPrice.PRICE_ONE_HEART
 				and maxRedHearts > 0
 				then
 					collectible.Price = PickupPrice.PRICE_ONE_HEART
-				elseif collectible.Price ~= -7
+				elseif collectible.Price ~= PickupPrice.PRICE_ONE_SOUL_HEART
 				and soulHearts >= 2
 				then
-					collectible.Price = -7
+					collectible.Price = PickupPrice.PRICE_ONE_SOUL_HEART
 				end
 			end
 			
@@ -577,15 +577,15 @@ function Character.prePickupCollision(pickup, collider, low)
 				SaveData.PlayerData.Mastema.Birthright[birthrightStats[randNum]] = SaveData.PlayerData.Mastema.Birthright[birthrightStats[randNum]] + 1
 			end
 		elseif pickup.Price == PickupPrice.PRICE_TWO_HEARTS
-		or pickup.Price == -8
-		or pickup.Price == -9
+		or pickup.Price == PickupPrice.PRICE_TWO_SOUL_HEARTS
+		or pickup.Price == PickupPrice.PRICE_ONE_HEART_AND_ONE_SOUL_HEART
 		then
 			for i = 1, 2 do 
 				randNum = rng:RandomInt(#birthrightStats) + 1
 				SaveData.PlayerData.Mastema.Birthright[birthrightStats[randNum]] = SaveData.PlayerData.Mastema.Birthright[birthrightStats[randNum]] + 1
 			end
 		elseif pickup.Price == PickupPrice.PRICE_ONE_HEART
-		or pickup.Price == -7
+		or pickup.Price == PickupPrice.PRICE_ONE_SOUL_HEART
 		then
 			randNum = rng:RandomInt(#birthrightStats) + 1
 			SaveData.PlayerData.Mastema.Birthright[birthrightStats[randNum]] = SaveData.PlayerData.Mastema.Birthright[birthrightStats[randNum]] + 1

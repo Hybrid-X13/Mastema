@@ -315,7 +315,7 @@ function Character.postPickupUpdate(pickup)
 		
 		--Passive devil deals only cost 1 soul heart
 		if itemConfig.Type ~= ItemType.ITEM_ACTIVE then
-			pickup.Price = -7
+			pickup.Price = PickupPrice.PRICE_ONE_SOUL_HEART
 			pickup.AutoUpdatePrice = false
 		end
 	end
@@ -362,7 +362,7 @@ function Character.prePickupCollision(pickup, collider, low)
 	
 	--Fix devil deals taking more hearts than normal when at a certain number of total hearts
 	if itemConfig.Type ~= ItemType.ITEM_ACTIVE
-	and pickup.Price == -7
+	and pickup.Price == PickupPrice.PRICE_ONE_SOUL_HEART
 	and totalHearts > 10
 	and soulHearts > 1
 	and pickup.Wait == 0
