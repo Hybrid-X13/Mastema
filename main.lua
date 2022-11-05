@@ -12,6 +12,7 @@ MASTEMA = RegisterMod("Mastema", 1)
 local mod = MASTEMA
 
 --Callbacks
+local postGameStarted = require("mastema_src.callbacks.post_game_started")
 local postPEffectUpdate = require("mastema_src.callbacks.post_peffect_update")
 local preUseItem = require("mastema_src.callbacks.pre_use_item")
 local useItem = require("mastema_src.callbacks.use_item")
@@ -40,6 +41,7 @@ local postEffectUpdate = require("mastema_src.callbacks.post_effect_update")
 local postRender = require("mastema_src.callbacks.post_render")
 local executeCMD = require("mastema_src.callbacks.execute_cmd")
 
+mod:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, postGameStarted)
 mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, postPEffectUpdate)
 mod:AddCallback(ModCallbacks.MC_PRE_USE_ITEM, preUseItem)
 mod:AddCallback(ModCallbacks.MC_USE_ITEM, useItem)

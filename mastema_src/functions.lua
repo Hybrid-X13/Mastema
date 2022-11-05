@@ -14,13 +14,15 @@ local KnownFilePathsByIndex = {
 
 local BrokenHeartIcon = Sprite()
 
-if CustomHealthAPI then
-	BrokenHeartIcon:Load("gfx/ui/CustomHealthAPI/hearts.anm2", true)
-else
-	BrokenHeartIcon:Load("gfx/ui/ui_hearts.anm2", true)
-end
-
 local Functions = {}
+
+function Functions.postGameStarted(isContinue)
+	if CustomHealthAPI then
+		BrokenHeartIcon:Load("gfx/ui/CustomHealthAPI/hearts.anm2", true)
+	else
+		BrokenHeartIcon:Load("gfx/ui/ui_hearts.anm2", true)
+	end
+end
 
 --Lemegeton wisp functions originally made by Aevilok, tweaked by me
 function Functions.AddInnateItem(player, collectibleID, removeCostume)
