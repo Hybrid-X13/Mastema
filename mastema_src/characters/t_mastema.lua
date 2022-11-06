@@ -66,6 +66,7 @@ local function IsBlacklisted(itemID)
 		CollectibleType.COLLECTIBLE_BODY,
 		CollectibleType.COLLECTIBLE_BLACK_LOTUS,
 		CollectibleType.COLLECTIBLE_SUPER_BANDAGE,
+		CollectibleType.COLLECTIBLE_PAGEANT_BOY,
 		--Fiend Folio items
 		Isaac.GetItemIdByName("Tea"),
 		Isaac.GetItemIdByName("Bacon Grease"),
