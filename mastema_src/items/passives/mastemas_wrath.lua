@@ -1,4 +1,5 @@
 local Enums = require("mastema_src.enums")
+local Functions = require("mastema_src.functions")
 local game = Game()
 local rng = RNG()
 
@@ -133,18 +134,13 @@ function Item.postRender()
 	local room = game:GetRoom()
 
 	if room:GetFrameCount() == 0 then return end
-	
-	for i = 0, game:GetNumPlayers() - 1 do
-		local player = Isaac.GetPlayer(i)
-
-		if not player:HasCollectible(Enums.Collectibles.MASTEMAS_WRATH) then return end
+	if not Functions.AnyPlayerHasCollectible(Enums.Collectibles.MASTEMAS_WRATH) then return end
 		
-		for i, entity in pairs(Isaac.GetRoomEntities()) do
-			if entity:GetData().mostHP then
-				local offset = Vector(0, -5) * entity.Size
-				slayerIcon:SetFrame("Betrayal", 6)
-				slayerIcon:Render(Isaac.WorldToScreen(entity.Position + offset), Vector.Zero, Vector.Zero)
-			end
+	for i, entity in pairs(Isaac.GetRoomEntities()) do
+		if entity:GetData().mostHP then
+			local offset = Vector(0, -5) * entity.Size
+			slayerIcon:SetFrame("Betrayal", 6)
+			slayerIcon:Render(Isaac.WorldToScreen(entity.Position + offset), Vector.Zero, Vector.Zero)
 		end
 	end
 end
