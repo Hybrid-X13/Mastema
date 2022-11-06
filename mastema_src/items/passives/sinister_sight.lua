@@ -55,19 +55,19 @@ function Item.postFireTear(tear)
 end
 
 function Item.postLaserUpdate(laser)
+	if laser.SpawnerEntity == nil then return end
 	if laser.SpawnerType ~= EntityType.ENTITY_PLAYER then return end
-	
-	for i = 0, game:GetNumPlayers() - 1 do
-		local player = Isaac.GetPlayer(i)
-		
-		if not player:HasCollectible(Enums.Collectibles.SINISTER_SIGHT) then return end
-		if player:HasCollectible(CollectibleType.COLLECTIBLE_PLAYDOUGH_COOKIE) then return end
 
-		local color = Color(1, 0, 1, 1, 0, 0, 0)
-		local sprite = laser:GetSprite()
-		color:SetColorize(4, 0, 4, 1)
-		sprite.Color = color
-	end
+	local player = laser.SpawnerEntity:ToPlayer()
+
+	if player == nil then return end
+	if not player:HasCollectible(Enums.Collectibles.SINISTER_SIGHT) then return end
+	if player:HasCollectible(CollectibleType.COLLECTIBLE_PLAYDOUGH_COOKIE) then return end
+
+	local sprite = laser:GetSprite()
+	local color = Color(1, 0, 1, 1, 0, 0, 0)
+	color:SetColorize(4, 0, 4, 1)
+	sprite.Color = color
 end
 
 function Item.postPEffectUpdate(player)
