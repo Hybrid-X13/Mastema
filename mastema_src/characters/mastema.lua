@@ -260,7 +260,7 @@ function Character.evaluateCache(player, cacheFlag)
 		if player:HasCollectible(CollectibleType.COLLECTIBLE_SOY_MILK) then
 			player.Damage = player.Damage + (Stats.DMG * 0.2)
 		elseif player:HasCollectible(CollectibleType.COLLECTIBLE_ALMOND_MILK) then
-			player.Damage = player.Damage + (Stats.DMG * 0.33)
+			player.Damage = player.Damage + (Stats.DMG * 0.3)
 		else
 			player.Damage = player.Damage + Stats.DMG
 		end
@@ -286,7 +286,7 @@ function Character.evaluateCache(player, cacheFlag)
 			if player:HasCollectible(CollectibleType.COLLECTIBLE_SOY_MILK) then
 				player.Damage = player.Damage + (0.5 * SaveData.PlayerData.Mastema.Birthright.DMG * 0.2)
 			elseif player:HasCollectible(CollectibleType.COLLECTIBLE_ALMOND_MILK) then
-				player.Damage = player.Damage + (0.5 * SaveData.PlayerData.Mastema.Birthright.DMG * 0.33)
+				player.Damage = player.Damage + (0.5 * SaveData.PlayerData.Mastema.Birthright.DMG * 0.3)
 			else
 				player.Damage = player.Damage + (0.5 * SaveData.PlayerData.Mastema.Birthright.DMG)
 			end
