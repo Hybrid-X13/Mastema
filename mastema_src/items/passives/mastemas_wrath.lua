@@ -17,6 +17,8 @@ function Item.evaluateCache(player, cacheFlag)
 			player.Damage = player.Damage + 0.4
 		elseif player:HasCollectible(CollectibleType.COLLECTIBLE_ALMOND_MILK) then
 			player.Damage = player.Damage + 0.6
+		elseif player:HasCollectible(CollectibleType.COLLECTIBLE_20_20) then
+			player.Damage = player.Damage + 1.6
 		else
 			player.Damage = player.Damage + 2
 		end
@@ -29,6 +31,8 @@ function Item.evaluateCache(player, cacheFlag)
 			player.Damage = player.Damage + (player:GetData().fadingDmg * 0.2)
 		elseif player:HasCollectible(CollectibleType.COLLECTIBLE_ALMOND_MILK) then
 			player.Damage = player.Damage + (player:GetData().fadingDmg * 0.3)
+		elseif player:HasCollectible(CollectibleType.COLLECTIBLE_20_20) then
+			player.Damage = player.Damage + (player:GetData().fadingDmg * 0.8)
 		else
 			player.Damage = player.Damage + player:GetData().fadingDmg
 		end

@@ -22,6 +22,8 @@ function Trinket.evaluateCache(player, cacheFlag)
 		player.Damage = player.Damage + (dmg * SaveData.ItemData.SatanicCharm.DMG * trinketMultiplier * 0.2)
 	elseif player:HasCollectible(CollectibleType.COLLECTIBLE_ALMOND_MILK) then
 		player.Damage = player.Damage + (dmg * SaveData.ItemData.SatanicCharm.DMG * trinketMultiplier * 0.3)
+	elseif player:HasCollectible(CollectibleType.COLLECTIBLE_20_20) then
+		player.Damage = player.Damage + (dmg * SaveData.ItemData.SatanicCharm.DMG * trinketMultiplier * 0.8)
 	else
 		player.Damage = player.Damage + (dmg * SaveData.ItemData.SatanicCharm.DMG * trinketMultiplier)
 	end

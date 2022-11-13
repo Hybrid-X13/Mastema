@@ -75,6 +75,8 @@ function Ritual.evaluateCache(player, cacheFlag)
 			player.Damage = player.Damage + (SaveData.ItemData.SatanicRitual.DMG * 0.2)
 		elseif player:HasCollectible(CollectibleType.COLLECTIBLE_ALMOND_MILK) then
 			player.Damage = player.Damage + (SaveData.ItemData.SatanicRitual.DMG * 0.3)
+		elseif player:HasCollectible(CollectibleType.COLLECTIBLE_20_20) then
+			player.Damage = player.Damage + (SaveData.ItemData.SatanicRitual.DMG * 0.8)
 		else
 			player.Damage = player.Damage + SaveData.ItemData.SatanicRitual.DMG
 		end
