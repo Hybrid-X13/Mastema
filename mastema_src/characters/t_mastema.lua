@@ -67,6 +67,7 @@ local function IsBlacklisted(itemID)
 		CollectibleType.COLLECTIBLE_BLACK_LOTUS,
 		CollectibleType.COLLECTIBLE_SUPER_BANDAGE,
 		CollectibleType.COLLECTIBLE_LATCH_KEY,
+		CollectibleType.COLLECTIBLE_MEAT,
 		CollectibleType.COLLECTIBLE_PAGEANT_BOY,
 		CollectibleType.COLLECTIBLE_BOOM,
 		CollectibleType.COLLECTIBLE_QUARTER,
@@ -74,6 +75,8 @@ local function IsBlacklisted(itemID)
 		Isaac.GetItemIdByName("Tea"),
 		Isaac.GetItemIdByName("Bacon Grease"),
 		Isaac.GetItemIdByName(">3"),
+		Isaac.GetItemIdByName("Dad's Dip"),
+		Isaac.GetItemIdByName("Kinda Egg"),
 		--Retribution items
 		Isaac.GetItemIdByName("Brunch"),
 		Isaac.GetItemIdByName("Hundred Dollar Steak"),
@@ -259,7 +262,7 @@ function Character.entityTakeDmg(target, amount, flag, source, countdown)
 		local randNum = rng:RandomInt(100)
 		
 		--Percent chance is based on the number of broken hearts Tainted Mastema currently has
-		if randNum < ((numBrokenHearts * 6) + 30)
+		if randNum < ((numBrokenHearts * 6) + 34)
 		and numBrokenHearts > 0
 		then
 			player:AddBrokenHearts(-1)
@@ -267,7 +270,9 @@ function Character.entityTakeDmg(target, amount, flag, source, countdown)
 			sfx:Play(SoundEffect.SOUND_DEATH_CARD)
 		end
 		
-		if randNum < 33 then
+		randNum = rng:RandomInt(3)
+
+		if randNum == 0 then
 			player:UseActiveItem(CollectibleType.COLLECTIBLE_COUPON, false)
 		end
 	end
@@ -355,14 +360,12 @@ function Character.prePickupCollision(pickup, collider, low)
 	and Functions.GetDimension(roomDesc) ~= 2
 	and not IsTaintedTreasureRoom(roomDesc)
 	then
-		if quality <= 1 then
-			player:AddBrokenHearts(1)
-		elseif quality == 2
-		or quality == 3
-		then
-			player:AddBrokenHearts(2)
-		elseif quality > 3 then
+		if quality > 3 then
 			player:AddBrokenHearts(3)
+		elseif quality == 3 then
+			player:AddBrokenHearts(2)
+		elseif quality < 3 then
+			player:AddBrokenHearts(1)
 		end
 	end
 	
@@ -518,14 +521,12 @@ function Character.postRender()
 				and Functions.GetDimension(roomDesc) ~= 2
 				and not IsTaintedTreasureRoom(roomDesc)
 				then
-					if quality <= 1 then
-						renderCount = 1
-					elseif quality == 2
-					or quality == 3
-					then
-						renderCount = 2
-					elseif quality > 3 then
+					if quality > 3 then
 						renderCount = 3
+					elseif quality == 3 then
+						renderCount = 2
+					elseif quality < 3 then
+						renderCount = 1
 					end
 					Functions.RenderBrokenCost(collectible, renderCount)
 				end
