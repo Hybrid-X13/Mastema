@@ -106,11 +106,14 @@ function Functions.CanPickEternalHearts(player)
 	local eternalHearts = player:GetEternalHearts()
     local maxHearts = player:GetMaxHearts()
     local heartLimit = player:GetHeartLimit()
+	
+	if eternalHearts > 0
+	and maxHearts == heartLimit
+	then
+		return false
+	end
 
-    return not (
-        eternalHearts > 0
-        and maxHearts == heartLimit
-    )
+	return true
 end
 
 --Function provided by KingBobson. Prevents PRE_PICKUP_COLLISION from being executed multiple times when colliding with a pedestal item
