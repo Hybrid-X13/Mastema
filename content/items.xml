@@ -4,7 +4,7 @@
 	<active id="4" name="Devil's Bargain" description="Let's make a deal..." gfx="mastema_devilsbargain.png" maxcharges="12" quality="3" tags="nokeeper" />
 	<active id="0" name="Broken Dice" description="Reroll... but at what cost?" gfx="mastema_brokendice.png" maxcharges="0" quality="3" tags="offensive" />
 	
-	<passive id="7" name="Book of Jubilees" description="7" gfx="mastema_bookofjubilees.png" quality="3" tags="book nocantrip" />
+	<passive id="7" name="Book of Jubilees" description="7" gfx="mastema_bookofjubilees.png" quality="3" tags="book summonable nocantrip" />
 	<passive id="9" name="Mastema's Wrath" description="Slay the first-born" gfx="mastema_mastemaswrath.png" quality="3" tags="summonable offensive nocantrip" />
 	<passive id="8" name="Torn Wings" description="Fallen from glory" gfx="mastema_tornwings.png" cache="flying" quality="3" devilprice="2" tags="offensive nocantrip" /> 
 	<passive id="14" name="Bloodsplosion" description="IT'S A BAPTISM OF BLOOD" gfx="mastema_bloodsplosion.png" quality="4" devilprice="2" tags="summonable offensive" />
