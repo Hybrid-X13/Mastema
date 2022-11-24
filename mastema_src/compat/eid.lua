@@ -10,7 +10,7 @@ if EID then
 	EID:addBirthright(Enums.Characters.MASTEMA, "The heart cost of items now cycle depending on what your current health is#↑ Buying items gives a random stat up for every heart spent", "Mastema")
 	EID:addBirthright(Enums.Characters.T_MASTEMA, "↑ Gain damage, range, and tears up for each broken heart you have#{{BrokenHeart}} Having 11 broken hearts grants {{Collectible118}} Brimstone#{{Collectible441}} Moving to the next floor while at 11 broken hearts causes you to fire a Mega Blast for 8 seconds", "Tainted Mastema")
 	--Actives
-	EID:addCollectible(Enums.Collectibles.BLOODY_HARVEST, "Spawns a consumable that's surrounded by spikes#Has a chance to spawn a devil deal instead", "Bloody Harvest")
+	EID:addCollectible(Enums.Collectibles.BLOODY_HARVEST, "Spawns a pickup that's surrounded by spikes#Has a chance to spawn a devil deal instead", "Bloody Harvest")
 	EID:addCollectible(Enums.Collectibles.RAVEN_BEAK, "Consumes all pickups in the room and grants a small, permanent damage up for each pickup consumed#The amount of damage gained is based on the quality of the pickups", "Raven Beak")
 	EID:addCollectible(Enums.Collectibles.DEVILS_BARGAIN, "Grants a passive item from the current room's pool and removes some heart containers#After being fully charged without getting hit, you get to keep the item plus the hearts that were taken are given back#If you get hit while recharging, the item is taken away and your hearts won't be returned", "Devil's Bargain")
 	EID:addCollectible(Enums.Collectibles.BROKEN_DICE, "Rerolls all pedestal items and pickups in the room but gives 1 broken heart each use#While held, removes 1 broken heart at the start of each floor", "Broken Dice")

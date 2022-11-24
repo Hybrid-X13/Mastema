@@ -97,7 +97,7 @@ if Encyclopedia then
 		BLOODY_HARVEST = {
 			{ -- Effect
 				{str = "Effect", fsize = 2, clr = 3, halign = 0},
-				{str = "Spawns a consumable that's surrounded by spikes."},
+				{str = "Spawns a random pickup that's surrounded by spikes."},
 				{str = "Has a chance to spawn a devil deal instead."},
 			},
 		},
