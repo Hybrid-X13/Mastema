@@ -346,7 +346,7 @@ if Encyclopedia then
 		LIFE_DICE = {
 			{ -- Effect
 				{str = "Effect", fsize = 2, clr = 3, halign = 0},
-				{str = "Rerolls your total amount of health."},
+				{str = "Rerolls your total amount of health into any combination of heart types."},
 			},
 		},
 		SANGUINE_JEWEL = {

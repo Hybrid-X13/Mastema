@@ -35,7 +35,7 @@ if EID then
 	EID:addTrinket(Enums.Trinkets.PURISTS_HEART, "↑ 1.2x Damage multiplier if you don't have any soul or black hearts", "Purist's Heart")
 	EID:addTrinket(Enums.Trinkets.SPIRITS_HEART, "↑ 1.2x Tear multiplier if you don't have any red heart containers or bone hearts", "Spirit's Heart")
 	--Cards/runes
-	EID:addCard(Enums.Cards.LIFE_DICE, "Rerolls your total amount of health", "Life Dice")
+	EID:addCard(Enums.Cards.LIFE_DICE, "Rerolls your total amount of health into any combination of heart types", "Life Dice")
 	EID:addCard(Enums.Cards.PRAYER_OF_REPENTANCE, "Spawns a Confessional", "Prayer of Repentance")
 	EID:addCard(Enums.Cards.SOUL_OF_MASTEMA, "Spawns an item from a random pool and will either:#{{BrokenHeart}} Give broken hearts based on the item's quality#{{Heart}} Remove hearts equivalent to a devil deal#Or spawn the item for free", "Soul of Mastema")
 	EID:addCard(Enums.Cards.UNHOLY_CARD, "{{Collectible118}} Grants mega Brimstone for the current room", "Unholy Card")
