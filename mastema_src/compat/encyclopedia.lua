@@ -117,7 +117,7 @@ if Encyclopedia then
 		TORN_WINGS = {
 			{ -- Effect
 				{str = "Effect", fsize = 2, clr = 3, halign = 0},
-				{str = "Devil items can appear in any item pool."},
+				{str = "Devil items have a chance to appear in any item pool."},
 				{str = "Tears up for each item and transformation you have that grants flight."},
 				{str = "Prevents flight for the rest of the run (the only exception is the Beast fight)."},
 			},
@@ -346,7 +346,7 @@ if Encyclopedia then
 		LIFE_DICE = {
 			{ -- Effect
 				{str = "Effect", fsize = 2, clr = 3, halign = 0},
-				{str = "Rerolls your total amount of health into any combination of heart types."},
+				{str = "Rerolls your health into any combination of heart types."},
 			},
 		},
 		SANGUINE_JEWEL = {
