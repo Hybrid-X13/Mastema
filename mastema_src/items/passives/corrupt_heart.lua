@@ -162,13 +162,14 @@ function Item.postPickupInit(pickup)
 			and pickup.SubType ~= FiendFolio.HALF_BLACK_HEART
 			and pickup.SubType ~= FiendFolio.BLENDED_BLACK_HEART
 			then
+				--Any modded hearts that aren't in the heart map have a 50/50 chance
 				randNum = rng:RandomInt(10)
 				
-				if randNum < 3 then
+				if randNum < 5 then
 					pickup:Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_BLACK, true, false, false)
 					pickup:SetColor(Color(0, 0, 0, 1, 0.1, 0, 0.1), 60, 1, true, false)
 				else
-					SpawnBlackLocust(3, pickup)
+					SpawnBlackLocust(5, pickup)
 					pickup:Remove()
 				end
 			end
