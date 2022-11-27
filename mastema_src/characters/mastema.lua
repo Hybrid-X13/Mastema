@@ -305,7 +305,7 @@ function Character.evaluateCache(player, cacheFlag)
 		end
 		
 		if cacheFlag == CacheFlag.CACHE_RANGE then
-			player.TearRange = player.TearRange + (15 * SaveData.PlayerData.Mastema.Birthright.Range)
+			player.TearRange = player.TearRange + (16 * SaveData.PlayerData.Mastema.Birthright.Range)
 		end
 		
 		if cacheFlag == CacheFlag.CACHE_LUCK then
