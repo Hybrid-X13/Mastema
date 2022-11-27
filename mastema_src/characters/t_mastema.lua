@@ -66,6 +66,7 @@ local function IsBlacklisted(itemID)
 		CollectibleType.COLLECTIBLE_BODY,
 		CollectibleType.COLLECTIBLE_BLACK_LOTUS,
 		CollectibleType.COLLECTIBLE_SUPER_BANDAGE,
+		CollectibleType.COLLECTIBLE_PJS,
 		CollectibleType.COLLECTIBLE_LATCH_KEY,
 		CollectibleType.COLLECTIBLE_MEAT,
 		CollectibleType.COLLECTIBLE_PAGEANT_BOY,
