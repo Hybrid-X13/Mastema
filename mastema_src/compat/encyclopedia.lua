@@ -238,7 +238,8 @@ if Encyclopedia then
 		LIFE_SAVINGS = {
 			{ -- Effect
 				{str = "Effect", fsize = 2, clr = 3, halign = 0},
-				{str = "Demon beggars, blood donation machines, and confessionals have a 15% chance to not take health."},
+				{str = "Beggars and machines that take health have a 15% chance to be played for free."},
+				{str = "This includes demon beggars, blood donation machines, confessionals, and hell games."},
 				{str = "Also allows for one free play of Satanic Rituals, but the trinket will be destroyed."},
 			},
 		},

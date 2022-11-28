@@ -26,7 +26,7 @@ if EID then
 	EID:assignTransformation("collectible", Enums.Collectibles.BOOK_OF_JUBILEES, EID.TRANSFORMATION["BOOKWORM"])
 	--Trinkets
 	EID:addTrinket(Enums.Trinkets.ETERNAL_CARD, "{{Card}} Using a card has a 10% chance of granting an {{EternalHeart}}eternal heart#Doesn't work with runes, soul stones, or anything that's not a card", "Eternal Card")
-	EID:addTrinket(Enums.Trinkets.LIFE_SAVINGS, "Demon beggars, blood donation machines, and confessionals have a 15% chance to not take health", "Life Savings")
+	EID:addTrinket(Enums.Trinkets.LIFE_SAVINGS, "Beggars and machines that take health have a 15% chance to be played for free", "Life Savings")
 	EID:addTrinket(Enums.Trinkets.TWISTED_FAITH, "!!! Automatically smelted on pickup#{{DevilRoom}} Devil room items are free but only one can be taken#{{AngelRoom}} Angel room items cost hearts but you can take multiple", "Twisted Faith")
 	EID:addTrinket(Enums.Trinkets.MANTLED_HEART, "{{SoulHeart}} Picking up a soul heart has a 15% chance of granting a {{Collectible313}} Holy Mantle shield#{{EternalHeart}} 30% chance when picking up eternal hearts", "Mantled Heart")
 	EID:addTrinket(Enums.Trinkets.GOODWILL_TAG, "While held, certain special rooms will always contain a beggar:#{{AngelRoom}} Angel: #{{Blank}} Normal beggar#{{DevilRoom}} Devil: #{{Blank}} Demon beggar#{{TreasureRoom}} Treasure: #{{Blank}} Key beggar", "Goodwill Tag")
