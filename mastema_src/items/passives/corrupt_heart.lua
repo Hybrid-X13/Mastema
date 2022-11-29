@@ -54,21 +54,21 @@ local heartMap = {
 	[HeartSubType.HEART_BONE] = 5,
 	[HeartSubType.HEART_SOUL] = 5,
 	[HeartSubType.HEART_GOLDEN] = 6,
-	[HeartSubType.HEART_ETERNAL] = 7,
+	[HeartSubType.HEART_ETERNAL] = 8,
 	--Rep+ Hearts
 	[RepPlus.BROKEN_HEART] = 5,
-	[RepPlus.DAUNTLESS_HEART] = 7,
+	[RepPlus.DAUNTLESS_HEART] = 8,
 	[RepPlus.HOARDED_HEART] = 8,
 	[RepPlus.SOILED_HEART] = 4,
 	[RepPlus.CURDLED_HEART] = 5,
-	[RepPlus.SAVAGE_HEART] = 5,
-	[RepPlus.ENIGMA_HEART] = 6,
-	[RepPlus.BALEFUL_HEART] = 7,
+	[RepPlus.SAVAGE_HEART] = 6,
+	[RepPlus.ENIGMA_HEART] = 8,
+	[RepPlus.BALEFUL_HEART] = 8,
 	[RepPlus.HARLOT_HEART] = 3,
-	[RepPlus.MISER_HEART] = 6,
+	[RepPlus.MISER_HEART] = 7,
 	[RepPlus.EMPTY_HEART] = 5,
-	[RepPlus.FETTERED_HEART] = 6,
-	[RepPlus.ZEALOT_HEART] = 6,
+	[RepPlus.FETTERED_HEART] = 7,
+	[RepPlus.ZEALOT_HEART] = 7,
 	--Fiend Folio Hearts
 	[FiendFolio.IMMORAL_HEART] = 5,
 	[FiendFolio.HALF_IMMORAL_HEART] = 2,
@@ -131,10 +131,10 @@ function Item.postPickupInit(pickup)
 						pickup:Remove()
 					end
 				else
-					randNum = rng:RandomInt(5)
+					randNum = rng:RandomInt(2)
 					
 					if randNum == 0 then
-						SpawnBlackLocust(2, pickup)
+						SpawnBlackLocust(5, pickup)
 						pickup:Remove()
 					end
 				end
@@ -163,9 +163,9 @@ function Item.postPickupInit(pickup)
 			and pickup.SubType ~= FiendFolio.BLENDED_BLACK_HEART
 			then
 				--Any modded hearts that aren't in the heart map have a 50/50 chance
-				randNum = rng:RandomInt(10)
+				randNum = rng:RandomInt(2)
 				
-				if randNum < 5 then
+				if randNum == 0 then
 					pickup:Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_BLACK, true, false, false)
 					pickup:SetColor(Color(0, 0, 0, 1, 0.1, 0, 0.1), 60, 1, true, false)
 				else
