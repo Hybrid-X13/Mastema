@@ -4,7 +4,7 @@ if EID then
 	--Mimic charge info for cards/runes
 	EID:addCardMetadata(Enums.Cards.PRAYER_OF_REPENTANCE, 6, false)
 	EID:addCardMetadata(Enums.Cards.UNHOLY_CARD, 6, false)
-	EID:addCardMetadata(Enums.Cards.SOUL_OF_MASTEMA, 6, true)
+	EID:addCardMetadata(Enums.Cards.SOUL_OF_MASTEMA, 12, true)
 	EID:addCardMetadata(Enums.Cards.SANGUINE_JEWEL, 6, true)
 
 	EID:addBirthright(Enums.Characters.MASTEMA, "The heart cost of items now cycle depending on what your current health is#↑ Buying items gives a random stat up for every heart spent", "Mastema")
