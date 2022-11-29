@@ -44,6 +44,8 @@ local PatchedHeart = {
 	DOUBLE = 3321,
 }
 
+local ImmortalHeart = 902
+
 local heartMap = {
 	[HeartSubType.HEART_HALF] = 1,
 	[HeartSubType.HEART_FULL] = 2,
@@ -82,6 +84,8 @@ local heartMap = {
 	--Patched Hearts
 	[PatchedHeart.FULL] = 2,
 	[PatchedHeart.DOUBLE] = 4,
+	--Immortal Hearts
+	[ImmortalHeart] = 9,
 }
 
 local Item = {}
