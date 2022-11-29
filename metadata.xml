@@ -29,6 +29,11 @@ All items have full [url=https://steamcommunity.com/sharedfiles/filedetails/?id=
 
 You can track your progress with any mod that does so, such as [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2376005362&amp;searchtext=encyclopedia]Encyclopedia[/url] or [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2503022727]Completion Marks for All Modded Characters[/url]. There’s also built-in commands. Open the debug console and type [b]mastemahelp[/b] for the full command list.
 
+[h1][b]Fandom Wiki[/b][/h1]
+Wanna have the most up to date info on all the mod's content? Then check out the Fandom wiki [url=https://mastema-mod.fandom.com/wiki/Mastema_Mod_Wiki] here![/url]
+
+Now on [url=https://github.com/Hybrid-X13/Mastema]GitHub[/url]
+
 [b]For another cool character, check out[/b] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2722017893] Andromeda[/url].
 
 [h1][b]Credits[/b][/h1]
@@ -40,7 +45,7 @@ You can track your progress with any mod that does so, such as [url=https://stea
 [b]Impupzables[/b]: Lots of costume tweaks and improvements.
 [b]Nihil[/b]: Sprited one of the mod's runes.
 [b]Ridiculon[/b]: Voiceovers for the mod's consumables (and [b]popjam[/b] for help commissioning him!).</description>
-    <version>1.124</version>
+    <version>1.125</version>
     <visibility>Public</visibility>
     <tag id="Lua"/>
     <tag id="Items"/>
