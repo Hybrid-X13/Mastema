@@ -117,7 +117,7 @@ if Encyclopedia then
 		TORN_WINGS = {
 			{ -- Effect
 				{str = "Effect", fsize = 2, clr = 3, halign = 0},
-				{str = "Devil items have a chance to appear in any item pool."},
+				{str = "Whenever an item spawns, there's a 25% chance it'll be pulled from the devil room pool instead."},
 				{str = "Tears up for each item and transformation you have that grants flight."},
 				{str = "Prevents flight for the rest of the run (the only exception is the Beast fight)."},
 			},
@@ -126,13 +126,13 @@ if Encyclopedia then
 				{str = "Characters that have innate flight will immediately gain a tears up."},
 				{str = "Certain effects that grant temporary flight will also grant a tears up for their duration, such as:"},
 				{str = "- The Bible"},
-				{str = "- The Hanged Man"},
-				{str = "- The Devil?"},
-				{str = "- The Sun?"},
-				{str = "- Soul of the Lost/the white fire"},
+				{str = "- Esau Jr"},
 				{str = "- Astral Projection"},
 				{str = "- Spirit Shackles"},
-				{str = "- Esau Jr"},
+				{str = "- XII - The Hanged Man"},
+				{str = "- XV - The Devil?"},
+				{str = "- XIX - The Sun?"},
+				{str = "- Soul of the Lost/the white fire"},
 			},
 			{ -- Trivia
 				{str = "Trivia", fsize = 2, clr = 3, halign = 0},
