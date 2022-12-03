@@ -45,7 +45,11 @@ local function HasBloodTears(player)
 	return false
 end
 
-local function SpawnBlackLocust(numLocusts, pos)
+local function SpawnBlackLocust(numLocusts, player, pos)
+	if player:HasTrinket(TrinketType.TRINKET_FISH_TAIL) then
+		numLocusts = numLocusts * 2
+	end
+	
 	for i = 1, numLocusts do
 		local blackLocust = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.BLUE_FLY, LocustSubtypes.LOCUST_OF_DEATH, pos, Vector.Zero, nil)
 		blackLocust:GetSprite():Play("LocustDeath")
