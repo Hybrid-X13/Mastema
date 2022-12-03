@@ -232,6 +232,11 @@ if Encyclopedia then
 				{str = "+1 Black heart."},
 				{str = "All heart types have a 33% chance of being converted into either a black heart or black locusts."},
 			},
+			{ -- Synergies
+				{str = "Synergies", fsize = 2, clr = 3, halign = 0},
+				{str = "Fish Tail", clr = 3, halign = 0},
+				{str = "Doubles the number of black locusts spawned."},
+			},
 		},
 		ETERNAL_CARD = {
 			{ -- Effect
