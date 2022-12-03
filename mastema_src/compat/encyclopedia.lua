@@ -163,6 +163,11 @@ if Encyclopedia then
 				{str = "The explosion deals your current damage and can spread status effects if the enemy died with any."},
 				{str = "Explosions caused by this item can't damage you."},
 			},
+			{ -- Synergies
+				{str = "Synergies", fsize = 2, clr = 3, halign = 0},
+				{str = "Lost Cork", clr = 3, halign = 0},
+				{str = "Increases the size of the creep."},
+			},
 			{ -- Interactions
 				{str = "Interactions", fsize = 2, clr = 3, halign = 0},
 				{str = "The explosions caused by this item don't inherit any bomb effects you have."},
@@ -204,7 +209,7 @@ if Encyclopedia then
 				{str = "Effect", fsize = 2, clr = 3, halign = 0},
 				{str = "+0.5 Tears up."},
 				{str = "Gain homing tears."},
-				{str = "Tears have a chance to fear enemies."},
+				{str = "Tears have a chance to fear enemies (scales with luck)."},
 				{str = "Feared enemies take 1.5x damage from all sources."},
 			},
 		},
