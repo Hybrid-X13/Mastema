@@ -86,6 +86,8 @@ local function IsBlacklisted(itemID)
 		Isaac.GetItemIdByName("Philosopher's Stone"),
 		Isaac.GetItemIdByName("Bucket of Blood"),
 		Isaac.GetItemIdByName("Silver Charm"),
+		--Collection items
+		Isaac.GetItemIdByName("Foul Guts"),
 	}
 	
 	for i = 1, #blacklist do
