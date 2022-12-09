@@ -6,7 +6,7 @@ local rng = RNG()
 local Character = Enums.Characters
 local Collectible = Enums.Collectibles
 local Trinket = Enums.Trinkets
-local Card = Enums.Cards
+local Consumable = Enums.Cards
 local blueBabyDead = false
 local lambDead = false
 
@@ -101,23 +101,23 @@ local trinketUnlocks = {
 }
 
 local cardUnlocks = {
-	[Card.LIFE_DICE] = {
+	[Consumable.LIFE_DICE] = {
 		Unlock = "Hush",
 		Tainted = false,
 	},
-	[Card.PRAYER_OF_REPENTANCE] = {
+	[Consumable.PRAYER_OF_REPENTANCE] = {
 		Unlock = "BlueBaby",
 		Tainted = true,
 	},
-	[Card.SANGUINE_JEWEL] = {
+	[Consumable.SANGUINE_JEWEL] = {
 		Unlock = "TheLamb",
 		Tainted = true,
 	},
-	[Card.SOUL_OF_MASTEMA] = {
+	[Consumable.SOUL_OF_MASTEMA] = {
 		Unlock = "Hush",
 		Tainted = true,
 	},
-	[Card.UNHOLY_CARD] = {
+	[Consumable.UNHOLY_CARD] = {
 		Unlock = "Greedier",
 		Tainted = true,
 	},
@@ -160,6 +160,48 @@ local function UpdateCompletion(str1, str2, tainted)
 	end
 
 	SaveData.SaveModData()
+end
+
+local function RunesAreUnlocked()
+	local runes = {
+		Card.RUNE_HAGALAZ,
+		Card.RUNE_JERA,
+		Card.RUNE_EHWAZ,
+		Card.RUNE_DAGAZ,
+		Card.RUNE_ANSUZ,
+		Card.RUNE_PERTHRO,
+		Card.RUNE_BERKANO,
+		Card.RUNE_ALGIZ,
+		Card.RUNE_BLANK,
+		Card.RUNE_BLACK,
+		Card.CARD_SOUL_ISAAC,
+		Card.CARD_SOUL_MAGDALENE,
+		Card.CARD_SOUL_CAIN,
+		Card.CARD_SOUL_JUDAS,
+		Card.CARD_SOUL_BLUEBABY,
+		Card.CARD_SOUL_EVE,
+		Card.CARD_SOUL_SAMSON,
+		Card.CARD_SOUL_AZAZEL,
+		Card.CARD_SOUL_LAZARUS,
+		Card.CARD_SOUL_EDEN,
+		Card.CARD_SOUL_LOST,
+		Card.CARD_SOUL_LILITH,
+		Card.CARD_SOUL_KEEPER,
+		Card.CARD_SOUL_APOLLYON,
+		Card.CARD_SOUL_FORGOTTEN,
+		Card.CARD_SOUL_BETHANY,
+		Card.CARD_SOUL_JACOB,
+	}
+	
+	for _, rune in pairs (runes) do
+		local itemConfig = Isaac.GetItemConfig():GetCard(rune)
+		
+		if itemConfig:IsAvailable() then
+			return true
+		end
+	end
+
+	return false
 end
 
 function UnlockManager.postEntityKill(entity)
@@ -548,12 +590,16 @@ function UnlockManager.postPickupInit(pickup)
 
 		if not unlocked then
 			local pool = game:GetItemPool()
-			local newCard = pool:GetCard(Random(), false, false, false)
+			local newCard = pool:GetCard(pickup.InitSeed, false, false, false)
 				
-			if pickup.SubType == Card.SOUL_OF_MASTEMA
-			or pickup.SubType == Card.SANGUINE_JEWEL
+			if pickup.SubType == Consumable.SOUL_OF_MASTEMA
+			or pickup.SubType == Consumable.SANGUINE_JEWEL
 			then
-				newCard = pool:GetCard(Random(), false, true, true)
+				if not RunesAreUnlocked() then
+					newCard = Card.RUNE_SHARD
+				else
+					newCard = pool:GetCard(pickup.InitSeed, false, true, true)
+				end
 			end
 			
 			pickup:Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_TAROTCARD, newCard, true, false, false)
@@ -648,10 +694,14 @@ function UnlockManager.postPlayerUpdate(player)
 				local pool = game:GetItemPool()
 				local newCard = pool:GetCard(Random(), false, false, false)
 				
-				if card == Card.SOUL_OF_MASTEMA
-				or card == Card.SANGUINE_JEWEL
+				if card == Consumable.SOUL_OF_MASTEMA
+				or card == Consumable.SANGUINE_JEWEL
 				then
-					newCard = pool:GetCard(Random(), false, true, true)
+					if not RunesAreUnlocked() then
+						newCard = Card.RUNE_SHARD
+					else
+						newCard = pool:GetCard(Random(), false, true, true)
+					end
 				end
 				player:SetCard(i, newCard)
 			end
