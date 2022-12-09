@@ -479,24 +479,28 @@ function Character.preGetCollectible(pool, decrease, seed)
 end
 
 function Character.postFireTear(tear)
-	local player = tear.Parent:ToPlayer()
+	if tear.SpawnerEntity == nil then return end
+	
+	local player = tear.SpawnerEntity:ToPlayer()
 
+	if player == nil then return end
 	if player:GetPlayerType() ~= Enums.Characters.MASTEMA then return end
 
 	ChangeTear(tear)
 end
 
 function Character.postTearUpdate(tear)
-	for i = 0, game:GetNumPlayers() - 1 do
-		local player = Isaac.GetPlayer(i)
-		
-		if player:GetPlayerType() ~= Enums.Characters.MASTEMA then return end
-		if not player:HasCollectible(CollectibleType.COLLECTIBLE_LUDOVICO_TECHNIQUE) then return end
-		if player:HasCollectible(Enums.Collectibles.SINISTER_SIGHT) then return end
-		
-		--Fix Ludo tear not being a blood tear
-		ChangeTear(tear)
-	end
+	if tear.SpawnerEntity == nil then return end
+	
+	local player = tear.SpawnerEntity:ToPlayer()
+
+	if player == nil then return end
+	if player:GetPlayerType() ~= Enums.Characters.MASTEMA then return end
+	if not player:HasCollectible(CollectibleType.COLLECTIBLE_LUDOVICO_TECHNIQUE) then return end
+	if player:HasCollectible(Enums.Collectibles.SINISTER_SIGHT) then return end
+	
+	--Fix Ludo tear not being a blood tear
+	ChangeTear(tear)
 end
 
 function Character.postPickupInit(pickup)

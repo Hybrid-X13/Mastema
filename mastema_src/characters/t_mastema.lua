@@ -391,7 +391,6 @@ end
 
 function Character.postLaserUpdate(laser)
 	if laser.SpawnerEntity == nil then return end
-	if laser.SpawnerType ~= EntityType.ENTITY_PLAYER then return end
 
 	local player = laser.SpawnerEntity:ToPlayer()
 

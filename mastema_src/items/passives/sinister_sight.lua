@@ -46,8 +46,11 @@ function Item.entityTakeDmg(target, amount, flag, source, countdown)
 end
 
 function Item.postFireTear(tear)
-	local player = tear.Parent:ToPlayer()
+	if tear.SpawnerEntity == nil then return end
 	
+	local player = tear.SpawnerEntity:ToPlayer()
+
+	if player == nil then return end
 	if not player:HasCollectible(Enums.Collectibles.SINISTER_SIGHT) then return end
 	if not tear:HasTearFlags(TearFlags.TEAR_FEAR) then return end
 	
@@ -56,7 +59,6 @@ end
 
 function Item.postLaserUpdate(laser)
 	if laser.SpawnerEntity == nil then return end
-	if laser.SpawnerType ~= EntityType.ENTITY_PLAYER then return end
 
 	local player = laser.SpawnerEntity:ToPlayer()
 
