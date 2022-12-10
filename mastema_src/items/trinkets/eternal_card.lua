@@ -7,7 +7,7 @@ local Trinket = {}
 function Trinket.useCard(card, player, flag)
 	if not player:HasTrinket(Enums.Trinkets.ETERNAL_CARD) then return end
 	if flag & UseFlag.USE_MIMIC == UseFlag.USE_MIMIC then return end
-	if flag & UseFlag.USE_MIMIC ~= UseFlag.USE_OWNED then return end
+	if flag & UseFlag.USE_OWNED ~= UseFlag.USE_OWNED then return end
 
 	local itemConfig = Isaac.GetItemConfig():GetCard(card)
 
