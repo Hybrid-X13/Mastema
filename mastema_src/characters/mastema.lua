@@ -253,6 +253,30 @@ local function IsValidRoom()
 	end
 end
 
+local function AnyItemCostsHP()
+	local items = Isaac.FindByType(EntityType.ENTITY_PICKUP, -1)
+
+	if #items == 0 then return false end
+
+	for _, item in pairs(items) do
+		local pickup = item:ToPickup()
+
+		if pickup.Variant == PickupVariant.PICKUP_COLLECTIBLE then
+			if (pickup.Price < 0 and pickup.Price > PickupPrice.PRICE_SPIKES)
+			or (pickup.Price < PickupPrice.PRICE_SOUL and pickup.Price >= PickupPrice.PRICE_TWO_SOUL_HEARTS)
+			then
+				return true
+			end
+		else
+			if pickup.Price == PickupPrice.PRICE_SPIKES then
+				return true
+			end
+		end
+	end
+
+	return false
+end
+
 function Character.evaluateCache(player, cacheFlag)
 	if player:GetPlayerType() ~= Enums.Characters.MASTEMA then return end
 	
@@ -421,6 +445,7 @@ function Character.postNewRoom()
 		and not room:IsMirrorWorld()
 		and player:GetEffects():HasNullEffect(NullItemID.ID_LOST_CURSE)
 		and IsValidRoom()
+		and AnyItemCostsHP()
 		then
 			player:GetEffects():RemoveNullEffect(NullItemID.ID_LOST_CURSE, -1)
 		end
