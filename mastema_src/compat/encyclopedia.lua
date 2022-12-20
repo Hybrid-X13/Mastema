@@ -199,7 +199,7 @@ if Encyclopedia then
 			{ -- Synergies
 				{str = "Synergies", fsize = 2, clr = 3, halign = 0},
 				{str = "Book of Virtues", clr = 3, halign = 0},
-				{str = "Spawns an inverted cross wisp that has slightly increased hp and damage. Successfully gaining an item from Devil's Bargain heals all of the player's wisps to full."},
+				{str = "Spawns an inverted cross wisp that has increased hp and damage. Successfully gaining an item from Devil's Bargain heals all of the player's wisps to full."},
 			},
 			{ -- Interactions
 				{str = "Interactions", fsize = 2, clr = 3, halign = 0},
