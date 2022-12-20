@@ -51,7 +51,7 @@ function Item.postNPCDeath(npc)
 			end
 			
 			game:BombExplosionEffects(npc.Position, player.Damage, explosionFlags, Color.Default, player)
-			sfx:Play(SoundEffect.SOUND_DEATH_BURST_LARGE)
+			sfx:Play(SoundEffect.SOUND_DEATH_BURST_LARGE, 1.3)
 			local creep = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_RED, 0, npc.Position, Vector.Zero, npc)
 			
 			if player:HasTrinket(TrinketType.TRINKET_LOST_CORK) then
