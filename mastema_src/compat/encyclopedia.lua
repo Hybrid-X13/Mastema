@@ -100,6 +100,11 @@ if Encyclopedia then
 				{str = "Spawns a random pickup that's surrounded by spikes."},
 				{str = "Has a chance to spawn a devil deal instead."},
 			},
+			{ -- Synergies
+				{str = "Synergies", fsize = 2, clr = 3, halign = 0},
+				{str = "Book of Virtues", clr = 3, halign = 0},
+				{str = "Spawns a heart wisp. Enemies killed by the wisp's tears have a 5% chance to drop a random heart."},
+			},
 		},
 		MASTEMAS_WRATH = {
 			{ -- Effect
@@ -146,6 +151,11 @@ if Encyclopedia then
 				{str = "Consumes all pickups in the room and grants a small, permanent damage up for each pickup consumed."},
 				{str = "The amount of damage gained is based on the quality of the pickups, similar to Bag of Crafting."},
 			},
+			{ -- Synergies
+				{str = "Synergies", fsize = 2, clr = 3, halign = 0},
+				{str = "Book of Virtues", clr = 3, halign = 0},
+				{str = "Gives a gray wisp that spawns a dead bird familiar for the room when destroyed."},
+			},
 			{ -- Interactions
 				{str = "Interactions", fsize = 2, clr = 3, halign = 0},
 				{str = "Chests, sacks, and pedestal items won't be consumed."},
@@ -184,6 +194,12 @@ if Encyclopedia then
 				{str = "The number of hearts removed is based on your current health and the quality of the item given."},
 				{str = "After being fully charged without getting hit, you get to keep the item plus the hearts that were taken are given back."},
 				{str = "If you get hit while recharging, the item is taken away and your hearts won't be returned. When this happens, Devil's Bargain instantly recharges."},
+				{str = "This item can't be charged with battery pickups."},
+			},
+			{ -- Synergies
+				{str = "Synergies", fsize = 2, clr = 3, halign = 0},
+				{str = "Book of Virtues", clr = 3, halign = 0},
+				{str = "Spawns an inverted cross wisp that has slightly increased hp and damage. Successfully gaining an item from Devil's Bargain heals all of the player's wisps to full."},
 			},
 			{ -- Interactions
 				{str = "Interactions", fsize = 2, clr = 3, halign = 0},
@@ -195,6 +211,11 @@ if Encyclopedia then
 				{str = "Effect", fsize = 2, clr = 3, halign = 0},
 				{str = "Rerolls all pedestal items and pickups in the room but gives 1 broken heart each use."},
 				{str = "While held, removes 1 broken heart at the start of each floor."},
+			},
+			{ -- Synergies
+				{str = "Synergies", fsize = 2, clr = 3, halign = 0},
+				{str = "Book of Virtues", clr = 3, halign = 0},
+				{str = "Spawns a purple dice wisp that has a 1 in 6 chance of removing a broken heart when destroyed."},
 			},
 			{ -- Interactions
 				{str = "Interactions", fsize = 2, clr = 3, halign = 0},

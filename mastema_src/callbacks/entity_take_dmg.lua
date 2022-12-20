@@ -4,6 +4,7 @@ local SacrificialChalice = require("mastema_src.items.familiars.sacrificial_chal
 local SinisterSight = require("mastema_src.items.passives.sinister_sight")
 local LifeSavings = require("mastema_src.items.trinkets.life_savings")
 local ShatteredSoul = require("mastema_src.items.trinkets.shattered_soul")
+local Wisp = require("mastema_src.misc.custom_wisps")
 
 local function MC_ENTITY_TAKE_DMG(_, entity, amount, flags, source, countdown)
 	local returned = T_Mastema.entityTakeDmg(entity, amount, flags, source, countdown)
@@ -22,6 +23,9 @@ local function MC_ENTITY_TAKE_DMG(_, entity, amount, flags, source, countdown)
 	if returned ~= nil then return returned end
 
 	local returned = ShatteredSoul.entityTakeDmg(entity, amount, flags, source, countdown)
+	if returned ~= nil then return returned end
+
+	local returned = Wisp.entityTakeDmg(entity, amount, flags, source, countdown)
 	if returned ~= nil then return returned end
 end
 
