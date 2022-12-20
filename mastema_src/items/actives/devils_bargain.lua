@@ -1,19 +1,82 @@
 local Enums = require("mastema_src.enums")
+local Functions = require("mastema_src.functions")
 local SaveData = require("mastema_src.savedata")
 local game = Game()
 local sfx = SFXManager()
 local rng = RNG()
+local MAX_CHARGE = 12
+local waveCount = 0
 
 local Item = {}
+
+local function ChargeDevilsBargain(player, numCharges)
+	local activeSlot
+	local curCharge
+	local newCharge
+	
+	for i = 0, 2 do
+		if player:GetActiveItem(i) == Enums.Collectibles.DEVILS_BARGAIN then
+			activeSlot = i
+		end
+	end
+	
+	if activeSlot == nil then return end
+
+	curCharge = player:GetActiveCharge(activeSlot) + player:GetBatteryCharge(activeSlot)
+	
+	if curCharge < MAX_CHARGE
+	or (player:HasCollectible(CollectibleType.COLLECTIBLE_BATTERY) and curCharge < MAX_CHARGE * 2)
+	then
+		newCharge = curCharge + numCharges
+		
+		if player:HasCollectible(CollectibleType.COLLECTIBLE_BATTERY)
+		and newCharge > MAX_CHARGE * 2
+		then
+			newCharge = MAX_CHARGE * 2
+		elseif not player:HasCollectible(CollectibleType.COLLECTIBLE_BATTERY)
+		and newCharge > MAX_CHARGE
+		then
+			newCharge = MAX_CHARGE
+		end
+		
+		player:SetActiveCharge(newCharge, activeSlot)
+
+		if (curCharge < MAX_CHARGE and newCharge >= MAX_CHARGE)
+		or (curCharge < MAX_CHARGE * 2 and curCharge >= MAX_CHARGE and newCharge == MAX_CHARGE * 2)
+		then
+			sfx:Play(SoundEffect.SOUND_ITEMRECHARGE)
+		elseif newCharge < MAX_CHARGE then
+			sfx:Play(SoundEffect.SOUND_BEEP)
+		end
+	end
+end
 
 function Item.useItem(item, rng, player, flags, activeSlot, customVarData)
 	if item ~= Enums.Collectibles.DEVILS_BARGAIN then return end
 	
 	local room = game:GetRoom()
 	local roomType = room:GetType()
-	local seed = game:GetSeeds():GetStartSeed()
+	local seed = rng:RandomInt(999999999)
 	local pool = game:GetItemPool():GetPoolForRoom(roomType, seed)
 	local maxRedHearts = player:GetEffectiveMaxHearts()
+
+	if player:HasCollectible(CollectibleType.COLLECTIBLE_9_VOLT) then
+		local slot
+		local curCharge
+		
+		for i = 0, 2 do
+			if player:GetActiveItem(i) == Enums.Collectibles.SINGULARITY then
+				slot = i
+			end
+		end
+		curCharge = player:GetActiveCharge(slot) + player:GetBatteryCharge(slot)
+		
+		if curCharge == MAX_CHARGE then
+			player:AddCollectible(CollectibleType.COLLECTIBLE_BATTERY)
+			ChargeDevilsBargain(player, 1)
+			player:RemoveCollectible(CollectibleType.COLLECTIBLE_BATTERY)
+		end
+	end
 	
 	if pool == ItemPoolType.POOL_NULL then
 		if game:IsGreedMode() then
@@ -25,15 +88,15 @@ function Item.useItem(item, rng, player, flags, activeSlot, customVarData)
 	
 	if player:HasCollectible(CollectibleType.COLLECTIBLE_CHAOS) then
 		pool = rng:RandomInt(ItemPoolType.NUM_ITEMPOOLS)
-		seed = rng:RandomInt(999999999)
 	end
 	
-	local collectible = game:GetItemPool():GetCollectible(pool, true, seed)
+	local collectible = game:GetItemPool():GetCollectible(pool, false, seed)
 	local itemConfig = Isaac.GetItemConfig():GetCollectible(collectible)
 	
 	--Loop until a passive item is chosen
 	while itemConfig.Type == ItemType.ITEM_ACTIVE do
-		collectible = game:GetItemPool():GetCollectible(pool, true, seed)
+		seed = rng:RandomInt(999999999)
+		collectible = game:GetItemPool():GetCollectible(pool, false, seed)
 		itemConfig = Isaac.GetItemConfig():GetCollectible(collectible)
 	end
 
@@ -110,34 +173,91 @@ function Item.entityTakeDmg(target, amount, flag, source, countdown)
 	
 	for i = 0, 2 do
 		if player:GetActiveItem(i) == Enums.Collectibles.DEVILS_BARGAIN then
-			player:SetActiveCharge(12, i)
+			player:SetActiveCharge(MAX_CHARGE, i)
+		end
+	end
+end
+
+function Item.preSpawnCleanAward()
+	if not Functions.AnyPlayerHasCollectible(Enums.Collectibles.DEVILS_BARGAIN) then return end
+
+	local room = game:GetRoom()
+	local roomShape = room:GetRoomShape()
+	local level = game:GetLevel()
+	local roomIndex = level:GetCurrentRoomIndex()
+	local startRoomIndex = level:GetStartingRoomIndex()
+
+	if not game:IsGreedMode()
+	or (game:IsGreedMode() and roomIndex ~= startRoomIndex)
+	then
+		for i = 0, game:GetNumPlayers() - 1 do
+			local player = Isaac.GetPlayer(i)
+
+			if player:HasCollectible(Enums.Collectibles.DEVILS_BARGAIN) then
+				if roomShape >= RoomShape.ROOMSHAPE_2x2 then
+					ChargeDevilsBargain(player, 2)
+				else
+					ChargeDevilsBargain(player, 1)
+				end
+			end
 		end
 	end
 end
 
 function Item.postPEffectUpdate(player)
 	if not player:HasCollectible(Enums.Collectibles.DEVILS_BARGAIN) then return end
+
+	local wisps = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.WISP)
 	
 	for i = 0, 2 do
-		if player:GetActiveItem(i) == Enums.Collectibles.DEVILS_BARGAIN
-		and player:GetActiveCharge(i) == 12
-		and not SaveData.ItemData.DevilsBargain.BargainReset
-		then
-			if SaveData.ItemData.DevilsBargain.RedHearts > 0
-			or SaveData.ItemData.DevilsBargain.SoulHearts > 0
-			then
-				sfx:Play(SoundEffect.SOUND_THUMBSUP)
+		if player:GetActiveItem(i) == Enums.Collectibles.DEVILS_BARGAIN then
+			if game:IsGreedMode() then
+				local level = game:GetLevel()
+				local greedModeWave = level.GreedModeWave
+
+				if waveCount ~= greedModeWave then
+					if greedModeWave > 0
+					and waveCount < greedModeWave
+					then
+						ChargeDevilsBargain(player, 1)
+					end
+					
+					waveCount = greedModeWave
+				end
 			end
 			
-			player:AddMaxHearts(SaveData.ItemData.DevilsBargain.RedHearts)
-			player:AddHearts(SaveData.ItemData.DevilsBargain.RedHearts)
-			player:AddSoulHearts(SaveData.ItemData.DevilsBargain.SoulHearts)
+			if player:GetBatteryCharge(i) > 0 then
+				player:SetActiveCharge(player:GetActiveCharge(i), i)
+			end
+			
+			if player:GetActiveCharge(i) == MAX_CHARGE
+			and not SaveData.ItemData.DevilsBargain.BargainReset
+			then
+				local itemPool = game:GetItemPool()
 
-			SaveData.ItemData.DevilsBargain.IsCharging = false
-			SaveData.ItemData.DevilsBargain.BargainItem = 0
-			SaveData.ItemData.DevilsBargain.BargainReset = true
+				if SaveData.ItemData.DevilsBargain.RedHearts > 0
+				or SaveData.ItemData.DevilsBargain.SoulHearts > 0
+				then
+					sfx:Play(SoundEffect.SOUND_THUMBSUP)
+				end
 
-			break
+				for _, wisp in pairs(wisps) do
+					if wisp.HitPoints < wisp.MaxHitPoints then
+						wisp.HitPoints = wisp.MaxHitPoints
+					end
+				end
+				
+				player:AddMaxHearts(SaveData.ItemData.DevilsBargain.RedHearts)
+				player:AddHearts(SaveData.ItemData.DevilsBargain.RedHearts)
+				player:AddSoulHearts(SaveData.ItemData.DevilsBargain.SoulHearts)
+				itemPool:RemoveCollectible(SaveData.ItemData.DevilsBargain.BargainItem)
+
+				SaveData.ItemData.DevilsBargain.IsCharging = false
+				SaveData.ItemData.DevilsBargain.BargainItem = 0
+				SaveData.ItemData.DevilsBargain.BargainReset = true
+
+				break
+			end
 		end
 	end
 end
