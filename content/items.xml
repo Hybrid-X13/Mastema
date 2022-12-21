@@ -1,7 +1,7 @@
 <items gfxroot="gfx/items/" version="1" deathanm2="gfx/death items.anm2">
 	<active id="1" name="Bloody Harvest" description="Ripe for the picking" gfx="mastema_bloodyharvest.png" maxcharges="4" quality="3" />
 	<active id="2" name="Raven Beak" description="Devour the seed of the land" gfx="mastema_ravenbeak.png" maxcharges="2" quality="2" tags="offensive" />
-	<active id="4" name="Devil's Bargain" description="Let's make a deal..." gfx="mastema_devilsbargain.png" maxcharges="12" chargetype="special" quality="3" tags="nokeeper" />
+	<active id="4" name="Devil's Bargain" description="Let's make a deal..." gfx="mastema_devilsbargain.png" maxcharges="12" chargetype="special" quality="3" tags="nocantrip nokeeper" />
 	<active id="5" name="Broken Dice" description="Reroll... but at what cost?" gfx="mastema_brokendice.png" maxcharges="0" quality="3" tags="offensive" />
 	
 	<passive id="7" name="Book of Jubilees" description="7" gfx="mastema_bookofjubilees.png" quality="3" tags="book summonable nocantrip" />
