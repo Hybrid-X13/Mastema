@@ -103,7 +103,7 @@ if Encyclopedia then
 			{ -- Synergies
 				{str = "Synergies", fsize = 2, clr = 3, halign = 0},
 				{str = "Book of Virtues", clr = 3, halign = 0},
-				{str = "Spawns a heart wisp. Enemies killed by the wisp's tears have a 5% chance to drop a random heart."},
+				{str = "Spawns a heart wisp. Enemies killed by the wisp's tears have a 10% chance to drop a random heart."},
 			},
 		},
 		MASTEMAS_WRATH = {
