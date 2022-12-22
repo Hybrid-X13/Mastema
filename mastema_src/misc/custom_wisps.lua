@@ -7,7 +7,7 @@ local Wisp = {}
 function Wisp.postEntityKill(entity)
 	rng:SetSeed(entity.InitSeed, 35)
 
-	local randNum = rng:RandomInt(20)
+	local randNum = rng:RandomInt(10)
 	
 	if entity:GetData().killedByBHWisp
 	and randNum == 0
