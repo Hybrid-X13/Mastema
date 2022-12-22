@@ -52,8 +52,8 @@ function Functions.HasInnateItem(collectibleID)
 
 	if #itemWisps == 0 then return false end
 	
-	for i = 1, #itemWisps do
-		if itemWisps[i]:GetData().mastemaWisp then
+	for _, wisp in pairs(itemWisps) do
+		if wisp:GetData().mastemaWisp then
             return true
         end
     end
@@ -65,11 +65,10 @@ function Functions.RemoveInnateItem(collectibleID)
 	
     if #itemWisps == 0 then return false end
 
-	for i = 1, #itemWisps do
-		if itemWisps[i]:GetData().mastemaWisp then
-			itemWisps[i]:Kill()
-			sfx:Stop(SoundEffect.SOUND_STEAM_HALFSEC)
-			break
+	for _, wisp in pairs(itemWisps) do
+		if wisp:GetData().mastemaWisp then
+			wisp:Remove()
+			wisp:Kill()
 		end
 	end
 end
