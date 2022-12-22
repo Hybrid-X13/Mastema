@@ -503,6 +503,15 @@ function Character.preGetCollectible(pool, decrease, seed)
 	end
 end
 
+function Character.postTearInit(tear)
+	if tear.SpawnerEntity == nil then return end
+	if tear.SpawnerEntity.Type ~= EntityType.ENTITY_FAMILIAR then return end
+	if tear.SpawnerEntity.Variant ~= FamiliarVariant.ITEM_WISP then return end
+	if tear.SpawnerEntity:GetData().mastemaWisp == nil then return end
+
+	tear:Remove()
+end
+
 function Character.postFireTear(tear)
 	if tear.SpawnerEntity == nil then return end
 	
