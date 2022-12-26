@@ -437,32 +437,6 @@ function Character.postPEffectUpdate(player)
 		end
 		newFloor = false
 	end
-
-	if not player:HasCollectible(CollectibleType.COLLECTIBLE_PLAYDOUGH_COOKIE) then
-		local brimSwirl = Isaac.FindByType(EntityType.ENTITY_EFFECT, EffectVariant.BRIMSTONE_SWIRL, -1)
-		local techDot = Isaac.FindByType(EntityType.ENTITY_EFFECT, EffectVariant.TECH_DOT, -1)
-		local color = Color(1, 0, 1, 1, 0, 0, 0)
-			
-		if #brimSwirl > 0 then
-			for i = 1, #brimSwirl do
-				if brimSwirl[i].SpawnerType == EntityType.ENTITY_PLAYER then
-					local sprite = brimSwirl[i]:GetSprite()
-					color:SetColorize(4, 0, 4, 1)
-					sprite.Color = color
-				end
-			end
-		end
-		
-		if #techDot > 0 then
-			for i = 1, #techDot do
-				if techDot[i].SpawnerType == EntityType.ENTITY_PLAYER then
-					local sprite = techDot[i]:GetSprite()
-					color:SetColorize(4, 0, 4, 1)
-					sprite.Color = color
-				end
-			end
-		end
-	end
 end
 
 function Character.postPlayerUpdate(player)
@@ -537,6 +511,25 @@ function Character.postRender()
 				end
 			end
 		end
+	end
+end
+
+function Character.postEffectUpdate(effect)
+	if effect.SpawnerEntity == nil then return end
+
+	local player = effect.SpawnerEntity:ToPlayer()
+
+  	if player == nil then return end
+	if player:GetPlayerType() ~= Enums.Characters.T_MASTEMA then return end
+	if player:HasCollectible(CollectibleType.COLLECTIBLE_PLAYDOUGH_COOKIE) then return end
+
+	if effect.Variant == EffectVariant.BRIMSTONE_SWIRL
+	or effect.Variant == EffectVariant.TECH_DOT
+	then
+		local color = Color(1, 0, 1, 1, 0, 0, 0)
+		local sprite = effect:GetSprite()
+		color:SetColorize(4, 0, 4, 1)
+		sprite.Color = color
 	end
 end
 

@@ -5,7 +5,6 @@ local BloodyHarvest = require("mastema_src.items.actives.bloody_harvest")
 local DevilsBargain = require("mastema_src.items.actives.devils_bargain")
 local TornWings = require("mastema_src.items.passives.torn_wings")
 local MastemasWrath = require("mastema_src.items.passives.mastemas_wrath")
-local SinisterSight = require("mastema_src.items.passives.sinister_sight")
 local SacrificialChalice = require("mastema_src.items.familiars.sacrificial_chalice")
 local TwistedFaith = require("mastema_src.items.trinkets.twisted_faith")
 local PuristsHeart = require("mastema_src.items.trinkets.purists_heart")
@@ -24,7 +23,6 @@ local function MC_POST_PEFFECT_UPDATE(_, player)
 	
 	TornWings.postPEffectUpdate(player)
 	MastemasWrath.postPEffectUpdate(player)
-	SinisterSight.postPEffectUpdate(player)
 
 	SacrificialChalice.postPEffectUpdate(player)
 
