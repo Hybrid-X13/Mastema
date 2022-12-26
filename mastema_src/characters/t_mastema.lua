@@ -555,6 +555,16 @@ function Character.useItem(item, rng, player, flags, activeSlot, customVarData)
 		local lordPit = Isaac.GetItemConfig():GetCollectible(CollectibleType.COLLECTIBLE_LORD_OF_THE_PIT)
 		player:AddNullCostume(horns)
 		player:AddCostume(lordPit)
+	elseif item == CollectibleType.COLLECTIBLE_SATANIC_BIBLE
+	and activeSlot == ActiveSlot.SLOT_POCKET
+	and player:HasCollectible(CollectibleType.COLLECTIBLE_BOOK_OF_VIRTUES)
+	then
+		player:AddWisp(CollectibleType.COLLECTIBLE_SATANIC_BIBLE, player.Position, false)
+		sfx:Play(SoundEffect.SOUND_CANDLE_LIGHT)
+
+		if player:HasCollectible(CollectibleType.COLLECTIBLE_CAR_BATTERY) then
+			player:AddWisp(CollectibleType.COLLECTIBLE_SATANIC_BIBLE, player.Position, false)
+		end
 	end
 end
 

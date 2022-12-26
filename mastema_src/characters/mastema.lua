@@ -740,14 +740,24 @@ function Character.preUseItem(item, rng, player, flags, activeSlot, customVarDat
 	if item == CollectibleType.COLLECTIBLE_CLICKER then
 		player:TryRemoveNullCostume(horns)
 		player:TryRemoveNullCostume(bodyCostume)
-	end
-
-	if item == CollectibleType.COLLECTIBLE_PRAYER_CARD
+	elseif item == CollectibleType.COLLECTIBLE_PRAYER_CARD
 	and (level:GetStage() > LevelStage.STAGE3_2 or game:GetStateFlag(GameStateFlag.STATE_BACKWARDS_PATH))
 	and not game:IsGreedMode()
 	then
 		player:AnimateCollectible(CollectibleType.COLLECTIBLE_PRAYER_CARD, "UseItem", "PlayerPickupSparkle")
 		player:AddSoulHearts(1)
+
+		if player:HasCollectible(CollectibleType.COLLECTIBLE_BOOK_OF_VIRTUES)
+		and activeSlot == ActiveSlot.SLOT_POCKET
+		then
+			player:AddWisp(CollectibleType.COLLECTIBLE_PRAYER_CARD, player.Position, false)
+			sfx:Play(SoundEffect.SOUND_CANDLE_LIGHT)
+
+			if player:HasCollectible(CollectibleType.COLLECTIBLE_CAR_BATTERY) then
+				player:AddWisp(CollectibleType.COLLECTIBLE_PRAYER_CARD, player.Position, false)
+			end
+		end
+
 		return true
 	end
 end
@@ -763,13 +773,21 @@ function Character.useItem(item, rng, player, flags, activeSlot, customVarData)
 	then
 		player:AddNullCostume(horns)
 		player:AddNullCostume(bodyCostume)
-	end
-
-	if item == CollectibleType.COLLECTIBLE_SACRIFICIAL_ALTAR
+	elseif item == CollectibleType.COLLECTIBLE_SACRIFICIAL_ALTAR
 	and stageType ~= StageType.STAGETYPE_REPENTANCE
 	and stageType ~= StageType.STAGETYPE_REPENTANCE_B
 	then
 		Functions.AddInnateItem(player, CollectibleType.COLLECTIBLE_MORE_OPTIONS, true)
+	elseif item == CollectibleType.COLLECTIBLE_PRAYER_CARD
+	and activeSlot == ActiveSlot.SLOT_POCKET
+	and player:HasCollectible(CollectibleType.COLLECTIBLE_BOOK_OF_VIRTUES)
+	then
+		player:AddWisp(CollectibleType.COLLECTIBLE_PRAYER_CARD, player.Position, false)
+		sfx:Play(SoundEffect.SOUND_CANDLE_LIGHT)
+
+		if player:HasCollectible(CollectibleType.COLLECTIBLE_CAR_BATTERY) then
+			player:AddWisp(CollectibleType.COLLECTIBLE_PRAYER_CARD, player.Position, false)
+		end
 	end
 end
 
