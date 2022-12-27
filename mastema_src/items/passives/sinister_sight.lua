@@ -66,6 +66,7 @@ function Item.postLaserUpdate(laser)
 	if player:GetPlayerType() == Enums.Characters.T_MASTEMA then return end
 	if not player:HasCollectible(Enums.Collectibles.SINISTER_SIGHT) then return end
 	if player:HasCollectible(CollectibleType.COLLECTIBLE_PLAYDOUGH_COOKIE) then return end
+	if laser:GetData().isSolarFlare then return end
 
 	local sprite = laser:GetSprite()
 	local color = Color(1, 0, 1, 1, 0, 0, 0)
