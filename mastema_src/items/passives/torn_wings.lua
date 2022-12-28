@@ -2,7 +2,6 @@ local Enums = require("mastema_src.enums")
 local Functions = require("mastema_src.functions")
 local game = Game()
 local rng = RNG()
-local hangedMan = 0
 
 local flightItems = {
 	CollectibleType.COLLECTIBLE_FATE,
@@ -14,6 +13,11 @@ local flightItems = {
 	CollectibleType.COLLECTIBLE_REVELATION,
 	CollectibleType.COLLECTIBLE_PONY,
 	CollectibleType.COLLECTIBLE_WHITE_PONY,
+}
+
+local collectibleEffects = {
+	CollectibleType.COLLECTIBLE_TRANSCENDENCE,
+	CollectibleType.COLLECTIBLE_EMPTY_VESSEL,
 }
 
 local transformations = {
@@ -38,7 +42,6 @@ local function IsFlyingChar(player)
 	or player:GetPlayerType() == PlayerType.PLAYER_THELOST
 	or player:GetPlayerType() == PlayerType.PLAYER_THELOST_B
 	or player:GetPlayerType() == PlayerType.PLAYER_JACOB2_B
-	or player:GetPlayerType() == PlayerType.PLAYER_THEFORGOTTEN
 	or player:GetPlayerType() == PlayerType.PLAYER_THESOUL
 	or player:GetPlayerType() == PlayerType.PLAYER_THEFORGOTTEN_B
 	or player:GetPlayerType() == PlayerType.PLAYER_THESOUL_B
@@ -66,6 +69,12 @@ function Item.evaluateCache(player, cacheFlag)
 			tearBonus = tearBonus + player:GetCollectibleNum(flightItems[i])
 		end
 	end
+
+	for i = 1, #collectibleEffects do
+		if tempEffects:HasCollectibleEffect(collectibleEffects[i]) then
+			tearBonus = tearBonus + 1
+		end
+	end
 	
 	for i = 1, #transformations do
 		if player:HasPlayerForm(transformations[i]) then
@@ -87,7 +96,7 @@ function Item.evaluateCache(player, cacheFlag)
 		tearBonus = tearBonus + 1
 	end
 	
-	tearBonus = tearBonus + bibleUses + hangedMan
+	tearBonus = tearBonus + bibleUses
 	
 	if cacheFlag == CacheFlag.CACHE_FIREDELAY then
 		player.MaxFireDelay = Functions.TearsUp(player.MaxFireDelay, 0.33 * tearBonus)
@@ -98,16 +107,6 @@ function Item.evaluateCache(player, cacheFlag)
 	then
 		player.CanFly = false
 	end
-end
-
-function Item.useCard(card, player, flag)
-	if card ~= Card.CARD_HANGED_MAN then return end
-	
-	hangedMan = hangedMan + 1
-end
-
-function Item.postNewRoom()
-	hangedMan = 0
 end
 
 function Item.preGetCollectible(pool, decrease, seed)
