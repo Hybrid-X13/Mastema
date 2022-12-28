@@ -132,6 +132,7 @@ if Encyclopedia then
 				{str = "Certain effects that grant temporary flight will also grant a tears up for their duration, such as:"},
 				{str = "- The Bible"},
 				{str = "- Esau Jr"},
+				{str = "- Empty Vessel"},
 				{str = "- Astral Projection"},
 				{str = "- Spirit Shackles"},
 				{str = "- XII - The Hanged Man"},
