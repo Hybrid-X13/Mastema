@@ -1,7 +1,6 @@
 local Mastema = require("mastema_src.characters.mastema")
 local T_Mastema = require("mastema_src.characters.t_mastema")
 local MastemasWrath = require("mastema_src.items.passives.mastemas_wrath")
-local TornWings = require("mastema_src.items.passives.torn_wings")
 local SinisterSight = require("mastema_src.items.passives.sinister_sight")
 local TwistedFaith = require("mastema_src.items.trinkets.twisted_faith")
 local GoodwillTag = require("mastema_src.items.trinkets.goodwill_tag")
@@ -14,7 +13,6 @@ local function MC_POST_NEW_ROOM()
 	T_Mastema.postNewRoom()
 	
 	MastemasWrath.postNewRoom()
-	TornWings.postNewRoom()
 	SinisterSight.postNewRoom()
 	
 	TwistedFaith.postNewRoom()
