@@ -63,7 +63,7 @@ end
 function Functions.RemoveInnateItem(collectibleID)
     local itemWisps = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.ITEM_WISP, collectibleID)
 	
-    if #itemWisps == 0 then return false end
+    if #itemWisps == 0 then return end
 
 	for _, wisp in pairs(itemWisps) do
 		if wisp:GetData().mastemaWisp then
