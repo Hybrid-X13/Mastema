@@ -29,6 +29,7 @@ local tearFlags = {
 local Item = {}
 
 function Item.postNPCDeath(npc)
+	if npc.Type == EntityType.ENTITY_SHOPKEEPER then return end
 	if npc:HasEntityFlags(EntityFlag.FLAG_FRIENDLY) then return end
 	if Functions.IsInvulnerableEnemy(npc) then return end
 	
