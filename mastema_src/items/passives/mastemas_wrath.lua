@@ -56,7 +56,7 @@ function Item.postNewRoom()
 		local enemies = {}
 		local strongestEnemy
 		
-		for i, entity in pairs(Isaac.GetRoomEntities()) do
+		for _, entity in pairs(Isaac.GetRoomEntities()) do
 			if entity:IsActiveEnemy()
 			and entity:IsVulnerableEnemy()
 			and not entity:HasEntityFlags(EntityFlag.FLAG_FRIENDLY)
@@ -68,15 +68,15 @@ function Item.postNewRoom()
 		if #enemies > 0 then
 			strongestEnemy = enemies[1]
 			
-			for i = 1, #enemies do
-				if strongestEnemy.MaxHitPoints < enemies[i].MaxHitPoints then
-					strongestEnemy = enemies[i]
-				elseif strongestEnemy.MaxHitPoints == enemies[i].MaxHitPoints then
+			for _, enemy in pairs(enemies) do
+				if strongestEnemy.MaxHitPoints < enemy.MaxHitPoints then
+					strongestEnemy = enemy
+				elseif strongestEnemy.MaxHitPoints == enemy.MaxHitPoints then
 					local rng = player:GetCollectibleRNG(Enums.Collectibles.MASTEMAS_WRATH)
 					local randNum = rng:RandomInt(2)
 
 					if randNum == 0 then
-						strongestEnemy = enemies[i]
+						strongestEnemy = enemy
 					end
 				end
 			end
@@ -140,11 +140,11 @@ function Item.postRender()
 	if room:GetFrameCount() == 0 then return end
 	if not Functions.AnyPlayerHasCollectible(Enums.Collectibles.MASTEMAS_WRATH) then return end
 		
-	for i, entity in pairs(Isaac.GetRoomEntities()) do
+	for _, entity in pairs(Isaac.GetRoomEntities()) do
 		if entity:GetData().mostHP then
-			local offset = Vector(0, -5) * entity.Size
+			local offset = Vector(0, entity.Size * 5)
 			slayerIcon:SetFrame("Betrayal", 6)
-			slayerIcon:Render(Isaac.WorldToScreen(entity.Position + offset), Vector.Zero, Vector.Zero)
+			slayerIcon:Render(Isaac.WorldToScreen(entity.Position - offset), Vector.Zero, Vector.Zero)
 		end
 	end
 end
