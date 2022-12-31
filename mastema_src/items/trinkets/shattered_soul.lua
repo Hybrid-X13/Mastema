@@ -9,12 +9,13 @@ local Trinket = {}
 function Trinket.postNewRoom()
 	local room = game:GetRoom()
 	
+	if room:GetType() ~= RoomType.ROOM_DEVIL then return end
+	if not room:IsFirstVisit() then return end
+
 	for i = 0, game:GetNumPlayers() - 1 do
 		local player = Isaac.GetPlayer(i)
 		
 		if not player:HasTrinket(Enums.Trinkets.SHATTERED_SOUL) then return end
-		if room:GetType() ~= RoomType.ROOM_DEVIL then return end
-		if not room:IsFirstVisit() then return end
 
 		local rng = player:GetTrinketRNG(Enums.Trinkets.SHATTERED_SOUL)
 		local seed = game:GetSeeds():GetStartSeed()
@@ -49,22 +50,22 @@ function Trinket.entityTakeDmg(target, amount, flag, source, countdown)
 
 	if player == nil then return end
 	if not player:HasTrinket(Enums.Trinkets.SHATTERED_SOUL) then return end
+	if flag & DamageFlag.DAMAGE_SPIKES ~= DamageFlag.DAMAGE_SPIKES then return end
 
 	local room = game:GetRoom()
 
-	if flag & DamageFlag.DAMAGE_SPIKES == DamageFlag.DAMAGE_SPIKES
-	and room:GetType() == RoomType.ROOM_SACRIFICE
-	then
-		local numBrokenHearts = player:GetBrokenHearts()
+	if room:GetType() ~= RoomType.ROOM_SACRIFICE then return end
 
-		if numBrokenHearts > 0 then
-			player:AddBrokenHearts(-numBrokenHearts)
-			sfx:Play(SoundEffect.SOUND_THUMBSUP)
-			sfx:Play(SoundEffect.SOUND_DEATH_CARD)
-		end
-		player:TryRemoveTrinket(Enums.Trinkets.SHATTERED_SOUL)
-		player:TryRemoveTrinket(Enums.Trinkets.SHATTERED_SOUL + TrinketType.TRINKET_GOLDEN_FLAG)
+	local numBrokenHearts = player:GetBrokenHearts()
+
+	if numBrokenHearts > 0 then
+		player:AddBrokenHearts(-numBrokenHearts)
+		sfx:Play(SoundEffect.SOUND_THUMBSUP)
+		sfx:Play(SoundEffect.SOUND_DEATH_CARD)
 	end
+	
+	player:TryRemoveTrinket(Enums.Trinkets.SHATTERED_SOUL)
+	player:TryRemoveTrinket(Enums.Trinkets.SHATTERED_SOUL + TrinketType.TRINKET_GOLDEN_FLAG)
 end
 
 function Trinket.prePickupCollision(pickup, collider, low)
@@ -91,10 +92,10 @@ function Trinket.prePickupCollision(pickup, collider, low)
 	if itemID == SaveData.ItemData.ShatteredSoul.BrokenItem.SubType
 	and pickup.Position:Distance(SaveData.ItemData.ShatteredSoul.BrokenItem.Position) < 1
 	then
-		if quality < 3 then
-			player:AddBrokenHearts(2 - reducePrice)
-		else
+		if quality > 2 then
 			player:AddBrokenHearts(4 - reducePrice)
+		else
+			player:AddBrokenHearts(2 - reducePrice)
 		end
 
 		if #SaveData.ItemData.ShatteredSoul.DealItems > 0 then
@@ -147,10 +148,10 @@ function Trinket.postRender()
 				if itemID == SaveData.ItemData.ShatteredSoul.BrokenItem.SubType
 				and collectible.Position:Distance(SaveData.ItemData.ShatteredSoul.BrokenItem.Position) < 1
 				then
-					if quality < 3 then
-						renderCount = 2 - reducePrice
-					else
+					if quality > 2 then
 						renderCount = 4 - reducePrice
+					else
+						renderCount = 2 - reducePrice
 					end
 					Functions.RenderBrokenCost(collectible, renderCount)
 				end
