@@ -111,7 +111,7 @@ if Encyclopedia then
 				{str = "Effect", fsize = 2, clr = 3, halign = 0},
 				{str = "When entering a hostile room, the enemy with the highest hp will be marked."},
 				{str = "Killing that enemy grants +2 damage up for the room."},
-				{str = "If the enemy is a boss, the damage persists between rooms but will slowly fade away."},
+				{str = "If the enemy is a boss, the damage persists between rooms but will slowly fade away. Damage gained this way stacks."},
 			},
 			{ -- Trivia
 				{str = "Trivia", fsize = 2, clr = 3, halign = 0},
