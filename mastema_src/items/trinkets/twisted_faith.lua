@@ -24,7 +24,7 @@ local function TwistedFaithEffect(player)
 			Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_SOUL, pos, Vector.Zero, nil)
 		end
 
-		for i, j in pairs(items) do
+		for _, j in pairs(items) do
 			local collectible = j:ToPickup()
 			collectible.OptionsPickupIndex = 666
 		end
@@ -34,7 +34,7 @@ local function TwistedFaithEffect(player)
 			Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_BLACK, pos, Vector.Zero, nil)
 		end
 		
-		for i, j in pairs(items) do
+		for _, j in pairs(items) do
 			local collectible = j:ToPickup()
 			local maxRedHearts = player:GetEffectiveMaxHearts()
 			
@@ -94,13 +94,15 @@ local function TwistedFaithEffect(player)
 end
 
 function Trinket.postNewRoom()
+	local room = game:GetRoom()
+
+	if not room:IsFirstVisit() then return end
+	
 	for i = 0, game:GetNumPlayers() - 1 do
 		local player = Isaac.GetPlayer(i)
-		local room = game:GetRoom()
 
 		if player:HasTrinket(Enums.Trinkets.TWISTED_FAITH)
 		and (room:GetType() == RoomType.ROOM_DEVIL or room:GetType() == RoomType.ROOM_ANGEL)
-		and room:IsFirstVisit()
 		then
 			TwistedFaithEffect(player)
 		end
@@ -156,7 +158,7 @@ function Trinket.postPEffectUpdate(player)
 
 	local items = Isaac.FindByType(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE)
 	
-	for i, j in pairs(items) do
+	for _, j in pairs(items) do
 		local collectible = j:ToPickup()
 		local maxRedHearts = player:GetEffectiveMaxHearts()
 		
