@@ -11,6 +11,8 @@ print("[Mastema] Type `mastemahelp` for a list of commands")
 MASTEMA = RegisterMod("Mastema", 1)
 local mod = MASTEMA
 
+require("andromeda_src.achievement_display_api")
+
 --Callbacks
 local postGameStarted = require("mastema_src.callbacks.post_game_started")
 local postPEffectUpdate = require("mastema_src.callbacks.post_peffect_update")
