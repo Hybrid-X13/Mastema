@@ -27,7 +27,7 @@ function Item.useItem(item, rng, player, flags, activeSlot, customVarData)
 	
 	local items = Isaac.FindByType(EntityType.ENTITY_PICKUP, -1)
 
-	for i, j in pairs(items) do
+	for _, j in pairs(items) do
 		local pickup = j:ToPickup()
 
 		if pickup.Price == 0 then
@@ -131,7 +131,13 @@ function Item.useItem(item, rng, player, flags, activeSlot, customVarData)
 						SaveData.ItemData.RavenBeak.DMG = SaveData.ItemData.RavenBeak.DMG + 0.04
 					end
 				elseif pickup.Variant == PickupVariant.PICKUP_TAROTCARD then
-					SaveData.ItemData.RavenBeak.DMG = SaveData.ItemData.RavenBeak.DMG + 0.07
+					local itemConfig = Isaac.GetItemConfig():GetCard(pickup.SubType)
+
+					if itemConfig:IsCard() then
+						SaveData.ItemData.RavenBeak.DMG = SaveData.ItemData.RavenBeak.DMG + 0.07
+					else
+						SaveData.ItemData.RavenBeak.DMG = SaveData.ItemData.RavenBeak.DMG + 0.1
+					end
 				elseif pickup.Variant == PickupVariant.PICKUP_TRINKET then
 					if pickup.SubType > TrinketType.TRINKET_GOLDEN_FLAG then
 						SaveData.ItemData.RavenBeak.DMG = SaveData.ItemData.RavenBeak.DMG + 0.16
