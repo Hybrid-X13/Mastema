@@ -50,6 +50,10 @@ Enums.Familiars = {
 	SACRIFICIAL_CHALICE = Isaac.GetEntityVariantByName("Sacrificial Chalice"),
 }
 
+Enums.Effects = {
+	MASTEMAS_WRATH_INDICATOR = Isaac.GetEntityVariantByName("Mastema's Wrath Indicator"),
+}
+
 Enums.Voicelines = {
 	SOUL_OF_MASTEMA = Isaac.GetSoundIdByName("SoulofMastema"),
 	UNHOLY_CARD = Isaac.GetSoundIdByName("UnholyCard"),

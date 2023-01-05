@@ -1,10 +1,7 @@
 local Enums = require("mastema_src.enums")
-local Functions = require("mastema_src.functions")
 local game = Game()
 local rng = RNG()
-
-local slayerIcon = Sprite()
-slayerIcon:Load("gfx/1000.049_effect notify.anm2", true)
+local slayerIcon = Enums.Effects.MASTEMAS_WRATH_INDICATOR
 
 local Item = {}
 
@@ -80,6 +77,11 @@ function Item.postNewRoom()
 					end
 				end
 			end
+
+			local icon = Isaac.Spawn(EntityType.ENTITY_EFFECT, Enums.Effects.MASTEMAS_WRATH_INDICATOR, 0, strongestEnemy.Position, Vector.Zero, nil):ToEffect()
+			icon.Parent = strongestEnemy
+			icon:FollowParent(strongestEnemy)
+			icon.DepthOffset = 1
 			strongestEnemy:GetData().mostHP = true
 		end
 	end
@@ -134,18 +136,15 @@ function Item.postPEffectUpdate(player)
 	end
 end
 
-function Item.postRender()
-	local room = game:GetRoom()
+function Item.postEffectUpdate(effect)
+	if effect.Variant ~= slayerIcon then return end
 
-	if room:GetFrameCount() == 0 then return end
-	if not Functions.AnyPlayerHasCollectible(Enums.Collectibles.MASTEMAS_WRATH) then return end
-		
-	for _, entity in pairs(Isaac.GetRoomEntities()) do
-		if entity:GetData().mostHP then
-			local offset = Vector(0, entity.Size * 5)
-			slayerIcon:SetFrame("Betrayal", 6)
-			slayerIcon:Render(Isaac.WorldToScreen(entity.Position - offset), Vector.Zero, Vector.Zero)
-		end
+	local parent = effect.Parent
+	
+	if parent == nil then
+		effect:Remove()
+	else
+		effect.SpriteOffset = Vector(0, -30 - parent.Size)
 	end
 end
 
