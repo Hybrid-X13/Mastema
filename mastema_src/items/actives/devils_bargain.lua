@@ -194,7 +194,9 @@ function Item.preSpawnCleanAward()
 			local player = Isaac.GetPlayer(i)
 
 			if player:HasCollectible(Enums.Collectibles.DEVILS_BARGAIN) then
-				if roomShape >= RoomShape.ROOMSHAPE_2x2 then
+				if roomShape >= RoomShape.ROOMSHAPE_2x2
+				or room:GetType() == RoomType.ROOM_CHALLENGE
+				then
 					ChargeDevilsBargain(player, 2)
 				else
 					ChargeDevilsBargain(player, 1)
