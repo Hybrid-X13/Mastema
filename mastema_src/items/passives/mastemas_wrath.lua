@@ -78,7 +78,7 @@ function Item.postNewRoom()
 				end
 			end
 
-			local icon = Isaac.Spawn(EntityType.ENTITY_EFFECT, Enums.Effects.MASTEMAS_WRATH_INDICATOR, 0, strongestEnemy.Position, Vector.Zero, nil):ToEffect()
+			local icon = Isaac.Spawn(EntityType.ENTITY_EFFECT, slayerIcon, 0, strongestEnemy.Position, Vector.Zero, nil):ToEffect()
 			icon.Parent = strongestEnemy
 			icon:FollowParent(strongestEnemy)
 			icon.DepthOffset = 1
