@@ -1,7 +1,6 @@
 local Enums = require("mastema_src.enums")
 local SaveData = require("mastema_src.savedata")
 local game = Game()
-local sfx = SFXManager()
 local rng = RNG()
 
 local KnownFilePathsByName = {
