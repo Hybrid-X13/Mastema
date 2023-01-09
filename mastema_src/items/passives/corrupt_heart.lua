@@ -105,6 +105,10 @@ end
 function Item.postPickupInit(pickup)
 	if pickup.Variant ~= PickupVariant.PICKUP_HEART then return end
 	if pickup.Price ~= 0 then return end
+
+	local room = game:GetRoom()
+
+	if room:GetFrameCount() == -1 and not room:IsFirstVisit() then return end
 	
 	rng:SetSeed(pickup.InitSeed, 35)
 	
