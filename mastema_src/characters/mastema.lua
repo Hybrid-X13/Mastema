@@ -59,7 +59,7 @@ local function ChangeItemPrices()
 	local room = game:GetRoom()
 	local items = Isaac.FindByType(EntityType.ENTITY_PICKUP, -1)
 	
-	for i, j in pairs(items) do
+	for _, j in pairs(items) do
 		local pickup = j:ToPickup()
 		
 		if pickup.Variant == PickupVariant.PICKUP_COLLECTIBLE then
@@ -101,7 +101,7 @@ local function UpdateItemPrices(player)
 	local items = Isaac.FindByType(EntityType.ENTITY_PICKUP, -1)
 	local maxRedHearts = player:GetEffectiveMaxHearts()
 	
-	for i, j in pairs(items) do
+	for _, j in pairs(items) do
 		local pickup = j:ToPickup()
 		
 		if pickup.Variant == PickupVariant.PICKUP_COLLECTIBLE then
@@ -164,7 +164,7 @@ local function AlternateItemPrices(player)
 	local maxRedHearts = player:GetEffectiveMaxHearts()
 	local soulHearts = player:GetSoulHearts()
 	
-	for i, j in pairs(items) do
+	for _, j in pairs(items) do
 		local collectible = j:ToPickup()
 		
 		if collectible.SubType > 0
@@ -363,65 +363,21 @@ function Character.postNewRoom()
 	for i = 0, game:GetNumPlayers() - 1 do
 		local player = Isaac.GetPlayer(i)
 
-		if player:GetPlayerType() ~= Enums.Characters.MASTEMA then return end
-		
-		--Blind item in normal path
-		if room:GetType() == RoomType.ROOM_TREASURE
-		and stageType ~= StageType.STAGETYPE_REPENTANCE
-		and stageType ~= StageType.STAGETYPE_REPENTANCE_B
-		and level:GetStage() ~= LevelStage.STAGE4_3
-		and not game:GetStateFlag(GameStateFlag.STATE_BACKWARDS_PATH)
-		then
-			local pedestals = Isaac.FindByType(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE)
-
-			if #pedestals > 0 then
-				for i = 1, #pedestals do
-					local collectible = pedestals[i]
-
-					if i == 2 then
-						local blindSprite = collectible:GetSprite()
-						blindSprite:ReplaceSpritesheet(1,"gfx/items/collectibles/questionmark.png")
-						blindSprite:ReplaceSpritesheet(0,"gfx/items/collectibles/questionmark.png")
-						blindSprite:LoadGraphics()
-						SaveData.PlayerData.Mastema.BlindItem = pedestals[i]
-					end
-				end
-			end
-		end
-
-		if room:IsFirstVisit()
-		and IsValidRoom()
-		then
+		if player:GetPlayerType() == Enums.Characters.MASTEMA then
+			--Blind item in normal path
 			if room:GetType() == RoomType.ROOM_TREASURE
-			and (not game:IsGreedMode() or (game:IsGreedMode() and roomIndex ~= 98))
+			and stageType ~= StageType.STAGETYPE_REPENTANCE
+			and stageType ~= StageType.STAGETYPE_REPENTANCE_B
+			and level:GetStage() ~= LevelStage.STAGE4_3
+			and not game:GetStateFlag(GameStateFlag.STATE_BACKWARDS_PATH)
 			then
-				local pool = ItemPoolType.POOL_TREASURE
-				local seed = game:GetSeeds():GetStartSeed()
 				local pedestals = Isaac.FindByType(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE)
-				local rng = player:GetTrinketRNG(TrinketType.TRINKET_DEVILS_CROWN)
-
-				--Extra item when you have More Options for real
-				if player:HasCollectible(CollectibleType.COLLECTIBLE_MORE_OPTIONS, true)
-				and stageType ~= StageType.STAGETYPE_REPENTANCE
-				and stageType ~= StageType.STAGETYPE_REPENTANCE_B
-				then
-					local pos = room:FindFreePickupSpawnPosition(room:GetCenterPos(), 0)
-					local itemID = itemPool:GetCollectible(pool, true, seed)
-					local item = Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, itemID, pos, Vector.Zero, nil)
-					local collectible = item:ToPickup()
-					collectible.Price = PickupPrice.PRICE_ONE_HEART
-				end
 
 				if #pedestals > 0 then
 					for i = 1, #pedestals do
 						local collectible = pedestals[i]
-						
-						if i == 2
-						and stageType ~= StageType.STAGETYPE_REPENTANCE
-						and stageType ~= StageType.STAGETYPE_REPENTANCE_B
-						and level:GetStage() ~= LevelStage.STAGE4_3
-						and not game:GetStateFlag(GameStateFlag.STATE_BACKWARDS_PATH)
-						then
+
+						if i == 2 then
 							local blindSprite = collectible:GetSprite()
 							blindSprite:ReplaceSpritesheet(1,"gfx/items/collectibles/questionmark.png")
 							blindSprite:ReplaceSpritesheet(0,"gfx/items/collectibles/questionmark.png")
@@ -431,28 +387,72 @@ function Character.postNewRoom()
 					end
 				end
 			end
-			ChangeItemPrices()
-		end
 
-		--Update prices more smoothly
-		if IsValidRoom() then
-			UpdateItemPrices(player)
-		end
+			if room:IsFirstVisit()
+			and IsValidRoom()
+			then
+				if room:GetType() == RoomType.ROOM_TREASURE
+				and (not game:IsGreedMode() or (game:IsGreedMode() and roomIndex ~= 98))
+				then
+					local pool = ItemPoolType.POOL_TREASURE
+					local seed = game:GetSeeds():GetStartSeed()
+					local pedestals = Isaac.FindByType(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE)
+					local rng = player:GetTrinketRNG(TrinketType.TRINKET_DEVILS_CROWN)
 
-		--No white fire exploit
-		if (stageType == StageType.STAGETYPE_REPENTANCE or stageType == StageType.STAGETYPE_REPENTANCE_B)
-		and (level:GetStage() == LevelStage.STAGE1_1 or level:GetStage() == LevelStage.STAGE1_2)
-		and not room:IsMirrorWorld()
-		and player:GetEffects():HasNullEffect(NullItemID.ID_LOST_CURSE)
-		and IsValidRoom()
-		and AnyItemCostsHP()
-		then
-			player:GetEffects():RemoveNullEffect(NullItemID.ID_LOST_CURSE, -1)
-		end
+					--Extra item when you have More Options for real
+					if player:HasCollectible(CollectibleType.COLLECTIBLE_MORE_OPTIONS, true)
+					and stageType ~= StageType.STAGETYPE_REPENTANCE
+					and stageType ~= StageType.STAGETYPE_REPENTANCE_B
+					then
+						local pos = room:FindFreePickupSpawnPosition(room:GetCenterPos(), 0)
+						local itemID = itemPool:GetCollectible(pool, true, seed)
+						local item = Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, itemID, pos, Vector.Zero, nil)
+						local collectible = item:ToPickup()
+						collectible.Price = PickupPrice.PRICE_ONE_HEART
+					end
 
-		if level:GetCurrentRoomIndex() == GridRooms.ROOM_GENESIS_IDX then
-			player:AddNullCostume(horns)
-			player:AddNullCostume(bodyCostume)
+					if #pedestals > 0 then
+						for i = 1, #pedestals do
+							local collectible = pedestals[i]
+							
+							if i == 2
+							and stageType ~= StageType.STAGETYPE_REPENTANCE
+							and stageType ~= StageType.STAGETYPE_REPENTANCE_B
+							and level:GetStage() ~= LevelStage.STAGE4_3
+							and not game:GetStateFlag(GameStateFlag.STATE_BACKWARDS_PATH)
+							then
+								local blindSprite = collectible:GetSprite()
+								blindSprite:ReplaceSpritesheet(1,"gfx/items/collectibles/questionmark.png")
+								blindSprite:ReplaceSpritesheet(0,"gfx/items/collectibles/questionmark.png")
+								blindSprite:LoadGraphics()
+								SaveData.PlayerData.Mastema.BlindItem = pedestals[i]
+							end
+						end
+					end
+				end
+				ChangeItemPrices()
+			end
+
+			--Update prices more smoothly
+			if IsValidRoom() then
+				UpdateItemPrices(player)
+			end
+
+			--No white fire exploit
+			if (stageType == StageType.STAGETYPE_REPENTANCE or stageType == StageType.STAGETYPE_REPENTANCE_B)
+			and (level:GetStage() == LevelStage.STAGE1_1 or level:GetStage() == LevelStage.STAGE1_2)
+			and not room:IsMirrorWorld()
+			and player:GetEffects():HasNullEffect(NullItemID.ID_LOST_CURSE)
+			and IsValidRoom()
+			and AnyItemCostsHP()
+			then
+				player:GetEffects():RemoveNullEffect(NullItemID.ID_LOST_CURSE, -1)
+			end
+
+			if level:GetCurrentRoomIndex() == GridRooms.ROOM_GENESIS_IDX then
+				player:AddNullCostume(horns)
+				player:AddNullCostume(bodyCostume)
+			end
 		end
 	end
 end
@@ -464,19 +464,19 @@ function Character.postNewLevel()
 	for i = 0, game:GetNumPlayers() - 1 do
 		local player = Isaac.GetPlayer(i)
 
-		if player:GetPlayerType() ~= Enums.Characters.MASTEMA then return end
+		if player:GetPlayerType() == Enums.Characters.MASTEMA then
+			SaveData.PlayerData.Mastema.BlindItem = 0
 
-		SaveData.PlayerData.Mastema.BlindItem = 0
-
-		if stageType == StageType.STAGETYPE_REPENTANCE
-		or stageType == StageType.STAGETYPE_REPENTANCE_B
-		then
-			if Functions.HasInnateItem(CollectibleType.COLLECTIBLE_MORE_OPTIONS) then
-				Functions.RemoveInnateItem(CollectibleType.COLLECTIBLE_MORE_OPTIONS)
-			end
-		else
-			if not Functions.HasInnateItem(CollectibleType.COLLECTIBLE_MORE_OPTIONS) then
-				Functions.AddInnateItem(player, CollectibleType.COLLECTIBLE_MORE_OPTIONS, true)
+			if stageType == StageType.STAGETYPE_REPENTANCE
+			or stageType == StageType.STAGETYPE_REPENTANCE_B
+			then
+				if Functions.HasInnateItem(CollectibleType.COLLECTIBLE_MORE_OPTIONS) then
+					Functions.RemoveInnateItem(CollectibleType.COLLECTIBLE_MORE_OPTIONS)
+				end
+			else
+				if not Functions.HasInnateItem(CollectibleType.COLLECTIBLE_MORE_OPTIONS) then
+					Functions.AddInnateItem(player, CollectibleType.COLLECTIBLE_MORE_OPTIONS, true)
+				end
 			end
 		end
 	end
@@ -544,35 +544,35 @@ function Character.postPickupInit(pickup)
 	for i = 0, game:GetNumPlayers() - 1 do
 		local player = Isaac.GetPlayer(i)
 
-		if player:GetPlayerType() ~= Enums.Characters.MASTEMA then return end
-
-		if pickup.Variant == PickupVariant.PICKUP_TRINKET
-		and (pickup.SubType == TrinketType.TRINKET_DEVILS_CROWN or pickup.SubType == (TrinketType.TRINKET_DEVILS_CROWN + TrinketType.TRINKET_GOLDEN_FLAG))
-		then
-			pickup:Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_TRINKET, 0, true, false, false)
-		end
-
-		--Eternal hearts can spawn instead of coins for Mastema in greed mode
-		if pickup.Variant == PickupVariant.PICKUP_COIN
-		and game:IsGreedMode()
-		and room:GetType() == RoomType.ROOM_DEFAULT
-		and not room:IsClear()
-		then
-			local randNum = rng:RandomInt(20)
-			
-			if randNum < 3 then
-				pickup:Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_ETERNAL, true, false, false)
+		if player:GetPlayerType() == Enums.Characters.MASTEMA then
+			if pickup.Variant == PickupVariant.PICKUP_TRINKET
+			and (pickup.SubType == TrinketType.TRINKET_DEVILS_CROWN or pickup.SubType == (TrinketType.TRINKET_DEVILS_CROWN + TrinketType.TRINKET_GOLDEN_FLAG))
+			then
+				pickup:Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_TRINKET, 0, true, false, false)
 			end
-		end
 
-		--Fix an exploit with restocked batteries and Car Battery
-		if pickup.Variant == PickupVariant.PICKUP_LIL_BATTERY
-		and pickup.SubType ~= BatterySubType.BATTERY_MICRO
-		and room:GetType() == RoomType.ROOM_SHOP
-		and player:HasCollectible(CollectibleType.COLLECTIBLE_CAR_BATTERY)
-		and (game:IsGreedMode() or player:HasCollectible(CollectibleType.COLLECTIBLE_RESTOCK))
-		then
-			pickup:Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_LIL_BATTERY, BatterySubType.BATTERY_MICRO, true, false, false)
+			--Eternal hearts can spawn instead of coins for Mastema in greed mode
+			if pickup.Variant == PickupVariant.PICKUP_COIN
+			and game:IsGreedMode()
+			and room:GetType() == RoomType.ROOM_DEFAULT
+			and not room:IsClear()
+			then
+				local randNum = rng:RandomInt(20)
+				
+				if randNum < 3 then
+					pickup:Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_ETERNAL, true, false, false)
+				end
+			end
+
+			--Fix an exploit with restocked batteries and Car Battery
+			if pickup.Variant == PickupVariant.PICKUP_LIL_BATTERY
+			and pickup.SubType ~= BatterySubType.BATTERY_MICRO
+			and room:GetType() == RoomType.ROOM_SHOP
+			and player:HasCollectible(CollectibleType.COLLECTIBLE_CAR_BATTERY)
+			and (game:IsGreedMode() or player:HasCollectible(CollectibleType.COLLECTIBLE_RESTOCK))
+			then
+				pickup:Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_LIL_BATTERY, BatterySubType.BATTERY_MICRO, true, false, false)
+			end
 		end
 	end
 end

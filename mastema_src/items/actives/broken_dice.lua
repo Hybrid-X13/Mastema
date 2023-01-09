@@ -9,12 +9,13 @@ function Item.postNewLevel()
 	for i = 0, game:GetNumPlayers() - 1 do
 		local player = Isaac.GetPlayer(i)
 		
-		if not player:HasCollectible(Enums.Collectibles.BROKEN_DICE) then return end
-		if player:GetBrokenHearts() == 0 then return end
-
-		player:AddBrokenHearts(-1)
-		sfx:Play(SoundEffect.SOUND_THUMBSUP)
-		sfx:Play(SoundEffect.SOUND_DEATH_CARD)
+		if player:HasCollectible(Enums.Collectibles.BROKEN_DICE)
+		and player:GetBrokenHearts() > 0
+		then
+			player:AddBrokenHearts(-1)
+			sfx:Play(SoundEffect.SOUND_THUMBSUP)
+			sfx:Play(SoundEffect.SOUND_DEATH_CARD)
+		end
 	end
 end
 

@@ -111,74 +111,74 @@ function Item.postPickupInit(pickup)
 	for i = 0, game:GetNumPlayers() - 1 do
 		local player = Isaac.GetPlayer(i)
 		
-		if not player:HasCollectible(Enums.Collectibles.CORRUPT_HEART) then return end
-		
-		local randNum = rng:RandomInt(3)
+		if player:HasCollectible(Enums.Collectibles.CORRUPT_HEART) then
+			local randNum = rng:RandomInt(3)
 
-		if player:GetCollectibleNum(Enums.Collectibles.CORRUPT_HEART) > 1 then
-			randNum = rng:RandomInt(2)
-		end
+			if player:GetCollectibleNum(Enums.Collectibles.CORRUPT_HEART) > 1 then
+				randNum = rng:RandomInt(2)
+			end
 
-		if randNum ~= 0 then return end
+			if randNum ~= 0 then return end
 
-		if player:GetPlayerType() == PlayerType.PLAYER_KEEPER
-		or player:GetPlayerType() == PlayerType.PLAYER_KEEPER_B
-		then
-			if pickup.SubType == HeartSubType.HEART_BLACK
-			or pickup.SubType == RepPlus.BENIGHTED_HEART
-			or pickup.SubType == RepPlus.DESERTED_HEART
+			if player:GetPlayerType() == PlayerType.PLAYER_KEEPER
+			or player:GetPlayerType() == PlayerType.PLAYER_KEEPER_B
 			then
-				SpawnBlackLocust(6, player, pickup)
-				pickup:Remove()
+				if pickup.SubType == HeartSubType.HEART_BLACK
+				or pickup.SubType == RepPlus.BENIGHTED_HEART
+				or pickup.SubType == RepPlus.DESERTED_HEART
+				then
+					SpawnBlackLocust(6, player, pickup)
+					pickup:Remove()
+				else
+					if heartMap[pickup.SubType] then
+						randNum = rng:RandomInt(10)
+						
+						if randNum < heartMap[pickup.SubType] then
+							SpawnBlackLocust(heartMap[pickup.SubType], player, pickup)
+							pickup:Remove()
+						end
+					else
+						randNum = rng:RandomInt(2)
+						
+						if randNum == 0 then
+							SpawnBlackLocust(5, player, pickup)
+							pickup:Remove()
+						end
+					end
+				end
 			else
 				if heartMap[pickup.SubType] then
 					randNum = rng:RandomInt(10)
 					
 					if randNum < heartMap[pickup.SubType] then
+						pickup:Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_BLACK, true, false, false)
+						pickup:SetColor(Color(0, 0, 0, 1, 0.1, 0, 0.1), 60, 1, true, false)
+
+						if pickup.SubType == HeartSubType.HEART_ROTTEN then
+							SpawnBlackLocust(2, player, pickup)
+						end
+					else
 						SpawnBlackLocust(heartMap[pickup.SubType], player, pickup)
 						pickup:Remove()
 					end
-				else
+				elseif pickup.SubType ~= HeartSubType.HEART_BLACK
+				and pickup.SubType ~= RepPlus.BENIGHTED_HEART
+				and pickup.SubType ~= RepPlus.DESERTED_HEART
+				and pickup.SubType ~= RepPlus.DECEIVER_HEART
+				and pickup.SubType ~= RepPlus.CAPRICIOUS_HEART
+				and pickup.SubType ~= FiendFolio.HALF_BLACK_HEART
+				and pickup.SubType ~= FiendFolio.BLENDED_BLACK_HEART
+				then
+					--Any modded hearts that aren't in the heart map have a 50/50 chance
 					randNum = rng:RandomInt(2)
 					
 					if randNum == 0 then
+						pickup:Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_BLACK, true, false, false)
+						pickup:SetColor(Color(0, 0, 0, 1, 0.1, 0, 0.1), 60, 1, true, false)
+					else
 						SpawnBlackLocust(5, player, pickup)
 						pickup:Remove()
 					end
-				end
-			end
-		else
-			if heartMap[pickup.SubType] then
-				randNum = rng:RandomInt(10)
-				
-				if randNum < heartMap[pickup.SubType] then
-					pickup:Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_BLACK, true, false, false)
-					pickup:SetColor(Color(0, 0, 0, 1, 0.1, 0, 0.1), 60, 1, true, false)
-
-					if pickup.SubType == HeartSubType.HEART_ROTTEN then
-						SpawnBlackLocust(2, player, pickup)
-					end
-				else
-					SpawnBlackLocust(heartMap[pickup.SubType], player, pickup)
-					pickup:Remove()
-				end
-			elseif pickup.SubType ~= HeartSubType.HEART_BLACK
-			and pickup.SubType ~= RepPlus.BENIGHTED_HEART
-			and pickup.SubType ~= RepPlus.DESERTED_HEART
-			and pickup.SubType ~= RepPlus.DECEIVER_HEART
-			and pickup.SubType ~= RepPlus.CAPRICIOUS_HEART
-			and pickup.SubType ~= FiendFolio.HALF_BLACK_HEART
-			and pickup.SubType ~= FiendFolio.BLENDED_BLACK_HEART
-			then
-				--Any modded hearts that aren't in the heart map have a 50/50 chance
-				randNum = rng:RandomInt(2)
-				
-				if randNum == 0 then
-					pickup:Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_BLACK, true, false, false)
-					pickup:SetColor(Color(0, 0, 0, 1, 0.1, 0, 0.1), 60, 1, true, false)
-				else
-					SpawnBlackLocust(5, player, pickup)
-					pickup:Remove()
 				end
 			end
 		end

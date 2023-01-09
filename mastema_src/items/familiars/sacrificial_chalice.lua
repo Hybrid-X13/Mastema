@@ -300,18 +300,18 @@ function Familiar.postNewLevel()
 	for i = 0, game:GetNumPlayers() - 1 do
 		local player = Isaac.GetPlayer(i)
 		
-		if not player:HasCollectible(Enums.Collectibles.SACRIFICIAL_CHALICE) then return end
-		
-		local chalices = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, Enums.Familiars.SACRIFICIAL_CHALICE)
+		if player:HasCollectible(Enums.Collectibles.SACRIFICIAL_CHALICE) then
+			local chalices = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, Enums.Familiars.SACRIFICIAL_CHALICE)
 
-		if #chalices > 0 then
-			for i = 1, #chalices do
-				local familiar = chalices[i]:ToFamiliar()
-				familiar:RemoveFromFollowers()
-				familiar.Position = Isaac.GetFreeNearPosition(player.Position, 40)
+			if #chalices > 0 then
+				for i = 1, #chalices do
+					local familiar = chalices[i]:ToFamiliar()
+					familiar:RemoveFromFollowers()
+					familiar.Position = Isaac.GetFreeNearPosition(player.Position, 40)
+				end
 			end
+			newFloor = true
 		end
-		newFloor = true
 	end
 end
 

@@ -15,27 +15,27 @@ function Trinket.postNewRoom()
 	for i = 0, game:GetNumPlayers() - 1 do
 		local player = Isaac.GetPlayer(i)
 		
-		if not player:HasTrinket(Enums.Trinkets.SHATTERED_SOUL) then return end
+		if player:HasTrinket(Enums.Trinkets.SHATTERED_SOUL) then
+			local rng = player:GetTrinketRNG(Enums.Trinkets.SHATTERED_SOUL)
+			local seed = game:GetSeeds():GetStartSeed()
+			local pool = ItemPoolType.POOL_DEVIL
+			local spawnpos = room:FindFreePickupSpawnPosition(room:GetCenterPos(), 0)
+			
+			if Functions.AnyPlayerIsType(Enums.Characters.MASTEMA)
+			or Functions.AnyPlayerIsType(Enums.Characters.T_MASTEMA)
+			then
+				spawnpos = Isaac.GetFreeNearPosition(room:GetCenterPos(), 40)
+			end
 
-		local rng = player:GetTrinketRNG(Enums.Trinkets.SHATTERED_SOUL)
-		local seed = game:GetSeeds():GetStartSeed()
-		local pool = ItemPoolType.POOL_DEVIL
-		local spawnpos = room:FindFreePickupSpawnPosition(room:GetCenterPos(), 0)
-		
-		if Functions.AnyPlayerIsType(Enums.Characters.MASTEMA)
-		or Functions.AnyPlayerIsType(Enums.Characters.T_MASTEMA)
-		then
-			spawnpos = Isaac.GetFreeNearPosition(room:GetCenterPos(), 40)
+			if player:HasCollectible(CollectibleType.COLLECTIBLE_CHAOS) then
+				pool = rng:RandomInt(ItemPoolType.NUM_ITEMPOOLS)
+				seed = rng:RandomInt(999999999)
+			end
+			
+			SaveData.ItemData.ShatteredSoul.DealItems = Isaac.FindByType(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE)
+			local brokenItemID = game:GetItemPool():GetCollectible(pool, true, seed)
+			SaveData.ItemData.ShatteredSoul.BrokenItem = Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, brokenItemID, spawnpos, Vector.Zero, nil)
 		end
-
-		if player:HasCollectible(CollectibleType.COLLECTIBLE_CHAOS) then
-			pool = rng:RandomInt(ItemPoolType.NUM_ITEMPOOLS)
-			seed = rng:RandomInt(999999999)
-		end
-		
-		SaveData.ItemData.ShatteredSoul.DealItems = Isaac.FindByType(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE)
-		local brokenItemID = game:GetItemPool():GetCollectible(pool, true, seed)
-		SaveData.ItemData.ShatteredSoul.BrokenItem = Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, brokenItemID, spawnpos, Vector.Zero, nil)
 	end
 end
 

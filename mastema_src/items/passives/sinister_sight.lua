@@ -21,14 +21,15 @@ function Item.postNewRoom()
 	for i = 0, game:GetNumPlayers() - 1 do
 		local player = Isaac.GetPlayer(i)
 
-		if not player:HasCollectible(Enums.Collectibles.SINISTER_SIGHT) then return end
-		if player:HasCurseMistEffect() then return end
-		if player:IsCoopGhost() then return end
-	
-		local tempEffects = player:GetEffects()
-	
-		if not tempEffects:HasCollectibleEffect(CollectibleType.COLLECTIBLE_MOMS_PERFUME) then
-			tempEffects:AddCollectibleEffect(CollectibleType.COLLECTIBLE_MOMS_PERFUME, false, 1)
+		if player:HasCollectible(Enums.Collectibles.SINISTER_SIGHT)
+		and not player:HasCurseMistEffect()
+		and not player:IsCoopGhost()
+		then
+			local tempEffects = player:GetEffects()
+		
+			if not tempEffects:HasCollectibleEffect(CollectibleType.COLLECTIBLE_MOMS_PERFUME) then
+				tempEffects:AddCollectibleEffect(CollectibleType.COLLECTIBLE_MOMS_PERFUME, false, 1)
+			end
 		end
 	end
 end

@@ -38,27 +38,27 @@ function Item.postNPCDeath(npc)
 	for i = 0, game:GetNumPlayers() - 1 do
 		local player = Isaac.GetPlayer(i)
 		
-		if not player:HasCollectible(Enums.Collectibles.BLOODSPLOSION) then return end
-
-		local randNum = rng:RandomInt(2)
-		
-		if randNum == 0 then
-			local explosionFlags = TearFlags.TEAR_NORMAL
+		if player:HasCollectible(Enums.Collectibles.BLOODSPLOSION) then
+			local randNum = rng:RandomInt(2)
 			
-			for i = 1, #entFlags do
-				if npc:HasEntityFlags(entFlags[i]) then
-					explosionFlags = explosionFlags | tearFlags[i]
+			if randNum == 0 then
+				local explosionFlags = TearFlags.TEAR_NORMAL
+				
+				for i = 1, #entFlags do
+					if npc:HasEntityFlags(entFlags[i]) then
+						explosionFlags = explosionFlags | tearFlags[i]
+					end
 				end
-			end
-			
-			game:BombExplosionEffects(npc.Position, player.Damage, explosionFlags, Color.Default, player)
-			sfx:Play(SoundEffect.SOUND_DEATH_BURST_LARGE, 1.3)
-			local creep = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_RED, 0, npc.Position, Vector.Zero, npc)
-			
-			if player:HasTrinket(TrinketType.TRINKET_LOST_CORK) then
-				creep.SpriteScale = Vector(2.5, 2.5)
-			else
-				creep.SpriteScale = Vector(2, 2)
+				
+				game:BombExplosionEffects(npc.Position, player.Damage, explosionFlags, Color.Default, player)
+				sfx:Play(SoundEffect.SOUND_DEATH_BURST_LARGE, 1.3)
+				local creep = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_RED, 0, npc.Position, Vector.Zero, npc)
+				
+				if player:HasTrinket(TrinketType.TRINKET_LOST_CORK) then
+					creep.SpriteScale = Vector(2.5, 2.5)
+				else
+					creep.SpriteScale = Vector(2, 2)
+				end
 			end
 		end
 	end
