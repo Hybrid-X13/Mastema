@@ -22,9 +22,6 @@ end
 function Item.useItem(item, rng, player, flags, activeSlot, customVarData)
 	if item ~= Enums.Collectibles.BROKEN_DICE then return end
 	
-	player:UseCard(Card.CARD_DICE_SHARD, UseFlag.USE_NOANIM | UseFlag.USE_NOANNOUNCER)
-	player:AddBrokenHearts(1)
-	
 	if player:GetPlayerType() == PlayerType.PLAYER_THELOST
 	or player:GetPlayerType() == PlayerType.PLAYER_THELOST_B
 	then
@@ -32,8 +29,14 @@ function Item.useItem(item, rng, player, flags, activeSlot, customVarData)
 			
 		if randNum == 0 then
 			player:RemoveCollectible(Enums.Collectibles.BROKEN_DICE)
+			player:AnimateSad()
+			sfx:Play(SoundEffect.SOUND_THUMBS_DOWN)
+			return false
 		end
 	end
+
+	player:UseCard(Card.CARD_DICE_SHARD, UseFlag.USE_NOANIM | UseFlag.USE_NOANNOUNCER)
+	player:AddBrokenHearts(1)
 	
 	return true
 end
