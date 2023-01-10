@@ -286,55 +286,44 @@ end
 
 function Character.postPickupInit(pickup)
 	if pickup.Variant ~= PickupVariant.PICKUP_HEART then return end
+	if not Functions.AnyPlayerIsType(Enums.Characters.T_MASTEMA) then return end
 	
 	rng:SetSeed(pickup.InitSeed, 35)
-
-	for i = 0, game:GetNumPlayers() - 1 do
-		local player = Isaac.GetPlayer(i)
-
-		if player:GetPlayerType() == Enums.Characters.T_MASTEMA then
-			local randNum = rng:RandomInt(3)
-			
-			if randNum == 0
-			and pickup.Price == 0
-			then
-				if pickup.SubType == HeartSubType.HEART_FULL
-				or pickup.SubType == HeartSubType.HEART_SCARED
-				or pickup.SubType == HeartSubType.HEART_DOUBLEPACK
-				then
-					pickup:Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_SOUL, true, false, false)
-				elseif pickup.SubType == HeartSubType.HEART_HALF then
-					pickup:Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_HALF_SOUL, true, false, false)
-				end
-			end
-
-			--No patched hearts for you
-			if pickup.SubType == 3320
-			or pickup.SubType == 3321
-			then
-				pickup:Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_FULL, true, false, false)
-			end
+	local randNum = rng:RandomInt(3)
+	
+	if randNum == 0
+	and pickup.Price == 0
+	then
+		if pickup.SubType == HeartSubType.HEART_FULL
+		or pickup.SubType == HeartSubType.HEART_SCARED
+		or pickup.SubType == HeartSubType.HEART_DOUBLEPACK
+		then
+			pickup:Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_SOUL, true, false, false)
+		elseif pickup.SubType == HeartSubType.HEART_HALF then
+			pickup:Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_HALF_SOUL, true, false, false)
 		end
+	end
+
+	--No patched hearts for you
+	if pickup.SubType == 3320
+	or pickup.SubType == 3321
+	then
+		pickup:Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_FULL, true, false, false)
 	end
 end
 
 function Character.postPickupUpdate(pickup)
 	if pickup.Variant ~= PickupVariant.PICKUP_COLLECTIBLE then return end
 	if pickup.Price ~= PickupPrice.PRICE_THREE_SOULHEARTS then return end
+	if not Functions.AnyPlayerIsType(Enums.Characters.T_MASTEMA) then return end
 
-	for i = 0, game:GetNumPlayers() - 1 do
-		local player = Isaac.GetPlayer(i)
-
-		if player:GetPlayerType() == Enums.Characters.T_MASTEMA then
-			local itemID = pickup.SubType
-			local itemConfig = Isaac.GetItemConfig():GetCollectible(itemID)
-			
-			--Passive devil deals only cost 1 soul heart
-			if itemConfig.Type ~= ItemType.ITEM_ACTIVE then
-				pickup.Price = PickupPrice.PRICE_ONE_SOUL_HEART
-				pickup.AutoUpdatePrice = false
-			end
-		end
+	local itemID = pickup.SubType
+	local itemConfig = Isaac.GetItemConfig():GetCollectible(itemID)
+	
+	--Passive devil deals only cost 1 soul heart
+	if itemConfig.Type ~= ItemType.ITEM_ACTIVE then
+		pickup.Price = PickupPrice.PRICE_ONE_SOUL_HEART
+		pickup.AutoUpdatePrice = false
 	end
 end
 
@@ -471,6 +460,8 @@ function Character.postPlayerUpdate(player)
 end
 
 function Character.postRender()
+	if not Functions.AnyPlayerIsType(Enums.Characters.T_MASTEMA) then return end
+	
 	local room = game:GetRoom()
 	local level = game:GetLevel()
 	local roomIndex = level:GetCurrentRoomIndex()
@@ -478,38 +469,32 @@ function Character.postRender()
 	
 	if room:GetFrameCount() == 0 then return end
 	
-	for i = 0, game:GetNumPlayers() - 1 do
-		local player = Isaac.GetPlayer(i)
-		
-		if player:GetPlayerType() == Enums.Characters.T_MASTEMA then
-			local items = Isaac.FindByType(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE)
-			local renderCount
+	local items = Isaac.FindByType(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE)
+	local renderCount
+	
+	for _, j in pairs(items) do
+		if j.SubType > 0 then
+			local collectible = j:ToPickup()
+			local itemID = collectible.SubType
+			local itemConfig = Isaac.GetItemConfig():GetCollectible(itemID)
+			local quality = itemConfig.Quality
 			
-			for _, j in pairs(items) do
-				if j.SubType > 0 then
-					local collectible = j:ToPickup()
-					local itemID = collectible.SubType
-					local itemConfig = Isaac.GetItemConfig():GetCollectible(itemID)
-					local quality = itemConfig.Quality
-					
-					if itemConfig.Tags & ItemConfig.TAG_QUEST ~= ItemConfig.TAG_QUEST
-					and itemConfig.Tags & ItemConfig.TAG_FOOD ~= ItemConfig.TAG_FOOD
-					and itemConfig.Type ~= ItemType.ITEM_ACTIVE
-					and not IsBlacklisted(itemID)
-					and roomIndex ~= GridRooms.ROOM_GENESIS_IDX
-					and Functions.GetDimension(roomDesc) ~= 2
-					and not IsTaintedTreasureRoom(roomDesc)
-					then
-						if quality > 3 then
-							renderCount = 3
-						elseif quality == 3 then
-							renderCount = 2
-						elseif quality < 3 then
-							renderCount = 1
-						end
-						Functions.RenderBrokenCost(collectible, renderCount)
-					end
+			if itemConfig.Tags & ItemConfig.TAG_QUEST ~= ItemConfig.TAG_QUEST
+			and itemConfig.Tags & ItemConfig.TAG_FOOD ~= ItemConfig.TAG_FOOD
+			and itemConfig.Type ~= ItemType.ITEM_ACTIVE
+			and not IsBlacklisted(itemID)
+			and roomIndex ~= GridRooms.ROOM_GENESIS_IDX
+			and Functions.GetDimension(roomDesc) ~= 2
+			and not IsTaintedTreasureRoom(roomDesc)
+			then
+				if quality > 3 then
+					renderCount = 3
+				elseif quality == 3 then
+					renderCount = 2
+				elseif quality < 3 then
+					renderCount = 1
 				end
+				Functions.RenderBrokenCost(collectible, renderCount)
 			end
 		end
 	end

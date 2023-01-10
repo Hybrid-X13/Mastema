@@ -397,7 +397,6 @@ function Character.postNewRoom()
 					local pool = ItemPoolType.POOL_TREASURE
 					local seed = game:GetSeeds():GetStartSeed()
 					local pedestals = Isaac.FindByType(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE)
-					local rng = player:GetTrinketRNG(TrinketType.TRINKET_DEVILS_CROWN)
 
 					--Extra item when you have More Options for real
 					if player:HasCollectible(CollectibleType.COLLECTIBLE_MORE_OPTIONS, true)
