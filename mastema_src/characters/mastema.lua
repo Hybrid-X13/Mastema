@@ -537,42 +537,38 @@ function Character.postTearUpdate(tear)
 end
 
 function Character.postPickupInit(pickup)
+	if not Functions.AnyPlayerIsType(Enums.Characters.MASTEMA) then return end
+
 	rng:SetSeed(pickup.InitSeed, 35)
 	local room = game:GetRoom()
 
-	for i = 0, game:GetNumPlayers() - 1 do
-		local player = Isaac.GetPlayer(i)
+	if pickup.Variant == PickupVariant.PICKUP_TRINKET
+	and (pickup.SubType == TrinketType.TRINKET_DEVILS_CROWN or pickup.SubType == (TrinketType.TRINKET_DEVILS_CROWN + TrinketType.TRINKET_GOLDEN_FLAG))
+	then
+		pickup:Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_TRINKET, 0, true, false, false)
+	end
 
-		if player:GetPlayerType() == Enums.Characters.MASTEMA then
-			if pickup.Variant == PickupVariant.PICKUP_TRINKET
-			and (pickup.SubType == TrinketType.TRINKET_DEVILS_CROWN or pickup.SubType == (TrinketType.TRINKET_DEVILS_CROWN + TrinketType.TRINKET_GOLDEN_FLAG))
-			then
-				pickup:Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_TRINKET, 0, true, false, false)
-			end
-
-			--Eternal hearts can spawn instead of coins for Mastema in greed mode
-			if pickup.Variant == PickupVariant.PICKUP_COIN
-			and game:IsGreedMode()
-			and room:GetType() == RoomType.ROOM_DEFAULT
-			and not room:IsClear()
-			then
-				local randNum = rng:RandomInt(20)
-				
-				if randNum < 3 then
-					pickup:Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_ETERNAL, true, false, false)
-				end
-			end
-
-			--Fix an exploit with restocked batteries and Car Battery
-			if pickup.Variant == PickupVariant.PICKUP_LIL_BATTERY
-			and pickup.SubType ~= BatterySubType.BATTERY_MICRO
-			and room:GetType() == RoomType.ROOM_SHOP
-			and player:HasCollectible(CollectibleType.COLLECTIBLE_CAR_BATTERY)
-			and (game:IsGreedMode() or player:HasCollectible(CollectibleType.COLLECTIBLE_RESTOCK))
-			then
-				pickup:Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_LIL_BATTERY, BatterySubType.BATTERY_MICRO, true, false, false)
-			end
+	--Eternal hearts can spawn instead of coins for Mastema in greed mode
+	if pickup.Variant == PickupVariant.PICKUP_COIN
+	and game:IsGreedMode()
+	and room:GetType() == RoomType.ROOM_DEFAULT
+	and not room:IsClear()
+	then
+		local randNum = rng:RandomInt(20)
+		
+		if randNum < 3 then
+			pickup:Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_ETERNAL, true, false, false)
 		end
+	end
+
+	--Fix an exploit with restocked batteries and Car Battery
+	if pickup.Variant == PickupVariant.PICKUP_LIL_BATTERY
+	and pickup.SubType ~= BatterySubType.BATTERY_MICRO
+	and room:GetType() == RoomType.ROOM_SHOP
+	and Functions.AnyPlayerHasCollectible(CollectibleType.COLLECTIBLE_CAR_BATTERY)
+	and (game:IsGreedMode() or Functions.AnyPlayerHasCollectible(CollectibleType.COLLECTIBLE_RESTOCK))
+	then
+		pickup:Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_LIL_BATTERY, BatterySubType.BATTERY_MICRO, true, false, false)
 	end
 end
 
@@ -646,15 +642,8 @@ function Character.familiarUpdate(familiar)
 	if (familiar.SubType == CollectibleType.COLLECTIBLE_MORE_OPTIONS or familiar.SubType == CollectibleType.COLLECTIBLE_DUALITY)
 	and familiar.Visible
 	then
-		if familiar.SubType == CollectibleType.COLLECTIBLE_MORE_OPTIONS then
-			local moreOptions = Isaac.GetItemConfig():GetCollectible(CollectibleType.COLLECTIBLE_MORE_OPTIONS)
-			player:RemoveCostume(moreOptions)
-		end
-
-		if familiar.SubType == CollectibleType.COLLECTIBLE_DUALITY then
-			local duality = Isaac.GetItemConfig():GetCollectible(CollectibleType.COLLECTIBLE_DUALITY)
-			player:RemoveCostume(duality)
-		end
+		local itemCostume = Isaac.GetItemConfig():GetCollectible(familiar.SubType)
+		player:RemoveCostume(itemCostume)
 
 		familiar:RemoveFromOrbit()
 		familiar:ClearEntityFlags(EntityFlag.FLAG_APPEAR)
