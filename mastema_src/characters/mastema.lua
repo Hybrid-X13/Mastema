@@ -642,8 +642,8 @@ function Character.familiarUpdate(familiar)
 	if (familiar.SubType == CollectibleType.COLLECTIBLE_MORE_OPTIONS or familiar.SubType == CollectibleType.COLLECTIBLE_DUALITY)
 	and familiar.Visible
 	then
-		local itemCostume = Isaac.GetItemConfig():GetCollectible(familiar.SubType)
-		player:RemoveCostume(itemCostume)
+		local itemConfig = Isaac.GetItemConfig():GetCollectible(familiar.SubType)
+		player:RemoveCostume(itemConfig)
 
 		familiar:RemoveFromOrbit()
 		familiar:ClearEntityFlags(EntityFlag.FLAG_APPEAR)
@@ -670,7 +670,6 @@ function Character.postPEffectUpdate(player)
 		end
 	end
 
-	--Update heart prices
 	if IsValidRoom() then
 		UpdateItemPrices(player)
 	end
