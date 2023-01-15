@@ -13,10 +13,9 @@ function Trinket.entityTakeDmg(target, amount, flag, source, countdown)
 	
 	local trinketMultiplier = player:GetTrinketMultiplier(Enums.Trinkets.LIFE_SAVINGS)
 	local rng = player:GetTrinketRNG(Enums.Trinkets.LIFE_SAVINGS)
-	local rngMax = 60 / trinketMultiplier
-	local randNum = rng:RandomInt(rngMax)
+	local randFloat = rng:RandomFloat() / trinketMultiplier
 		
-	if randNum < 9 then
+	if randFloat < 0.15 then
 		return false
 	end
 end

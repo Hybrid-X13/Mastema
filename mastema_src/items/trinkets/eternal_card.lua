@@ -15,10 +15,9 @@ function Trinket.useCard(card, player, flag)
 	
 	local trinketMultiplier = player:GetTrinketMultiplier(Enums.Trinkets.ETERNAL_CARD)
 	local rng = player:GetTrinketRNG(Enums.Trinkets.ETERNAL_CARD)
-	local rngMax = 60 / trinketMultiplier
-	local randNum = rng:RandomInt(rngMax)
+	local randFloat = rng:RandomFloat() / trinketMultiplier
 
-	if randNum < 6 then
+	if randFloat < 0.1 then
 		player:AddEternalHearts(1)
 		sfx:Play(SoundEffect.SOUND_SUPERHOLY)
 	end
