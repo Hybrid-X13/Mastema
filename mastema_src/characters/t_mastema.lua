@@ -410,6 +410,13 @@ function Character.postPEffectUpdate(player)
 		player:RemoveCostume(holyGrail)
 	end
 
+	if not player:HasCurseMistEffect()
+	and not player:IsCoopGhost()
+	and player:GetActiveItem(ActiveSlot.SLOT_POCKET) ~= CollectibleType.COLLECTIBLE_SATANIC_BIBLE
+	then
+		player:SetPocketActiveItem(CollectibleType.COLLECTIBLE_SATANIC_BIBLE, ActiveSlot.SLOT_POCKET, false)
+	end
+
 	if player:GetBrokenHearts() > 0
 	and player:HasCollectible(CollectibleType.COLLECTIBLE_BIRTHRIGHT)
 	then

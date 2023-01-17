@@ -660,6 +660,10 @@ function Character.postPEffectUpdate(player)
 	if not player:HasCurseMistEffect()
 	and not player:IsCoopGhost()
 	then
+		if player:GetActiveItem(ActiveSlot.SLOT_POCKET) ~= CollectibleType.COLLECTIBLE_PRAYER_CARD then
+			player:SetPocketActiveItem(CollectibleType.COLLECTIBLE_PRAYER_CARD, ActiveSlot.SLOT_POCKET, false)
+		end
+
 		if not player:HasTrinket(TrinketType.TRINKET_DEVILS_CROWN, false) then
 			player:AddTrinket(TrinketType.TRINKET_DEVILS_CROWN)
 			player:UseActiveItem(CollectibleType.COLLECTIBLE_SMELTER, false)
