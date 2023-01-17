@@ -82,7 +82,9 @@ function Item.evaluateCache(player, cacheFlag)
 		end
 	end
 
-	if player:GetData().hasSpode then
+	if player:GetData().hasSpode
+	and tempEffects:GetCollectibleEffectNum(CollectibleType.COLLECTIBLE_TRANSCENDENCE) > 1
+	then
 		tearBonus = tearBonus + 1
 	end
 
