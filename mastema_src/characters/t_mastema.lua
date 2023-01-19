@@ -266,6 +266,7 @@ function Character.entityTakeDmg(target, amount, flag, source, countdown)
 		local numBrokenHearts = player:GetBrokenHearts()
 		local rng = player:GetCollectibleRNG(CollectibleType.COLLECTIBLE_SANGUINE_BOND)
 		local randNum = rng:RandomInt(100)
+		local couponEffectRoll = rng:RandomInt(3)
 		
 		--Percent chance is based on the number of broken hearts Tainted Mastema currently has
 		if randNum < ((numBrokenHearts * 6) + 34)
@@ -275,10 +276,8 @@ function Character.entityTakeDmg(target, amount, flag, source, countdown)
 			sfx:Play(SoundEffect.SOUND_THUMBSUP)
 			sfx:Play(SoundEffect.SOUND_DEATH_CARD)
 		end
-		
-		randNum = rng:RandomInt(3)
 
-		if randNum == 0 then
+		if couponEffectRoll == 0 then
 			player:UseActiveItem(CollectibleType.COLLECTIBLE_COUPON, false)
 		end
 	end
