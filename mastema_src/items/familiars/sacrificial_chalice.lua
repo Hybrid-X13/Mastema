@@ -1,4 +1,5 @@
 local Enums = require("mastema_src.enums")
+local Functions = require("mastema_src.functions")
 local SaveData = require("mastema_src.savedata")
 local game = Game()
 local sfx = SFXManager()
@@ -189,7 +190,9 @@ function Familiar.familiarUpdate(familiar)
 					and player:GetNumCoins() >= 30
 					then
 						player:AddCoins(-30)
-					elseif player:GetEffectiveMaxHearts() > 0 then
+					elseif player:GetEffectiveMaxHearts() > 0
+					and not Functions.IsSoulHeartCharacter(player)
+					then
 						if player:GetEffectiveMaxHearts() >= 4 then
 							player:AddMaxHearts(-4)
 						else

@@ -1,4 +1,5 @@
 local Enums = require("mastema_src.enums")
+local Functions = require("mastema_src.functions")
 local game = Game()
 local rng = RNG()
 
@@ -38,8 +39,12 @@ function Item.useItem(item, rng, player, flags, activeSlot, customVarData)
 			else
 				devilItem.Price = 15
 			end
-		elseif maxRedHearts > 0 then
-			if devilPrice == 2 then
+		elseif maxRedHearts > 0
+		and not Functions.IsSoulHeartCharacter(player)
+		then
+			if devilPrice == 2
+			and not player:HasTrinket(TrinketType.TRINKET_JUDAS_TONGUE)
+			then
 				if maxRedHearts >= 4 then
 					devilItem.Price = PickupPrice.PRICE_TWO_HEARTS
 				else
@@ -155,8 +160,12 @@ function Item.postPEffectUpdate(player)
 			if collectible.Price < 0 then
 				if player:HasTrinket(TrinketType.TRINKET_YOUR_SOUL) then
 					collectible.Price = PickupPrice.PRICE_SOUL
-				elseif maxRedHearts > 0 then
-					if devilPrice == 2 then
+				elseif maxRedHearts > 0
+				and not Functions.IsSoulHeartCharacter(player)
+				then
+					if devilPrice == 2
+					and not player:HasTrinket(TrinketType.TRINKET_JUDAS_TONGUE)
+					then
 						if maxRedHearts >= 4 then
 							collectible.Price = PickupPrice.PRICE_TWO_HEARTS
 						else

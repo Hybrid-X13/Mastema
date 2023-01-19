@@ -247,7 +247,9 @@ function Ritual.postEffectUpdate(effect)
 		and player:GetNumCoins() >= 15
 		then
 			player:AddCoins(-15)
-		elseif player:GetEffectiveMaxHearts() > 0 then
+		elseif player:GetEffectiveMaxHearts() > 0
+		and not Functions.IsSoulHeartCharacter(player)
+		then
 			player:AddMaxHearts(-2)
 		else
 			player:AddSoulHearts(-4)

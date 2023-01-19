@@ -108,7 +108,9 @@ function Item.useItem(item, rng, player, flags, activeSlot, customVarData)
 	or player:GetPlayerType() == PlayerType.PLAYER_THELOST_B
 	then
 		player:RemoveCollectible(Enums.Collectibles.DEVILS_BARGAIN)
-	elseif maxRedHearts > 0 then
+	elseif maxRedHearts > 0
+	and not Functions.IsSoulHeartCharacter(player)
+	then
 		if itemConfig.Quality > 2 then
 			if maxRedHearts >= 4 then
 				player:AddMaxHearts(-4)

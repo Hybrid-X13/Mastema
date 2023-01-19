@@ -1,4 +1,5 @@
 local Enums = require("mastema_src.enums")
+local Functions = require("mastema_src.functions")
 local game = Game()
 local sfx = SFXManager()
 local rng = RNG()
@@ -59,7 +60,9 @@ function Card.useCard(card, player, flag)
 		or player:GetPlayerType() == PlayerType.PLAYER_THELOST_B
 		then
 			player:TakeDamage(1, 0, EntityRef(player), 0)
-		elseif maxRedHearts > 0 then
+		elseif maxRedHearts > 0
+		and not Functions.IsSoulHeartCharacter(player)
+		then
 			if pool == ItemPoolType.POOL_DEVIL
 			or pool == ItemPoolType.POOL_ANGEL
 			then
