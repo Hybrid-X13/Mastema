@@ -2,6 +2,7 @@ local Enums = require("mastema_src.enums")
 local Functions = require("mastema_src.functions")
 local game = Game()
 local rng = RNG()
+local GOLDEN_TWISTED_FAITH = Enums.Trinkets.TWISTED_FAITH + TrinketType.TRINKET_GOLDEN_FLAG
 
 local Trinket = {}
 
@@ -57,8 +58,12 @@ local function TwistedFaithEffect(player)
 						else
 							collectible.Price = 15
 						end
-					elseif maxRedHearts > 0 then
-						if devilPrice == 2 then
+					elseif maxRedHearts > 0
+					and not Functions.IsSoulHeartCharacter(player)
+					then
+						if devilPrice == 2
+						and not player:HasTrinket(TrinketType.TRINKET_JUDAS_TONGUE)
+						then
 							if maxRedHearts >= 4 then
 								collectible.Price = PickupPrice.PRICE_TWO_HEARTS
 							else
@@ -118,19 +123,19 @@ function Trinket.postPEffectUpdate(player)
 
 	if player:IsExtraAnimationFinished()
 	and (trinket0 == Enums.Trinkets.TWISTED_FAITH
-		or trinket0 == Enums.Trinkets.TWISTED_FAITH + TrinketType.TRINKET_GOLDEN_FLAG
+		or trinket0 == GOLDEN_TWISTED_FAITH
 		or trinket1 == Enums.Trinkets.TWISTED_FAITH
-		or trinket1 == Enums.Trinkets.TWISTED_FAITH + TrinketType.TRINKET_GOLDEN_FLAG)
+		or trinket1 == GOLDEN_TWISTED_FAITH)
 	then
 		if trinket0 ~= Enums.Trinkets.TWISTED_FAITH
-		and trinket0 ~= Enums.Trinkets.TWISTED_FAITH + TrinketType.TRINKET_GOLDEN_FLAG
+		and trinket0 ~= GOLDEN_TWISTED_FAITH
 		and trinket0 ~= 0
 		then
 			player:TryRemoveTrinket(trinket0)
 		end
 
 		if trinket1 ~= Enums.Trinkets.TWISTED_FAITH
-		and trinket1 ~= Enums.Trinkets.TWISTED_FAITH + TrinketType.TRINKET_GOLDEN_FLAG
+		and trinket1 ~= GOLDEN_TWISTED_FAITH
 		and trinket1 ~= 0
 		then
 			player:TryRemoveTrinket(trinket0)
@@ -139,14 +144,14 @@ function Trinket.postPEffectUpdate(player)
 		player:UseActiveItem(CollectibleType.COLLECTIBLE_SMELTER, false)
 
 		if trinket0 ~= Enums.Trinkets.TWISTED_FAITH
-		and trinket0 ~= Enums.Trinkets.TWISTED_FAITH + TrinketType.TRINKET_GOLDEN_FLAG
+		and trinket0 ~= GOLDEN_TWISTED_FAITH
 		and trinket0 ~= 0
 		then
 			player:AddTrinket(trinket0, false)
 		end
 
 		if trinket1 ~= Enums.Trinkets.TWISTED_FAITH
-		and trinket1 ~= Enums.Trinkets.TWISTED_FAITH + TrinketType.TRINKET_GOLDEN_FLAG
+		and trinket1 ~= GOLDEN_TWISTED_FAITH
 		and trinket1 ~= 0
 		then
 			player:AddTrinket(trinket1, false)
@@ -180,8 +185,12 @@ function Trinket.postPEffectUpdate(player)
 					else
 						collectible.Price = 15
 					end
-				elseif maxRedHearts > 0 then
-					if devilPrice == 2 then
+				elseif maxRedHearts > 0
+				and not Functions.IsSoulHeartCharacter(player)
+				then
+					if devilPrice == 2
+					and not player:HasTrinket(TrinketType.TRINKET_JUDAS_TONGUE)
+					then
 						if maxRedHearts >= 4 then
 							collectible.Price = PickupPrice.PRICE_TWO_HEARTS
 						else
