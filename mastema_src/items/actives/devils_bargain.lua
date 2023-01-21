@@ -6,6 +6,7 @@ local sfx = SFXManager()
 local rng = RNG()
 local MAX_CHARGE = 12
 local waveCount = 0
+local waveChanged = false
 
 local Item = {}
 
@@ -196,9 +197,7 @@ function Item.preSpawnCleanAward()
 			local player = Isaac.GetPlayer(i)
 
 			if player:HasCollectible(Enums.Collectibles.DEVILS_BARGAIN) then
-				if roomShape >= RoomShape.ROOMSHAPE_2x2
-				or room:GetType() == RoomType.ROOM_CHALLENGE
-				then
+				if roomShape >= RoomShape.ROOMSHAPE_2x2 then
 					ChargeDevilsBargain(player, 2)
 				else
 					ChargeDevilsBargain(player, 1)
@@ -228,6 +227,18 @@ function Item.postPEffectUpdate(player)
 					
 					waveCount = greedModeWave
 				end
+			end
+
+			if waveChanged then
+				local room = game:GetRoom()
+
+				if room:GetType() == RoomType.ROOM_BOSSRUSH then
+					ChargeDevilsBargain(player, 2)
+				elseif room:GetType() == RoomType.ROOM_CHALLENGE then
+					ChargeDevilsBargain(player, 1)
+				end
+
+				waveChanged = false
 			end
 			
 			if player:GetBatteryCharge(i) > 0 then
@@ -263,6 +274,33 @@ function Item.postPEffectUpdate(player)
 				break
 			end
 		end
+	end
+end
+
+--Boss rush/challenge room wave change detector function by kittenchilly
+function Item.postNPCInit(npc)
+	local room = game:GetRoom()
+
+	if not room:IsAmbushActive() then return end
+	if not npc.CanShutDoors then return end
+	if npc.SpawnerEntity then return end
+	if npc:HasEntityFlags(EntityFlag.FLAG_FRIENDLY) or npc:HasEntityFlags(EntityFlag.FLAG_PERSISTENT) or npc:HasEntityFlags(EntityFlag.FLAG_NO_TARGET) then return end
+
+	local preventCounting
+
+	for _, entity in ipairs(Isaac.FindInRadius(room:GetCenterPos(), 1000, EntityPartition.ENEMY)) do
+		if entity:ToNPC()
+		and entity:CanShutDoors()
+		and not (entity:HasEntityFlags(EntityFlag.FLAG_FRIENDLY) or entity:HasEntityFlags(EntityFlag.FLAG_PERSISTENT) or entity:HasEntityFlags(EntityFlag.FLAG_NO_TARGET))
+		and entity.FrameCount ~= npc.FrameCount
+		then
+			preventCounting = true
+			break
+		end
+	end
+
+	if not preventCounting then
+		waveChanged = true
 	end
 end
 
