@@ -22,7 +22,7 @@ local RepPlus = {
 	DESERTED_HEART = 100,
 }
 
-local FiendFolio = {
+local FF = {
 	HALF_BLACK_HEART = 1022,
 	BLENDED_BLACK_HEART = 1023,
 	IMMORAL_HEART = 1024,
@@ -30,7 +30,7 @@ local FiendFolio = {
 	BLENDED_IMMORAL_HEART = 1026,
 	MORBID_HEART = 1028,
 	TWO_THIRDS_MORBID_HEART = 1029,
-	THIRD_MORBID_HEART = 1029,
+	THIRD_MORBID_HEART = 1030,
 }
 
 local CellHeart = {
@@ -72,11 +72,11 @@ local heartMap = {
 	[RepPlus.FETTERED_HEART] = 7,
 	[RepPlus.ZEALOT_HEART] = 7,
 	--Fiend Folio Hearts
-	[FiendFolio.IMMORAL_HEART] = 5,
-	[FiendFolio.HALF_IMMORAL_HEART] = 2,
-	[FiendFolio.MORBID_HEART] = 6,
-	[FiendFolio.TWO_THIRDS_MORBID_HEART] = 4,
-	[FiendFolio.THIRD_MORBID_HEART] = 2,
+	[FF.IMMORAL_HEART] = 5,
+	[FF.HALF_IMMORAL_HEART] = 2,
+	[FF.MORBID_HEART] = 6,
+	[FF.TWO_THIRDS_MORBID_HEART] = 4,
+	[FF.THIRD_MORBID_HEART] = 2,
 	--Cell Hearts
 	[CellHeart.HALF] = 1,
 	[CellHeart.FULL] = 2,
@@ -170,8 +170,8 @@ function Item.postPickupInit(pickup)
 				and pickup.SubType ~= RepPlus.DESERTED_HEART
 				and pickup.SubType ~= RepPlus.DECEIVER_HEART
 				and pickup.SubType ~= RepPlus.CAPRICIOUS_HEART
-				and pickup.SubType ~= FiendFolio.HALF_BLACK_HEART
-				and pickup.SubType ~= FiendFolio.BLENDED_BLACK_HEART
+				and pickup.SubType ~= FF.HALF_BLACK_HEART
+				and pickup.SubType ~= FF.BLENDED_BLACK_HEART
 				then
 					--Any modded hearts that aren't in the heart map have a 50/50 chance
 					randNum = rng:RandomInt(2)
