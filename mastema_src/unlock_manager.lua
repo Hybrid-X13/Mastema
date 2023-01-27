@@ -193,7 +193,7 @@ local function RunesAreUnlocked()
 		Card.CARD_SOUL_JACOB,
 	}
 	
-	for _, rune in pairs (runes) do
+	for _, rune in pairs(runes) do
 		local itemConfig = Isaac.GetItemConfig():GetCard(rune)
 		
 		if itemConfig:IsAvailable() then
