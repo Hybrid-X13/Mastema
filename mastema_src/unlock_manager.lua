@@ -591,10 +591,9 @@ function UnlockManager.postPickupInit(pickup)
 		if not unlocked then
 			local pool = game:GetItemPool()
 			local newCard = pool:GetCard(pickup.InitSeed, false, false, false)
-				
-			if pickup.SubType == Consumable.SOUL_OF_MASTEMA
-			or pickup.SubType == Consumable.SANGUINE_JEWEL
-			then
+			local itemConfig = Isaac.GetItemConfig():GetCard(pickup.SubType)
+			
+			if itemConfig:IsRune() then
 				if not RunesAreUnlocked() then
 					newCard = Card.RUNE_SHARD
 				else
@@ -693,10 +692,9 @@ function UnlockManager.postPlayerUpdate(player)
 			then
 				local pool = game:GetItemPool()
 				local newCard = pool:GetCard(Random(), false, false, false)
-				
-				if card == Consumable.SOUL_OF_MASTEMA
-				or card == Consumable.SANGUINE_JEWEL
-				then
+				local itemConfig = Isaac.GetItemConfig():GetCard(card)
+			
+				if itemConfig:IsRune() then
 					if not RunesAreUnlocked() then
 						newCard = Card.RUNE_SHARD
 					else
