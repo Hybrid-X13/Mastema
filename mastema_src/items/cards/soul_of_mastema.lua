@@ -4,9 +4,9 @@ local game = Game()
 local sfx = SFXManager()
 local rng = RNG()
 
-local Card = {}
+local Consumable = {}
 
-function Card.useCard(card, player, flag)
+function Consumable.useCard(card, player, flag)
 	if card ~= Enums.Cards.SOUL_OF_MASTEMA then return end
 	
 	local spawnpos = Isaac.GetFreeNearPosition(player.Position, 40)
@@ -147,4 +147,4 @@ function Card.useCard(card, player, flag)
 	end
 end
 
-return Card
+return Consumable

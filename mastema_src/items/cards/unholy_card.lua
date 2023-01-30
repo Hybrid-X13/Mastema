@@ -2,9 +2,9 @@ local Enums = require("mastema_src.enums")
 local sfx = SFXManager()
 local rng = RNG()
 
-local Card = {}
+local Consumable = {}
 
-function Card.useCard(card, player, flag)
+function Consumable.useCard(card, player, flag)
 	if card ~= Enums.Cards.UNHOLY_CARD then return end
 
 	player:UseActiveItem(CollectibleType.COLLECTIBLE_BRIMSTONE, false)
@@ -22,4 +22,4 @@ function Card.useCard(card, player, flag)
 	end
 end
 
-return Card
+return Consumable

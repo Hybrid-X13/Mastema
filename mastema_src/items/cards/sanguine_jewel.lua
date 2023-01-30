@@ -4,9 +4,9 @@ local game = Game()
 local sfx = SFXManager()
 local rng = RNG()
 
-local Card = {}
+local Consumable = {}
 
-function Card.evaluateCache(player, cacheFlag)
+function Consumable.evaluateCache(player, cacheFlag)
 	if cacheFlag == CacheFlag.CACHE_DAMAGE then
 		if player:HasCollectible(CollectibleType.COLLECTIBLE_SOY_MILK) then
 			player.Damage = player.Damage + (0.5 * SaveData.ItemData.SanguineJewel.DMG * 0.2)
@@ -27,7 +27,7 @@ function Card.evaluateCache(player, cacheFlag)
 	end
 end
 
-function Card.useCard(card, player, flag)
+function Consumable.useCard(card, player, flag)
 	if card ~= Enums.Cards.SANGUINE_JEWEL then return end
 
 	local rng = player:GetCardRNG(Enums.Cards.SANGUINE_JEWEL)
@@ -79,4 +79,4 @@ function Card.useCard(card, player, flag)
 	end
 end
 
-return Card
+return Consumable

@@ -1,9 +1,9 @@
 local Enums = require("mastema_src.enums")
 local rng = RNG()
 
-local Card = {}
+local Consumable = {}
 
-function Card.useCard(card, player, flag)
+function Consumable.useCard(card, player, flag)
 	if card ~= Enums.Cards.LIFE_DICE then return end
 	if player:GetPlayerType() == PlayerType.PLAYER_THELOST then return end
 	if player:GetPlayerType() == PlayerType.PLAYER_THELOST_B then return end
@@ -209,4 +209,4 @@ function Card.useCard(card, player, flag)
 	end
 end
 
-return Card
+return Consumable
