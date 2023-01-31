@@ -1,6 +1,7 @@
 local Enums = require("mastema_src.enums")
 local SaveData = require("mastema_src.savedata")
 local game = Game()
+local sfx = SFXManager()
 local rng = RNG()
 
 local KnownFilePathsByName = {
@@ -223,6 +224,16 @@ function Functions.IsSoulHeartCharacter(player)
 	end
 	
 	return false
+end
+
+function Functions.PlayVoiceline(voiceline, flag, randNum)
+	if flag & UseFlag.USE_MIMIC == UseFlag.USE_MIMIC then return end
+
+	if Options.AnnouncerVoiceMode == 2
+	or (Options.AnnouncerVoiceMode == 0 and randNum == 0)
+	then
+		sfx:Play(voiceline)
+	end
 end
 
 --Displays the broken heart cost of items for T. Mastema or for the broken item from Shattered Soul

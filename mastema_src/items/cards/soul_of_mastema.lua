@@ -136,15 +136,7 @@ function Consumable.useCard(card, player, flag)
 		sfx:Play(SoundEffect.SOUND_THUMBSUP)
 	end
 
-	randNum = rng:RandomInt(2)
-
-	if flag & UseFlag.USE_MIMIC ~= UseFlag.USE_MIMIC then
-		if Options.AnnouncerVoiceMode == 2
-		or (Options.AnnouncerVoiceMode == 0 and randNum == 0)
-		then
-			sfx:Play(Enums.Voicelines.SOUL_OF_MASTEMA)
-		end
-	end
+	Functions.PlayVoiceline(Enums.Voicelines.SOUL_OF_MASTEMA, flag, rng:RandomInt(2))
 end
 
 return Consumable
