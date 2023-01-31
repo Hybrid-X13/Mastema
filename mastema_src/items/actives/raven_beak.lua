@@ -29,8 +29,11 @@ function Item.useItem(item, rng, player, flags, activeSlot, customVarData)
 
 	for _, j in pairs(items) do
 		local pickup = j:ToPickup()
+		local sprite = pickup:GetSprite()
 
-		if pickup.Price == 0 then
+		if pickup.Price == 0
+		and not sprite:IsPlaying("Collect")
+		then
 			if pickup.Variant == PickupVariant.PICKUP_HEART
 			or pickup.Variant == PickupVariant.PICKUP_COIN
 			or pickup.Variant == PickupVariant.PICKUP_KEY
