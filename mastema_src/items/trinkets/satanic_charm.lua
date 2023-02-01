@@ -48,7 +48,7 @@ function Trinket.prePickupCollision(pickup, collider, low)
 
 	if player == nil then return end
 	if not player:HasTrinket(Enums.Trinkets.SATANIC_CHARM) then return end
-	if player:IsCoopGhost() or (player.SubType == 59 and player:GetName() == "") then return end
+	if player:IsCoopGhost() or (player.SubType == 59 and player.Parent ~= nil) then return end
 	if not Functions.CanPickUpItem(player, pickup) then return end
 
 	SaveData.ItemData.SatanicCharm.DMG = SaveData.ItemData.SatanicCharm.DMG + 1
