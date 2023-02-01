@@ -77,6 +77,7 @@ function Trinket.prePickupCollision(pickup, collider, low)
 
 	if player == nil then return end
 	if not player:HasTrinket(Enums.Trinkets.SHATTERED_SOUL) then return end
+	if player:IsCoopGhost() then return end
 	if not Functions.CanPickUpItem(player, pickup) then return end
 
 	local trinketMultiplier = player:GetTrinketMultiplier(Enums.Trinkets.SHATTERED_SOUL)

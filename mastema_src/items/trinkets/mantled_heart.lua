@@ -6,11 +6,13 @@ local rng = RNG()
 local Trinket = {}
 
 function Trinket.prePickupCollision(pickup, collider, low)
+	if pickup.Variant ~= PickupVariant.PICKUP_HEART then return end
+	
 	local player = collider:ToPlayer()
 	
 	if player == nil then return end
 	if not player:HasTrinket(Enums.Trinkets.MANTLED_HEART) then return end
-	if pickup.Variant ~= PickupVariant.PICKUP_HEART then return end
+	if player:IsCoopGhost() then return end
 	if player:GetEffects():HasCollectibleEffect(CollectibleType.COLLECTIBLE_HOLY_MANTLE) then return end
 
 	if (player:IsHoldingItem() and pickup.Price == 0)

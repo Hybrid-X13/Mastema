@@ -580,6 +580,7 @@ function Character.prePickupCollision(pickup, collider, low)
 
 	if player == nil then return end
 	if player:GetPlayerType() ~= Enums.Characters.MASTEMA then return end
+	if player:IsCoopGhost() then return end
 	if not Functions.CanPickUpItem(player, pickup) then return end
 
 	local room = game:GetRoom()
