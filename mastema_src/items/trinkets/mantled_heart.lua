@@ -12,7 +12,7 @@ function Trinket.prePickupCollision(pickup, collider, low)
 	
 	if player == nil then return end
 	if not player:HasTrinket(Enums.Trinkets.MANTLED_HEART) then return end
-	if player:IsCoopGhost() then return end
+	if player:IsCoopGhost() or (player.SubType == 59 and player:GetName() == "") then return end
 	if player:GetEffects():HasCollectibleEffect(CollectibleType.COLLECTIBLE_HOLY_MANTLE) then return end
 
 	if (player:IsHoldingItem() and pickup.Price == 0)

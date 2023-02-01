@@ -334,7 +334,7 @@ function Character.prePickupCollision(pickup, collider, low)
 
 	if player == nil then return end
 	if player:GetPlayerType() ~= Enums.Characters.T_MASTEMA then return end
-	if player:IsCoopGhost() then return end
+	if player:IsCoopGhost() or (player.SubType == 59 and player:GetName() == "") then return end
 	if not Functions.CanPickUpItem(player, pickup) then return end
 
 	local level = game:GetLevel()
