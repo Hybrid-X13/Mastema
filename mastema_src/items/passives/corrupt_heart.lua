@@ -90,13 +90,13 @@ local heartMap = {
 
 local Item = {}
 
-local function SpawnBlackLocust(numLocusts, player, pickup)
+local function SpawnBlackLocust(numLocusts, player, pos)
 	if player:HasTrinket(TrinketType.TRINKET_FISH_TAIL) then
 		numLocusts = numLocusts * 2
 	end
 	
 	for i = 1, numLocusts do
-		local blackLocust = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.BLUE_FLY, LocustSubtypes.LOCUST_OF_DEATH, pickup.Position, Vector.Zero, player)
+		local blackLocust = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.BLUE_FLY, LocustSubtypes.LOCUST_OF_DEATH, pos, Vector.Zero, player)
 		blackLocust:ClearEntityFlags(EntityFlag.FLAG_APPEAR)
 	end
 end
@@ -130,21 +130,21 @@ function Item.postPickupInit(pickup)
 				or pickup.SubType == RepPlus.BENIGHTED_HEART
 				or pickup.SubType == RepPlus.DESERTED_HEART
 				then
-					SpawnBlackLocust(6, player, pickup)
+					SpawnBlackLocust(6, player, pickup.Position)
 					pickup:Remove()
 				else
 					if heartMap[pickup.SubType] then
 						randNum = rng:RandomInt(10)
 						
 						if randNum < heartMap[pickup.SubType] then
-							SpawnBlackLocust(heartMap[pickup.SubType], player, pickup)
+							SpawnBlackLocust(heartMap[pickup.SubType], player, pickup.Position)
 							pickup:Remove()
 						end
 					else
 						randNum = rng:RandomInt(2)
 						
 						if randNum == 0 then
-							SpawnBlackLocust(5, player, pickup)
+							SpawnBlackLocust(5, player, pickup.Position)
 							pickup:Remove()
 						end
 					end
@@ -158,10 +158,10 @@ function Item.postPickupInit(pickup)
 						pickup:SetColor(Color(0, 0, 0, 1, 0.1, 0, 0.1), 60, 1, true, false)
 
 						if pickup.SubType == HeartSubType.HEART_ROTTEN then
-							SpawnBlackLocust(2, player, pickup)
+							SpawnBlackLocust(2, player, pickup.Position)
 						end
 					else
-						SpawnBlackLocust(heartMap[pickup.SubType], player, pickup)
+						SpawnBlackLocust(heartMap[pickup.SubType], player, pickup.Position)
 						pickup:Remove()
 					end
 				elseif pickup.SubType ~= HeartSubType.HEART_BLACK
@@ -179,7 +179,7 @@ function Item.postPickupInit(pickup)
 						pickup:Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_BLACK, true, false, false)
 						pickup:SetColor(Color(0, 0, 0, 1, 0.1, 0, 0.1), 60, 1, true, false)
 					else
-						SpawnBlackLocust(5, player, pickup)
+						SpawnBlackLocust(5, player, pickup.Position)
 						pickup:Remove()
 					end
 				end
