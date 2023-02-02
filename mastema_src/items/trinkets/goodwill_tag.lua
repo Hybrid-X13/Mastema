@@ -1,14 +1,7 @@
 local Enums = require("mastema_src.enums")
 local Functions = require("mastema_src.functions")
 local game = Game()
-local SlotType = {
-	BEGGAR = 4,
-	DEVIL_BEGGAR = 5,
-	KEY_MASTER = 7,
-	BOMB_BUM = 9,
-	BATTERY_BUM = 13,
-	WISP_WIZARD = 84,
-}
+local WISP_WZARD = 84
 
 local Trinket = {}
 
@@ -25,7 +18,7 @@ function Trinket.postNewRoom()
 			local pos = room:FindFreePickupSpawnPosition(room:GetCenterPos(), 0)
 			
 			if room:GetType() == RoomType.ROOM_ANGEL then
-				Isaac.Spawn(EntityType.ENTITY_SLOT, SlotType.BEGGAR, 0, pos, Vector.Zero, nil)
+				Isaac.Spawn(EntityType.ENTITY_SLOT, Enums.Slots.BEGGAR, 0, pos, Vector.Zero, nil)
 			elseif room:GetType() == RoomType.ROOM_DEVIL then
 				if Functions.AnyPlayerIsType(Enums.Characters.MASTEMA)
 				or Functions.AnyPlayerIsType(Enums.Characters.T_MASTEMA)
@@ -33,19 +26,21 @@ function Trinket.postNewRoom()
 					pos = Isaac.GetFreeNearPosition(room:GetCenterPos(), 40)
 				end
 
-				Isaac.Spawn(EntityType.ENTITY_SLOT, SlotType.DEVIL_BEGGAR, 0, pos, Vector.Zero, nil)
+				Isaac.Spawn(EntityType.ENTITY_SLOT, Enums.Slots.DEVIL_BEGGAR, 0, pos, Vector.Zero, nil)
 			elseif room:GetType() == RoomType.ROOM_TREASURE then
-				Isaac.Spawn(EntityType.ENTITY_SLOT, SlotType.KEY_MASTER, 0, pos, Vector.Zero, nil)
-			elseif room:GetType() == RoomType.ROOM_PLANETARIUM then
-				Isaac.Spawn(EntityType.ENTITY_SLOT, SlotType.WISP_WIZARD, 0, pos, Vector.Zero, nil)
+				Isaac.Spawn(EntityType.ENTITY_SLOT, Enums.Slots.KEY_MASTER, 0, pos, Vector.Zero, nil)
+			elseif room:GetType() == RoomType.ROOM_PLANETARIUM
+			and ANDROMEDA
+			then
+				Isaac.Spawn(EntityType.ENTITY_SLOT, WISP_WZARD, 0, pos, Vector.Zero, nil)
 			elseif room:GetType() == RoomType.ROOM_SHOP
 			and trinketMultiplier > 1
 			then
-				Isaac.Spawn(EntityType.ENTITY_SLOT, SlotType.BATTERY_BUM, 0, pos, Vector.Zero, nil)
+				Isaac.Spawn(EntityType.ENTITY_SLOT, Enums.Slots.BATTERY_BUM, 0, pos, Vector.Zero, nil)
 			elseif room:GetType() == RoomType.ROOM_SECRET
 			and trinketMultiplier > 2
 			then
-				Isaac.Spawn(EntityType.ENTITY_SLOT, SlotType.BOMB_BUM, 0, pos, Vector.Zero, nil)
+				Isaac.Spawn(EntityType.ENTITY_SLOT, Enums.Slots.BOMB_BUM, 0, pos, Vector.Zero, nil)
 			end
 		end
 	end

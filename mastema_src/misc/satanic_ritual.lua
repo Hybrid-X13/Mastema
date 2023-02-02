@@ -111,7 +111,7 @@ function Ritual.postNewRoom()
 	and room:IsFirstVisit()
 	and SaveData.UnlockData.T_Mastema.MegaSatan
 	then
-		local demonBeggar = Isaac.FindByType(EntityType.ENTITY_SLOT, 5)
+		local demonBeggar = Isaac.FindByType(EntityType.ENTITY_SLOT, Enums.Slots.DEVIL_BEGGAR)
 
 		if #demonBeggar > 0 then
 			local pos = demonBeggar[1].Position

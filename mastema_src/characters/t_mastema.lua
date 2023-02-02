@@ -218,12 +218,12 @@ function Character.postNewRoom()
 						rng:SetSeed(slot.InitSeed, 35)
 						local randNum = rng:RandomInt(20)
 						
-						if (slot.Variant == 1 or slot.Variant == 2 or slot.Variant == 3)
+						if (slot.Variant == Enums.Slots.SLOT or slot.Variant == Enums.Slots.BLOOD_DONATION or slot.Variant == Enums.Slots.FORTUNE)
 						and randNum < 3
 						then
 							local pos = slot.Position
 							slot:Remove()
-							Isaac.Spawn(EntityType.ENTITY_SLOT, 17, 0, pos, Vector.Zero, nil)
+							Isaac.Spawn(EntityType.ENTITY_SLOT, Enums.Slots.CONFESSIONAL, 0, pos, Vector.Zero, nil)
 						end
 					end
 				end

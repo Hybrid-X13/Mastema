@@ -20,7 +20,7 @@ function SanguineBond.postNewRoom()
 	
 	--Fix beggars/pickups spawning on top of the Sanguine Bond spikes
 	local pickup = Isaac.FindByType(EntityType.ENTITY_PICKUP, -1)
-	local demonBeggar = Isaac.FindByType(EntityType.ENTITY_SLOT, 5)
+	local demonBeggar = Isaac.FindByType(EntityType.ENTITY_SLOT, Enums.Slots.DEVIL_BEGGAR)
 	
 	if #demonBeggar > 0 then
 		for i = 1, #demonBeggar do

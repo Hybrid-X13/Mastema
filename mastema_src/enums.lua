@@ -54,6 +54,18 @@ Enums.Effects = {
 	MASTEMAS_WRATH_INDICATOR = Isaac.GetEntityVariantByName("Mastema's Wrath Indicator"),
 }
 
+Enums.Slots = {
+	SLOT = 1,
+	BLOOD_DONATION = 2,
+	FORTUNE = 3,
+	BEGGAR = 4,
+	DEVIL_BEGGAR = 5,
+	KEY_MASTER = 7,
+	BOMB_BUM = 9,
+	BATTERY_BUM = 13,
+	CONFESSIONAL = 17,
+}
+
 Enums.Voicelines = {
 	SOUL_OF_MASTEMA = Isaac.GetSoundIdByName("SoulofMastema"),
 	UNHOLY_CARD = Isaac.GetSoundIdByName("UnholyCard"),
