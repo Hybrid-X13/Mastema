@@ -53,7 +53,6 @@ local function SpawnBlackLocust(numLocusts, player, pos)
 	
 	for i = 1, numLocusts do
 		local blackLocust = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.BLUE_FLY, LocustSubtypes.LOCUST_OF_DEATH, pos, Vector.Zero, nil)
-		blackLocust:GetSprite():Play("LocustDeath")
 		blackLocust:ClearEntityFlags(EntityFlag.FLAG_APPEAR)
 	end
 end
