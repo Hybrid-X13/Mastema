@@ -169,22 +169,26 @@ function Character.evaluateCache(player, cacheFlag)
 end
 
 function Character.postPlayerInit(player)
-	if game:GetFrameCount() > 0 then return end
 	if player:GetPlayerType() ~= Enums.Characters.T_MASTEMA then return end
+	
+	local level = game:GetLevel()
+	
+	if game:GetFrameCount() == 0
+	or level:GetCurrentRoomIndex() == GridRooms.ROOM_GENESIS_IDX
+	then
+		local lordPit = Isaac.GetItemConfig():GetCollectible(CollectibleType.COLLECTIBLE_LORD_OF_THE_PIT)
 
-	local lordPit = Isaac.GetItemConfig():GetCollectible(CollectibleType.COLLECTIBLE_LORD_OF_THE_PIT)
+		for i = 1, #Blacklist.Items do
+			itemPool:RemoveCollectible(Blacklist.Items[i])
+		end
 
-	for i = 1, #Blacklist.Items do
-		itemPool:RemoveCollectible(Blacklist.Items[i])
+		player:AddNullCostume(horns)
+		player:AddCostume(lordPit)
 	end
-
-	player:AddNullCostume(horns)
-	player:AddCostume(lordPit)
 end
 
 function Character.postNewRoom()
 	local room = game:GetRoom()
-	local level = game:GetLevel()
 	
 	for i = 0, game:GetNumPlayers() - 1 do
 		local player = Isaac.GetPlayer(i)
@@ -201,12 +205,6 @@ function Character.postNewRoom()
 			and not tempEffects:HasCollectibleEffect(CollectibleType.COLLECTIBLE_BRIMSTONE)
 			then
 				tempEffects:AddCollectibleEffect(CollectibleType.COLLECTIBLE_BRIMSTONE, true, 1)
-			end
-
-			if level:GetCurrentRoomIndex() == GridRooms.ROOM_GENESIS_IDX then
-				local lordPit = Isaac.GetItemConfig():GetCollectible(CollectibleType.COLLECTIBLE_LORD_OF_THE_PIT)
-				player:AddNullCostume(horns)
-				player:AddCostume(lordPit)
 			end
 
 			if not room:IsFirstVisit() then return end
