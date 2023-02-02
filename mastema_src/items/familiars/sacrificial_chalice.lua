@@ -52,7 +52,7 @@ local function SpawnBlackLocust(numLocusts, player, pos)
 	end
 	
 	for i = 1, numLocusts do
-		local blackLocust = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.BLUE_FLY, LocustSubtypes.LOCUST_OF_DEATH, pos, Vector.Zero, nil)
+		local blackLocust = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.BLUE_FLY, LocustSubtypes.LOCUST_OF_DEATH, pos, Vector.Zero, player)
 		blackLocust:ClearEntityFlags(EntityFlag.FLAG_APPEAR)
 	end
 end
