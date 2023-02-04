@@ -27,4 +27,5 @@
 	<passive name="Satanic Ritual Tears" gfx="00_NULLITEM.png" persistent="true" cache="firedelay" hidden="true" />
 	<passive name="Satanic Ritual Speed" gfx="00_NULLITEM.png" persistent="true" cache="speed" hidden="true" />
 	<passive name="Satanic Ritual Luck" gfx="00_NULLITEM.png" persistent="true" cache="luck" hidden="true" />
+	<passive name="Sanguine Jewel DMG" gfx="00_NULLITEM.png" persistent="true" cache="damage" hidden="true" />
 </items>

@@ -24,6 +24,7 @@ Enums.Collectibles = {
 	SATANIC_RITUAL_TEARS_NULL = Isaac.GetItemIdByName("Satanic Ritual Tears"),
 	SATANIC_RITUAL_SPEED_NULL = Isaac.GetItemIdByName("Satanic Ritual Speed"),
 	SATANIC_RITUAL_LUCK_NULL = Isaac.GetItemIdByName("Satanic Ritual Luck"),
+	SANGUINE_JEWEL_DMG_NULL = Isaac.GetItemIdByName("Sanguine Jewel DMG"),
 }
 
 Enums.Trinkets = {
