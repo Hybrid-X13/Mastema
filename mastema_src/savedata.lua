@@ -86,10 +86,6 @@ SaveData.ItemData = {
 		Luck = 0,
 		Level = 1,
 	},
-	SanguineJewel = {
-		DMG = 0,
-		Leviathan = false,
-	},
 }
 
 function SaveData.SaveModData()
@@ -207,10 +203,6 @@ function SaveData.postPlayerInit(player)
 					Speed = 0,
 					Luck = 0,
 					Level = 1,
-				},
-				SanguineJewel = {
-					DMG = 0,
-					Leviathan = false,
 				},
 			}
 
