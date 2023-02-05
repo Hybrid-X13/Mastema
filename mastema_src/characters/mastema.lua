@@ -657,6 +657,7 @@ end
 
 function Character.postPEffectUpdate(player)
 	if player:GetPlayerType() ~= Enums.Characters.MASTEMA then return end
+	if player.Parent then return end
 
 	if not player:HasCurseMistEffect()
 	and not player:IsCoopGhost()
