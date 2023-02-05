@@ -41,6 +41,7 @@ local function ChargeDevilsBargain(player, numCharges)
 		end
 		
 		player:SetActiveCharge(newCharge, activeSlot)
+		game:GetHUD():FlashChargeBar(player, activeSlot)
 
 		if (curCharge < MAX_CHARGE and newCharge >= MAX_CHARGE)
 		or (curCharge < MAX_CHARGE * 2 and curCharge >= MAX_CHARGE and newCharge == MAX_CHARGE * 2)
