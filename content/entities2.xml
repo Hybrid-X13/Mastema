@@ -20,7 +20,7 @@
             <preload-snd id="8" />
     </entity>
 
-    <entity name="Satanic Ritual" anm2path="satanic_ritual.anm2" id="1000" variant="116" subtype="4666" baseHP="0" stageHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="45" collisionRadius="9" friction="1" numGridCollisionPoints="9" shadowSize="0">
+    <entity name="Satanic Ritual" anm2path="satanic_ritual.anm2" id="1000" variant="116" subtype="3666" baseHP="0" stageHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="45" collisionRadius="9" friction="1" numGridCollisionPoints="9" shadowSize="0">
         <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0" />
     </entity>
     <entity name="Mastema's Wrath Indicator" anm2path="mastemas_wrath_indicator.anm2" id="1000" variant="4667" baseHP="0" stageHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="45" collisionRadius="9" friction="1" numGridCollisionPoints="9" shadowSize="0">
