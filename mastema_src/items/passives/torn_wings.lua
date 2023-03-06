@@ -119,7 +119,7 @@ function Item.preGetCollectible(pool, decrease, seed)
 	local level = game:GetLevel()
 	local roomIndex = level:GetCurrentRoomIndex()
 	
-	if Functions.AnyPlayerIsType(Enums.Characters.MASTEMA)
+	if (Functions.AnyPlayerIsType(Enums.Characters.MASTEMA) or Functions.AnyPlayerIsType(Enums.Characters.MASTEMA))
 	and room:GetType() == RoomType.ROOM_TREASURE
 	and (not game:IsGreedMode() or (game:IsGreedMode() and roomIndex ~= 98))
 	then
