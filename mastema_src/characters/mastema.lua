@@ -494,9 +494,9 @@ function Character.preGetCollectible(pool, decrease, seed)
 	if game:IsGreedMode() and roomIndex == 98 then return end
 
 	rng:SetSeed(seed, 35)
-	local randNum = rng:RandomInt(2)
+	local randFloat = rng:RandomFloat()
 	
-	if randNum == 0 then
+	if randFloat < 0.75 then
 		local itemID = game:GetItemPool():GetCollectible(ItemPoolType.POOL_TREASURE, true, seed)
 		return itemID
 	end
