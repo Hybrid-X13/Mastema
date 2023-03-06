@@ -2,7 +2,7 @@
 	<player hp="4" black="2" pocketActive="146" birthright="Name your price" name="Mastema"
 	nameimage="playername_mastema.png" portrait="playerportrait_mastema.png" skin="character_mastema.png" skinColor="1" costumeSuffix="mastema"
 	/>
-	<player hp="0" black="6" pocketActive="292" birthright="Blessed by sin" bSkinParent="Mastema" name="MastemaB"
+	<player hp="0" black="6" birthright="Blessed by sin" bSkinParent="Mastema" name="MastemaB"
 	nameimage="playername_mastema_b.png" portrait="playerportrait_mastema_b.png" skin="character_mastema_b.png" skinColor="1" costumeSuffix="mastemab"
 	/>
 </players>
