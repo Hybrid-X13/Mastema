@@ -34,6 +34,10 @@ local Blacklist = {
 		CollectibleType.COLLECTIBLE_POTATO_PEELER,
 		CollectibleType.COLLECTIBLE_LADDER,
 		CollectibleType.COLLECTIBLE_BRITTLE_BONES,
+		CollectibleType.COLLECTIBLE_DUALITY,
+	},
+	Trinkets = {
+		TrinketType.TRINKET_DEVILS_CROWN,
 	},
 }
 
@@ -75,6 +79,8 @@ local function IsBlacklisted(itemID)
 		CollectibleType.COLLECTIBLE_BATTERY_PACK,
 		CollectibleType.COLLECTIBLE_BOOSTER_PACK,
 		CollectibleType.COLLECTIBLE_BOX,
+		CollectibleType.COLLECTIBLE_DUALITY,
+		CollectibleType.COLLECTIBLE_MAGIC_SKIN,
 		--Fiend Folio items
 		Isaac.GetItemIdByName("Tea"),
 		Isaac.GetItemIdByName("Bacon Grease"),
@@ -181,6 +187,9 @@ function Character.postPlayerInit(player)
 		for i = 1, #Blacklist.Items do
 			itemPool:RemoveCollectible(Blacklist.Items[i])
 		end
+		for i = 1, #Blacklist.Trinkets do
+			itemPool:RemoveTrinket(Blacklist.Trinkets[i])
+		end
 
 		player:AddNullCostume(horns)
 		player:AddCostume(lordPit)
@@ -189,6 +198,48 @@ end
 
 function Character.postNewRoom()
 	local room = game:GetRoom()
+
+	if Functions.AnyPlayerIsType(Enums.Characters.T_MASTEMA) then
+		for i = 0, DoorSlot.NUM_DOOR_SLOTS do
+			local door = room:GetDoor(i)
+	
+			if door
+			and (door.TargetRoomType == RoomType.ROOM_TREASURE or room:GetType() == RoomType.ROOM_TREASURE)
+			and room:GetType() ~= RoomType.ROOM_SECRET
+			and room:GetType() ~= RoomType.ROOM_SUPERSECRET
+			then
+				local doorSprite = door:GetSprite()
+
+				for i = 0, 4 do
+					doorSprite:ReplaceSpritesheet(i, "gfx/grid/t_mastema_door.png")
+				end
+				
+				doorSprite:LoadGraphics()
+			end
+		end
+
+		--Chance for slot machines to be converted into a Confessional
+		if room:IsFirstVisit()
+		and room:GetType() ~= RoomType.ROOM_ARCADE
+		then
+			local slots = Isaac.FindByType(EntityType.ENTITY_SLOT, -1)
+
+			if #slots > 0 then
+				for _, slot in pairs(slots) do
+					rng:SetSeed(slot.InitSeed, 35)
+					local randNum = rng:RandomInt(20)
+					
+					if (slot.Variant == Enums.Slots.SLOT or slot.Variant == Enums.Slots.BLOOD_DONATION or slot.Variant == Enums.Slots.FORTUNE)
+					and randNum < 3
+					then
+						local pos = slot.Position
+						slot:Remove()
+						Isaac.Spawn(EntityType.ENTITY_SLOT, Enums.Slots.CONFESSIONAL, 0, pos, Vector.Zero, nil)
+					end
+				end
+			end
+		end
+	end
 	
 	for i = 0, game:GetNumPlayers() - 1 do
 		local player = Isaac.GetPlayer(i)
@@ -205,28 +256,6 @@ function Character.postNewRoom()
 			and not tempEffects:HasCollectibleEffect(CollectibleType.COLLECTIBLE_BRIMSTONE)
 			then
 				tempEffects:AddCollectibleEffect(CollectibleType.COLLECTIBLE_BRIMSTONE, true, 1)
-			end
-
-			if not room:IsFirstVisit() then return end
-			
-			--Chance for slot machines to be converted into a Confessional
-			if room:GetType() ~= RoomType.ROOM_ARCADE then
-				local slots = Isaac.FindByType(EntityType.ENTITY_SLOT, -1)
-
-				if #slots > 0 then
-					for _, slot in pairs(slots) do
-						rng:SetSeed(slot.InitSeed, 35)
-						local randNum = rng:RandomInt(20)
-						
-						if (slot.Variant == Enums.Slots.SLOT or slot.Variant == Enums.Slots.BLOOD_DONATION or slot.Variant == Enums.Slots.FORTUNE)
-						and randNum < 3
-						then
-							local pos = slot.Position
-							slot:Remove()
-							Isaac.Spawn(EntityType.ENTITY_SLOT, Enums.Slots.CONFESSIONAL, 0, pos, Vector.Zero, nil)
-						end
-					end
-				end
 			end
 		end
 	end
@@ -248,6 +277,27 @@ function Character.postNewLevel()
 	end
 end
 
+function Character.preGetCollectible(pool, decrease, seed)
+	if not Functions.AnyPlayerIsType(Enums.Characters.T_MASTEMA) then return end
+	if pool == ItemPoolType.POOL_TREASURE then return end
+	if pool == ItemPoolType.POOL_GREED_BOSS then return end
+	
+	local room = game:GetRoom()
+	local level = game:GetLevel()
+	local roomIndex = level:GetCurrentRoomIndex()
+	
+	if room:GetType() ~= RoomType.ROOM_TREASURE then return end
+	if game:IsGreedMode() and roomIndex == 98 then return end
+
+	rng:SetSeed(seed, 35)
+	local randFloat = rng:RandomFloat()
+	
+	if randFloat < 0.5 then
+		local itemID = game:GetItemPool():GetCollectible(ItemPoolType.POOL_TREASURE, true, seed)
+		return itemID
+	end
+end
+
 function Character.entityTakeDmg(target, amount, flag, source, countdown)
 	local player = target:ToPlayer()
 
@@ -264,69 +314,90 @@ function Character.entityTakeDmg(target, amount, flag, source, countdown)
 		local numBrokenHearts = player:GetBrokenHearts()
 		local rng = player:GetCollectibleRNG(CollectibleType.COLLECTIBLE_SANGUINE_BOND)
 		local randNum = rng:RandomInt(100)
-		local couponEffectRoll = rng:RandomInt(3)
 		
 		--Percent chance is based on the number of broken hearts Tainted Mastema currently has
-		if randNum < ((numBrokenHearts * 6) + 34)
-		and numBrokenHearts > 0
+		if numBrokenHearts > 0
+		and randNum < ((numBrokenHearts * 6) + 34)
 		then
 			player:AddBrokenHearts(-1)
 			sfx:Play(SoundEffect.SOUND_THUMBSUP)
 			sfx:Play(SoundEffect.SOUND_DEATH_CARD)
 		end
-
-		if couponEffectRoll == 0 then
-			player:UseActiveItem(CollectibleType.COLLECTIBLE_COUPON, false)
-		end
 	end
 end
 
+function Character.postNPCDeath(npc)
+	if npc.Type ~= EntityType.ENTITY_URIEL and npc.Type ~= EntityType.ENTITY_GABRIEL then return end
+
+	local room = game:GetRoom()
+	local level = game:GetLevel()
+
+	if room:GetType() ~= RoomType.ROOM_ANGEL then return end
+	if level:GetCurrentRoomIndex() == GridRooms.ROOM_ANGEL_SHOP_IDX then return end
+
+	local confessionals = Isaac.FindByType(EntityType.ENTITY_SLOT, Enums.Slots.CONFESSIONAL)
+
+	if #confessionals > 0 then return end
+
+	local pos = room:FindFreePickupSpawnPosition(Vector(320, 240), 0)
+	local confessional = Isaac.Spawn(EntityType.ENTITY_SLOT, Enums.Slots.CONFESSIONAL, 0, pos, Vector.Zero, nil)
+	Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, 0, confessional.Position, Vector.Zero, confessional)
+end
+
 function Character.postPickupInit(pickup)
-	if pickup.Variant ~= PickupVariant.PICKUP_HEART then return end
 	if not Functions.AnyPlayerIsType(Enums.Characters.T_MASTEMA) then return end
 	
 	rng:SetSeed(pickup.InitSeed, 35)
-	local randNum = rng:RandomInt(3)
+	local room = game:GetRoom()
 	
-	if randNum == 0
-	and pickup.Price == 0
+	if pickup.Variant == PickupVariant.PICKUP_COLLECTIBLE
+	and room:GetFrameCount() == -1
+	and room:IsFirstVisit()
+	and (room:GetType() == RoomType.ROOM_TREASURE or room:GetType() == RoomType.ROOM_DEVIL or room:GetType() == RoomType.ROOM_BLACK_MARKET)
+	and pickup.Price < 0
+	and not Functions.AnyPlayerIsType(Enums.Characters.MASTEMA)
 	then
-		if pickup.SubType == HeartSubType.HEART_FULL
-		or pickup.SubType == HeartSubType.HEART_SCARED
-		or pickup.SubType == HeartSubType.HEART_DOUBLEPACK
+		pickup.Price = 0
+	elseif pickup.Variant == PickupVariant.PICKUP_HEART then
+		local randNum = rng:RandomInt(3)
+		
+		if randNum == 0
+		and pickup.Price == 0
 		then
-			pickup:Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_SOUL, true, false, false)
-		elseif pickup.SubType == HeartSubType.HEART_HALF then
-			pickup:Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_HALF_SOUL, true, false, false)
+			if pickup.SubType == HeartSubType.HEART_FULL
+			or pickup.SubType == HeartSubType.HEART_SCARED
+			or pickup.SubType == HeartSubType.HEART_DOUBLEPACK
+			then
+				pickup:Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_SOUL, true, false, false)
+			elseif pickup.SubType == HeartSubType.HEART_HALF then
+				pickup:Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_HALF_SOUL, true, false, false)
+			end
 		end
-	end
 
-	--No patched hearts for you
-	if pickup.SubType == 3320
-	or pickup.SubType == 3321
-	then
-		pickup:Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_FULL, true, false, false)
+		--No patched hearts for you
+		if pickup.SubType == 3320
+		or pickup.SubType == 3321
+		then
+			pickup:Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_FULL, true, false, false)
+		end
 	end
 end
 
 function Character.postPickupUpdate(pickup)
 	if pickup.Variant ~= PickupVariant.PICKUP_COLLECTIBLE then return end
 	if pickup.Price ~= PickupPrice.PRICE_THREE_SOULHEARTS then return end
+	if Functions.AnyPlayerIsType(Enums.Characters.MASTEMA) then return end
 	if not Functions.AnyPlayerIsType(Enums.Characters.T_MASTEMA) then return end
-
-	local itemID = pickup.SubType
-	local itemConfig = Isaac.GetItemConfig():GetCollectible(itemID)
 	
-	--Passive devil deals only cost 1 soul heart
-	if itemConfig.Type ~= ItemType.ITEM_ACTIVE then
-		pickup.Price = PickupPrice.PRICE_ONE_SOUL_HEART
-		pickup.AutoUpdatePrice = false
-	end
+	--Devil deals only cost 1 soul heart if one somehow spawns
+	pickup.Price = PickupPrice.PRICE_ONE_SOUL_HEART
+	pickup.AutoUpdatePrice = false
 end
 
 function Character.prePickupCollision(pickup, collider, low)
 	if pickup.Variant ~= PickupVariant.PICKUP_COLLECTIBLE then return end
 	if pickup.SubType == 0 then return end
+	if pickup.Touched then return end
 	
 	local player = collider:ToPlayer()
 
@@ -347,7 +418,6 @@ function Character.prePickupCollision(pickup, collider, low)
 	--Passive items cost broken hearts based on item quality
 	if itemConfig.Tags & ItemConfig.TAG_QUEST ~= ItemConfig.TAG_QUEST
 	and itemConfig.Tags & ItemConfig.TAG_FOOD ~= ItemConfig.TAG_FOOD
-	and itemConfig.Type ~= ItemType.ITEM_ACTIVE
 	and not IsBlacklisted(itemID)
 	and roomIndex ~= GridRooms.ROOM_GENESIS_IDX
 	and Functions.GetDimension(roomDesc) ~= 2
@@ -363,8 +433,7 @@ function Character.prePickupCollision(pickup, collider, low)
 	end
 	
 	--Fix devil deals taking more hearts than normal when at a certain number of total hearts
-	if itemConfig.Type ~= ItemType.ITEM_ACTIVE
-	and pickup.Price == PickupPrice.PRICE_ONE_SOUL_HEART
+	if pickup.Price == PickupPrice.PRICE_ONE_SOUL_HEART
 	and totalHearts > 10
 	and soulHearts > 1
 	and pickup.Wait == 0
@@ -399,8 +468,29 @@ function Character.postLaserUpdate(laser)
 	end
 end
 
+function Character.familiarUpdate(familiar)
+	if familiar.Variant ~= FamiliarVariant.ITEM_WISP then return end
+	if familiar.SubType ~= CollectibleType.COLLECTIBLE_DUALITY then return end
+	if not familiar.Visible then return end
+
+	local player = familiar.Player
+
+	if player:GetPlayerType() ~= Enums.Characters.T_MASTEMA then return end
+
+	local itemConfig = Isaac.GetItemConfig():GetCollectible(familiar.SubType)
+	player:RemoveCostume(itemConfig)
+
+	familiar:RemoveFromOrbit()
+	familiar:ClearEntityFlags(EntityFlag.FLAG_APPEAR)
+	familiar.Visible = false
+	familiar.CollisionDamage = 0
+	familiar.EntityCollisionClass = EntityCollisionClass.ENTCOLL_NONE
+	familiar:GetData().mastemaWisp = true
+end
+
 function Character.postPEffectUpdate(player)
 	if player:GetPlayerType() ~= Enums.Characters.T_MASTEMA then return end
+	if player.Parent then return end
 
 	--Fix demon wings turning into angel wings when flying over grid objects
 	if not player:HasCollectible(CollectibleType.COLLECTIBLE_HOLY_GRAIL) then
@@ -410,9 +500,15 @@ function Character.postPEffectUpdate(player)
 
 	if not player:HasCurseMistEffect()
 	and not player:IsCoopGhost()
-	and player:GetActiveItem(ActiveSlot.SLOT_POCKET) ~= CollectibleType.COLLECTIBLE_SATANIC_BIBLE
 	then
-		player:SetPocketActiveItem(CollectibleType.COLLECTIBLE_SATANIC_BIBLE, ActiveSlot.SLOT_POCKET, false)
+		if not player:HasTrinket(TrinketType.TRINKET_DEVILS_CROWN, false) then
+			player:AddTrinket(TrinketType.TRINKET_DEVILS_CROWN)
+			player:UseActiveItem(CollectibleType.COLLECTIBLE_SMELTER, false)
+		end
+
+		if not Functions.HasInnateItem(CollectibleType.COLLECTIBLE_DUALITY) then
+			Functions.AddInnateItem(player, CollectibleType.COLLECTIBLE_DUALITY, true)
+		end
 	end
 
 	if player:GetBrokenHearts() > 0
@@ -473,6 +569,9 @@ function Character.postRender()
 	local roomDesc = level:GetCurrentRoomDesc()
 	
 	if room:GetFrameCount() == 0 then return end
+	if roomIndex == GridRooms.ROOM_GENESIS_IDX then return end
+	if Functions.GetDimension(roomDesc) == 2 then return end
+	if IsTaintedTreasureRoom(roomDesc) then return end
 	
 	local items = Isaac.FindByType(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE)
 	local renderCount
@@ -486,11 +585,8 @@ function Character.postRender()
 			
 			if itemConfig.Tags & ItemConfig.TAG_QUEST ~= ItemConfig.TAG_QUEST
 			and itemConfig.Tags & ItemConfig.TAG_FOOD ~= ItemConfig.TAG_FOOD
-			and itemConfig.Type ~= ItemType.ITEM_ACTIVE
+			and not collectible.Touched
 			and not IsBlacklisted(itemID)
-			and roomIndex ~= GridRooms.ROOM_GENESIS_IDX
-			and Functions.GetDimension(roomDesc) ~= 2
-			and not IsTaintedTreasureRoom(roomDesc)
 			then
 				if quality > 3 then
 					renderCount = 3
@@ -540,16 +636,6 @@ function Character.useItem(item, rng, player, flags, activeSlot, customVarData)
 		local lordPit = Isaac.GetItemConfig():GetCollectible(CollectibleType.COLLECTIBLE_LORD_OF_THE_PIT)
 		player:AddNullCostume(horns)
 		player:AddCostume(lordPit)
-	elseif item == CollectibleType.COLLECTIBLE_SATANIC_BIBLE
-	and activeSlot == ActiveSlot.SLOT_POCKET
-	and player:HasCollectible(CollectibleType.COLLECTIBLE_BOOK_OF_VIRTUES)
-	then
-		player:AddWisp(CollectibleType.COLLECTIBLE_SATANIC_BIBLE, player.Position, false)
-		sfx:Play(SoundEffect.SOUND_CANDLE_LIGHT)
-
-		if player:HasCollectible(CollectibleType.COLLECTIBLE_CAR_BATTERY) then
-			player:AddWisp(CollectibleType.COLLECTIBLE_SATANIC_BIBLE, player.Position, false)
-		end
 	end
 end
 
