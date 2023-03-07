@@ -217,28 +217,6 @@ function Character.postNewRoom()
 				doorSprite:LoadGraphics()
 			end
 		end
-
-		--Chance for slot machines to be converted into a Confessional
-		if room:IsFirstVisit()
-		and room:GetType() ~= RoomType.ROOM_ARCADE
-		then
-			local slots = Isaac.FindByType(EntityType.ENTITY_SLOT, -1)
-
-			if #slots > 0 then
-				for _, slot in pairs(slots) do
-					rng:SetSeed(slot.InitSeed, 35)
-					local randNum = rng:RandomInt(20)
-					
-					if (slot.Variant == Enums.Slots.SLOT or slot.Variant == Enums.Slots.BLOOD_DONATION or slot.Variant == Enums.Slots.FORTUNE)
-					and randNum < 3
-					then
-						local pos = slot.Position
-						slot:Remove()
-						Isaac.Spawn(EntityType.ENTITY_SLOT, Enums.Slots.CONFESSIONAL, 0, pos, Vector.Zero, nil)
-					end
-				end
-			end
-		end
 	end
 	
 	for i = 0, game:GetNumPlayers() - 1 do
