@@ -4,6 +4,7 @@ local T_Mastema = require("mastema_src.characters.t_mastema")
 local BrokenDice = require("mastema_src.items.actives.broken_dice")
 local SacrificialChalice = require("mastema_src.items.familiars.sacrificial_chalice")
 local ShatteredSoul = require("mastema_src.items.trinkets.shattered_soul")
+local SatanicRitual = require("mastema_src.misc.satanic_ritual")
 
 local function MC_POST_NEW_LEVEL()
 	SaveData.postNewLevel()
@@ -16,6 +17,8 @@ local function MC_POST_NEW_LEVEL()
 	SacrificialChalice.postNewLevel()
 
 	ShatteredSoul.postNewLevel()
+	
+	SatanicRitual.postNewLevel()
 end
 
 return MC_POST_NEW_LEVEL
