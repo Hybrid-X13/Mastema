@@ -4,6 +4,22 @@ local SaveData = require("mastema_src.savedata")
 local game = Game()
 local sfx = SFXManager()
 local rng = RNG()
+local SATANIC_RITUAL = 3666
+local MIN_ROOM_ID = 4666
+local MAX_ROOM_ID = 4677
+
+local roomIds = {}
+
+for i = MIN_ROOM_ID, MAX_ROOM_ID do
+	table.insert(roomIds, i)
+end
+--[[
+if MinimapAPI then
+	local RitualRoomIcon = Sprite()
+	RitualRoomIcon:Load("gfx/ui/minimapapi/ritualroomicon.anm2", true)
+	RitualRoomIcon:SetFrame("RitualRoom", 0)
+	MinimapAPI:AddIcon("AbandonedPlanetarium", RitualRoomIcon)
+end]]
 
 local Ritual = {}
 
@@ -37,28 +53,13 @@ local function IsSatanicRitualRoom()
 	local room = game:GetRoom()
 	local roomType = room:GetType()
 	local level = game:GetLevel()
-	local stage = level:GetStage()
-	local stageType = level:GetStageType()
 	local roomDesc = level:GetCurrentRoomDesc()
 	local roomConfig = roomDesc.Data
 
-	if roomConfig.Variant == 4666 then
-		if roomType == RoomType.ROOM_DEVIL
-		or roomType == RoomType.ROOM_CURSE
-		or roomType == RoomType.ROOM_SUPERSECRET
-		then
-			return true
-		elseif roomType == RoomType.ROOM_DEFAULT then
-			if (stage == LevelStage.STAGE3_1 or stage == LevelStage.STAGE3_2)
-			and stageType == StageType.STAGETYPE_REPENTANCE_B
-			then
-				return true
-			elseif stage == LevelStage.STAGE5
-			and stageType == StageType.STAGETYPE_ORIGINAL
-			then
-				return true
-			end
-		end
+	if (roomConfig.Variant == MIN_ROOM_ID and (roomType == RoomType.ROOM_DEVIL or roomType == RoomType.ROOM_SUPERSECRET))
+	or (roomType == RoomType.ROOM_SACRIFICE and roomConfig.Variant >= MIN_ROOM_ID and roomConfig.Variant <= MAX_ROOM_ID)
+	then
+		return true
 	end
 
 	return false
@@ -104,11 +105,68 @@ function Ritual.evaluateCache(player, cacheFlag)
 	end
 end
 
+function Ritual.postNewLevel()
+	if not SaveData.UnlockData.T_Mastema.MegaSatan then return end
+
+	local room = game:GetRoom()
+	local level = game:GetLevel()
+
+	if level:GetStage() == LevelStage.STAGE1_1 then return end
+
+	rng:SetSeed(room:GetDecorationSeed(), 35)
+	local rooms = level:GetRooms()
+
+	for i = rooms.Size, 0, -1 do
+		local roomDesc = rooms:Get(i - 1)
+
+		if roomDesc
+		and roomDesc.Data
+		and roomDesc.Data.Type == RoomType.ROOM_SACRIFICE
+		then
+			local randFloat = rng:RandomFloat()
+			local chance = 0.05 + (game:GetDevilRoomDeals() / 100)
+			
+			if randFloat < chance then
+				local randNum = rng:RandomInt(#roomIds) + MIN_ROOM_ID
+				Isaac.ExecuteCommand("goto s.sacrifice." .. randNum)
+				local data = level:GetRoomByIdx(GridRooms.ROOM_DEBUG_IDX, 0).Data
+				local sacrificeDesc = level:GetRoomByIdx(roomDesc.SafeGridIndex, 0)
+				sacrificeDesc.Data = data
+				--[[
+				if MinimapAPI then
+					local roomidx = level:GetCurrentRoomIndex()
+			
+					if roomidx ~= GridRooms.ROOM_DEBUG_IDX then
+						local roomIndex = MinimapAPI:GetRoomByIdx(roomidx)
+						roomIndex.PermanentIcons = {"RitualRoom"}
+					end
+				end]]
+				
+				game:StartRoomTransition(level:GetStartingRoomIndex(), Direction.NO_DIRECTION, RoomTransitionAnim.FADE)
+			end
+		end
+	end
+end
+
 function Ritual.postNewRoom()
+	if not IsSatanicRitualRoom() then return end
+	
 	local room = game:GetRoom()
 
-	if IsSatanicRitualRoom()
-	and room:IsFirstVisit()
+	if room:GetType() == RoomType.ROOM_SACRIFICE then
+		game:ShowHallucination(0, BackdropType.SHEOL)
+		sfx:Stop(SoundEffect.SOUND_DEATH_CARD)
+
+		if StageAPI
+		and room:IsFirstVisit()
+		then
+			for _, customGrid in ipairs(StageAPI.GetCustomGrids()) do
+				customGrid:Remove(false)
+			end
+		end
+	end
+
+	if room:IsFirstVisit()
 	and SaveData.UnlockData.T_Mastema.MegaSatan
 	then
 		local demonBeggar = Isaac.FindByType(EntityType.ENTITY_SLOT, Enums.Slots.DEVIL_BEGGAR)
@@ -116,14 +174,14 @@ function Ritual.postNewRoom()
 		if #demonBeggar > 0 then
 			local pos = demonBeggar[1].Position
 			demonBeggar[1]:Remove()
-			Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.DIRT_PATCH, 4666, pos, Vector.Zero, nil)
+			Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.DIRT_PATCH, SATANIC_RITUAL, pos, Vector.Zero, nil)
 		end
 	end
 end
 
 function Ritual.postEffectInit(effect)
 	if effect.Variant ~= EffectVariant.DIRT_PATCH then return end
-	if effect.SubType ~= 4666 then return end
+	if effect.SubType ~= SATANIC_RITUAL then return end
 
 	local room = game:GetRoom()
 	local sprite = effect:GetSprite()
@@ -147,7 +205,7 @@ end
 
 function Ritual.postEffectUpdate(effect)
 	if effect.Variant ~= EffectVariant.DIRT_PATCH then return end
-	if effect.SubType ~= 4666 then return end
+	if effect.SubType ~= SATANIC_RITUAL then return end
 	
 	local sprite = effect:GetSprite()
 	local radius = 6
@@ -278,8 +336,8 @@ function Ritual.postEffectUpdate(effect)
 			if #chalices > 0 then
 				for i = 1, #chalices do
 					local familiar = chalices[i]:ToFamiliar()
-					local sprite = familiar:GetSprite()
-					sprite:PlayOverlay("BloodDrop", true)
+					local familiarSprite = familiar:GetSprite()
+					familiarSprite:PlayOverlay("BloodDrop", true)
 				end
 			end
 		end
@@ -297,7 +355,7 @@ function Ritual.postEffectUpdate(effect)
 end
 
 function Ritual.postRender()
-	local rituals = Isaac.FindByType(EntityType.ENTITY_EFFECT, EffectVariant.DIRT_PATCH, 4666)
+	local rituals = Isaac.FindByType(EntityType.ENTITY_EFFECT, EffectVariant.DIRT_PATCH, SATANIC_RITUAL)
 	
 	if #rituals == 0 then return end
 
@@ -327,7 +385,7 @@ function Ritual.postPickupInit(pickup)
 	if pickup.SubType ~= CollectibleType.COLLECTIBLE_SACRIFICIAL_DAGGER then return end
 	if pickup.Price ~= 0 then return end
 	
-	local rituals = Isaac.FindByType(EntityType.ENTITY_EFFECT, EffectVariant.DIRT_PATCH, 4666)
+	local rituals = Isaac.FindByType(EntityType.ENTITY_EFFECT, EffectVariant.DIRT_PATCH, SATANIC_RITUAL)
 	
 	if #rituals == 0 then return end
 
