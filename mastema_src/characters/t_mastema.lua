@@ -80,7 +80,9 @@ local function IsBlacklisted(itemID)
 		CollectibleType.COLLECTIBLE_BOOSTER_PACK,
 		CollectibleType.COLLECTIBLE_BOX,
 		CollectibleType.COLLECTIBLE_DUALITY,
+		--Actives
 		CollectibleType.COLLECTIBLE_MAGIC_SKIN,
+		Enums.Collectibles.DEVILS_BARGAIN,
 		--Fiend Folio items
 		Isaac.GetItemIdByName("Tea"),
 		Isaac.GetItemIdByName("Bacon Grease"),
@@ -469,6 +471,28 @@ end
 function Character.postPEffectUpdate(player)
 	if player:GetPlayerType() ~= Enums.Characters.T_MASTEMA then return end
 	if player.Parent then return end
+
+	local room = game:GetRoom()
+
+	if game:GetFrameCount() == 1 then
+		for i = 0, DoorSlot.NUM_DOOR_SLOTS do
+			local door = room:GetDoor(i)
+	
+			if door
+			and (door.TargetRoomType == RoomType.ROOM_TREASURE or room:GetType() == RoomType.ROOM_TREASURE)
+			and room:GetType() ~= RoomType.ROOM_SECRET
+			and room:GetType() ~= RoomType.ROOM_SUPERSECRET
+			then
+				local doorSprite = door:GetSprite()
+
+				for i = 0, 4 do
+					doorSprite:ReplaceSpritesheet(i, "gfx/grid/t_mastema_door.png")
+				end
+				
+				doorSprite:LoadGraphics()
+			end
+		end
+	end
 
 	--Fix demon wings turning into angel wings when flying over grid objects
 	if not player:HasCollectible(CollectibleType.COLLECTIBLE_HOLY_GRAIL) then
