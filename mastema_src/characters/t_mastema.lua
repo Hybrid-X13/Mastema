@@ -81,7 +81,14 @@ local function IsBlacklisted(itemID)
 		CollectibleType.COLLECTIBLE_BOX,
 		CollectibleType.COLLECTIBLE_DUALITY,
 		--Actives
+		CollectibleType.COLLECTIBLE_YUM_HEART,
+		CollectibleType.COLLECTIBLE_YUCK_HEART,
+		CollectibleType.COLLECTIBLE_CONVERTER,
+		CollectibleType.COLLECTIBLE_POTATO_PEELER,
 		CollectibleType.COLLECTIBLE_MAGIC_SKIN,
+		CollectibleType.COLLECTIBLE_MYSTERY_GIFT,
+		CollectibleType.COLLECTIBLE_EDENS_SOUL,
+		CollectibleType.COLLECTIBLE_ALABASTER_BOX,
 		Enums.Collectibles.DEVILS_BARGAIN,
 		--Fiend Folio items
 		Isaac.GetItemIdByName("Tea"),
