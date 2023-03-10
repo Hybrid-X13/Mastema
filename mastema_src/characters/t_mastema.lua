@@ -266,6 +266,7 @@ end
 
 function Character.preGetCollectible(pool, decrease, seed)
 	if not Functions.AnyPlayerIsType(Enums.Characters.T_MASTEMA) then return end
+	if Functions.AnyPlayerHasCollectible(CollectibleType.COLLECTIBLE_CHAOS) then return end
 	if pool == ItemPoolType.POOL_TREASURE then return end
 	if pool == ItemPoolType.POOL_GREED_BOSS then return end
 	
@@ -278,8 +279,13 @@ function Character.preGetCollectible(pool, decrease, seed)
 
 	rng:SetSeed(seed, 35)
 	local randFloat = rng:RandomFloat()
+	local chance = 0.5
+
+	if Functions.AnyPlayerHasCollectible(Enums.Collectibles.TORN_WINGS) then
+		chance = 0.25
+	end
 	
-	if randFloat < 0.5 then
+	if randFloat < chance then
 		local itemID = game:GetItemPool():GetCollectible(ItemPoolType.POOL_TREASURE, true, seed)
 		return itemID
 	end
