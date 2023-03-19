@@ -214,6 +214,8 @@ function Character.postNewRoom()
 	
 			if door
 			and (door.TargetRoomType == RoomType.ROOM_TREASURE or room:GetType() == RoomType.ROOM_TREASURE)
+			and door.TargetRoomType ~= RoomType.ROOM_SECRET
+			and door.TargetRoomType ~= RoomType.ROOM_SUPERSECRET
 			and room:GetType() ~= RoomType.ROOM_SECRET
 			and room:GetType() ~= RoomType.ROOM_SUPERSECRET
 			then
