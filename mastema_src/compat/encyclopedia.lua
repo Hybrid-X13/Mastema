@@ -22,7 +22,7 @@ if Encyclopedia then
 				{str = "Traits", fsize = 2, clr = 3, halign = 0},
 				{str = "As Mastema, most items you come across have to be paid for with his health."},
 				{str = "The heart cost of items are based on the item's quality. Quality 0 and 1 items always cost 1 red or 1 soul heart. Quality 2 items cost either 1 red or 2 soul hearts. Quality 3 and 4 items cost 2 - 3 hearts."},
-				{str = "Despite having Devil's Crown, devil items have a 50% chance of spawning in red treasure rooms."},
+				{str = "Despite having Devil's Crown, devil items only have a 25% chance of spawning in red treasure rooms."},
 				{str = "However, Mastema's red treasure rooms always contain a blind item, even when you're not on the alt path. Both the visible item and the blind item can be bought."},
 				{str = "Mastema innately has the effect of Duality, and he also has additional benefits inside of devil and angel rooms. The Sanguine Bond spikes in devil rooms allows him to gain damage ups, black hearts, and occasionally free devil items."},
 				{str = "Items purchased in angel rooms grant a 1-time holy mantle shield."},
@@ -43,7 +43,7 @@ if Encyclopedia then
 		MASTEMA_B = {
 			{ -- Start Data
 				{str = "Start Data", fsize = 2, clr = 3, halign = 0},
-				{str = "Pocket Active: Satanic Bible"},
+				{str = "Smelted Trinket: Devil's Crown"},
 				{str = "Stats", clr = 3, halign = 0},
 				{str = "HP: 3 Black Hearts"},
 				{str = "Speed: 1.20"},
@@ -59,11 +59,12 @@ if Encyclopedia then
 				{str = "- Quality 0-2: 1 broken heart"},
 				{str = "- Quality 3: 2 broken hearts"},
 				{str = "- Quality 4: 3 broken hearts"},
-				{str = "Quest, food (Breakfast, Dinner, etc), and active items won't give any broken hearts."},
+				{str = "Quest and food items won't give any broken hearts."},
+				{str = "Just like regular Mastema, Tainted Mastema also innately has the effect of Duality."},
 				{str = "In addition to Confessionals, Tainted Mastema can use sacrifice rooms and the spikes from Sanguine Bond in devil rooms to remove broken hearts. The chance of removing one increases for every broken heart you have."},
+				{str = "Defeating Uriel or Gabriel in an angel room will spawn a confessional if the room doesn't already have one. This gives you the chance to remove broken hearts if you decide to go for angel rooms instead."},
 				{str = "1 broken heart is automatically removed at the start of each floor."},
 				{str = "In Greed Mode, the spiked button can also remove broken hearts."},
-				{str = "Using the Sanguine Bond spikes in devil rooms has a chance to remove the heart cost of a random item in the room. The item will still cost broken hearts if it's a passive item, however."},
 			},
 			{ -- Birthright
 				{str = "Birthright", fsize = 2, clr = 3, halign = 0},
@@ -195,7 +196,7 @@ if Encyclopedia then
 				{str = "The number of hearts removed is based on your current health and the quality of the item given."},
 				{str = "After being fully charged without getting hit, you get to keep the item plus the hearts that were taken are given back."},
 				{str = "If you get hit while recharging, the item is taken away and your hearts won't be returned. When this happens, Devil's Bargain instantly recharges."},
-				{str = "This item can't be charged with battery pickups."},
+				{str = "This item can't be overcharged or charged with battery pickups."},
 			},
 			{ -- Synergies
 				{str = "Synergies", fsize = 2, clr = 3, halign = 0},
