@@ -561,21 +561,31 @@ function Character.postPickupInit(pickup)
 	and room:GetType() == RoomType.ROOM_DEFAULT
 	and not room:IsClear()
 	then
-		local randNum = rng:RandomInt(20)
+		local randFloat = rng:RandomFloat()
 		
-		if randNum < 3 then
+		if randFloat < 0.15 then
 			pickup:Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_ETERNAL, true, false, false)
 		end
 	end
 
-	--Fix an exploit with restocked batteries and Car Battery
+	--Fix game break with restocked batteries and Car Battery
 	if pickup.Variant == PickupVariant.PICKUP_LIL_BATTERY
 	and pickup.SubType ~= BatterySubType.BATTERY_MICRO
-	and room:GetType() == RoomType.ROOM_SHOP
+	and pickup.Price ~= 0
 	and Functions.AnyPlayerHasCollectible(CollectibleType.COLLECTIBLE_CAR_BATTERY)
 	and (game:IsGreedMode() or Functions.AnyPlayerHasCollectible(CollectibleType.COLLECTIBLE_RESTOCK))
 	then
 		pickup:Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_LIL_BATTERY, BatterySubType.BATTERY_MICRO, true, false, false)
+	end
+
+	--Fix game break with restocked soul hearts and Habit
+	if pickup.Variant == PickupVariant.PICKUP_HEART
+	and pickup.SubType == HeartSubType.HEART_SOUL
+	and pickup.Price ~= 0
+	and Functions.AnyPlayerHasCollectible(CollectibleType.COLLECTIBLE_HABIT)
+	and (game:IsGreedMode() or Functions.AnyPlayerHasCollectible(CollectibleType.COLLECTIBLE_RESTOCK))
+	then
+		pickup:Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_FULL, true, false, false)
 	end
 end
 
