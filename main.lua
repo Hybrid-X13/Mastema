@@ -79,4 +79,5 @@ mod:AddCallback(ModCallbacks.MC_EXECUTE_CMD, executeCMD)
 --Mod Compat
 require("mastema_src.compat.eid")
 require("mastema_src.compat.encyclopedia")
+require("mastema_src.compat.fiend_folio")
 require("mastema_src.compat.pog")
