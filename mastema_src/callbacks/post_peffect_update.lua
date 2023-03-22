@@ -9,6 +9,7 @@ local SacrificialChalice = require("mastema_src.items.familiars.sacrificial_chal
 local TwistedFaith = require("mastema_src.items.trinkets.twisted_faith")
 local PuristsHeart = require("mastema_src.items.trinkets.purists_heart")
 local SpiritsHeart = require("mastema_src.items.trinkets.spirits_heart")
+local UnholyCard = require("mastema_src.items.cards.unholy_card")
 local SatanicRitual = require("mastema_src.misc.satanic_ritual")
 local SanguineBondFixes = require("mastema_src.misc.sanguine_bond_fixes")
 
@@ -29,6 +30,8 @@ local function MC_POST_PEFFECT_UPDATE(_, player)
 	TwistedFaith.postPEffectUpdate(player)
 	PuristsHeart.postPEffectUpdate(player)
 	SpiritsHeart.postPEffectUpdate(player)
+
+	UnholyCard.postPEffectUpdate(player)
 	
 	SatanicRitual.postPEffectUpdate(player)
 	
