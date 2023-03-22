@@ -38,7 +38,7 @@ if EID then
 	EID:addCard(Enums.Cards.LIFE_DICE, "Rerolls your health into any combination of heart types", "Life Dice")
 	EID:addCard(Enums.Cards.PRAYER_OF_REPENTANCE, "Spawns a Confessional", "Prayer of Repentance")
 	EID:addCard(Enums.Cards.SOUL_OF_MASTEMA, "Spawns an item from a random pool and will either:#{{BrokenHeart}} Give broken hearts based on the item's quality#{{Heart}} Remove hearts equivalent to a devil deal#Or spawn the item for free", "Soul of Mastema")
-	EID:addCard(Enums.Cards.UNHOLY_CARD, "{{Collectible118}} Grants mega Brimstone for the current room", "Unholy Card")
+	EID:addCard(Enums.Cards.UNHOLY_CARD, "{{Collectible118}} Grants mega Brimstone for 30 seconds", "Unholy Card")
 	EID:addCard(Enums.Cards.SANGUINE_JEWEL, "Take 1 full heart of damage to get a reward:#35%: Nothing#↑ 33%: +0.5 Damage up#{{Coin}} 15%: 6 pennies#{{BlackHeart}} 10%: 2 Black hearts#{{DevilRoom}} 5%: Random devil item#2%: Leviathan transformation", "Sanguine Jewel")
 	--Golden trinket effects
 	EID:addGoldenTrinketMetadata(Enums.Trinkets.ETERNAL_CARD, nil, 10, 3)

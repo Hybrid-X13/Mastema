@@ -370,11 +370,11 @@ if Encyclopedia then
 		UNHOLY_CARD = {
 			{ -- Effect
 				{str = "Effect", fsize = 2, clr = 3, halign = 0},
-				{str = "Grants mega Brimstone for the current room."},
+				{str = "Grants mega Brimstone for 30 seconds."},
 			},
 			{ -- Interactions
 				{str = "Interactions", fsize = 2, clr = 3, halign = 0},
-				{str = "Further uses of this card in the same room, already having Brimstone, or using Sulfur grants a damage up for the room."},
+				{str = "Using the card again while its effect is active simply resets the timer."},
 			},
 		},
 		LIFE_DICE = {
