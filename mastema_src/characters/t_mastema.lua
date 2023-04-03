@@ -323,6 +323,7 @@ end
 
 function Character.postNPCDeath(npc)
 	if npc.Type ~= EntityType.ENTITY_URIEL and npc.Type ~= EntityType.ENTITY_GABRIEL then return end
+	if not Functions.AnyPlayerIsType(Enums.Characters.T_MASTEMA) then return end
 
 	local room = game:GetRoom()
 	local level = game:GetLevel()
