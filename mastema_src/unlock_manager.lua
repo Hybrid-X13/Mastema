@@ -3,6 +3,7 @@ local Functions = require("mastema_src.functions")
 local SaveData = require("mastema_src.savedata")
 local game = Game()
 local rng = RNG()
+local sfx = SFXManager()
 local Character = Enums.Characters
 local Collectible = Enums.Collectibles
 local Trinket = Enums.Trinkets
@@ -125,6 +126,29 @@ local cardUnlocks = {
 
 local UnlockManager = {}
 
+local function UpdateCompletion(str1, str2, tainted, isGreed, difficulty)
+	if isGreed then
+		if difficulty == Difficulty.DIFFICULTY_GREED then
+			if tainted then
+				SaveData.UnlockData.T_Mastema.Greed = true
+			else
+				SaveData.UnlockData.Mastema.Greed = true
+			end
+		elseif difficulty == Difficulty.DIFFICULTY_GREEDIER then
+			if tainted then
+				SaveData.UnlockData.T_Mastema.Greed = true
+				SaveData.UnlockData.T_Mastema.Greedier = true
+			else
+				SaveData.UnlockData.Mastema.Greed = true
+				SaveData.UnlockData.Mastema.Greedier = true
+			end
+		end
+	end
+	game:GetHUD():ShowItemText(str1, str2)
+	sfx:Play(SoundEffect.SOUND_POWERUP1)
+	SaveData.SaveModData()
+end
+--[[
 local function UpdateCompletion(str1, str2, tainted)
 	if game:IsGreedMode() then
 		if game.Difficulty == Difficulty.DIFFICULTY_GREED then
@@ -160,7 +184,7 @@ local function UpdateCompletion(str1, str2, tainted)
 	end
 
 	SaveData.SaveModData()
-end
+end]]
 
 local function RunesAreUnlocked()
 	local runes = {
@@ -220,12 +244,14 @@ function UnlockManager.postEntityKill(entity)
 			and not SaveData.UnlockData.Mastema.Beast
 			then
 				SaveData.UnlockData.Mastema.Beast = true
-				UpdateCompletion("bloodsplosion", "", false)
+				--UpdateCompletion("bloodsplosion", "", false)
+				UpdateCompletion("Unlocked Bloodsplosion", "", false, false, game.Difficulty)
 			elseif playerType == Character.T_MASTEMA
 			and not SaveData.UnlockData.T_Mastema.Beast
 			then
 				SaveData.UnlockData.T_Mastema.Beast = true
-				UpdateCompletion("corruptheart", "", true)
+				--UpdateCompletion("corruptheart", "", true)
+				UpdateCompletion("Unlocked Corrupt Heart", "", true, false, game.Difficulty)
 			end
 		end
 	end
@@ -248,24 +274,28 @@ function UnlockManager.postNPCDeath(npc)
 					and not SaveData.UnlockData.Mastema.Isaac
 					then
 						SaveData.UnlockData.Mastema.Isaac = true
-						UpdateCompletion("eternalcard", "", false)
+						--UpdateCompletion("eternalcard", "", false)
+						UpdateCompletion("Unlocked Eternal Card", "", false, false, game.Difficulty)
 					elseif playerType == Character.T_MASTEMA
 					and not SaveData.UnlockData.T_Mastema.Isaac
 					then
 						SaveData.UnlockData.T_Mastema.Isaac = true
-						UpdateCompletion("goodwilltag", "", true)
+						--UpdateCompletion("goodwilltag", "", true)
+						UpdateCompletion("Unlocked Goodwill Tag", "", true, false, game.Difficulty)
 					end
 				elseif npc.Type == EntityType.ENTITY_SATAN then
 					if playerType == Character.MASTEMA
 					and not SaveData.UnlockData.Mastema.Satan
 					then
 						SaveData.UnlockData.Mastema.Satan = true
-						UpdateCompletion("lifesavings", "", false)
+						--UpdateCompletion("lifesavings", "", false)
+						UpdateCompletion("Unlocked Life Savings", "", false, false, game.Difficulty)
 					elseif playerType == Character.T_MASTEMA
 					and not SaveData.UnlockData.T_Mastema.Satan
 					then
 						SaveData.UnlockData.T_Mastema.Satan = true
-						UpdateCompletion("shatteredsoul", "", true)
+						--UpdateCompletion("shatteredsoul", "", true)
+						UpdateCompletion("Unlocked Shattered Soul", "", true, false, game.Difficulty)
 					end
 				end
 			elseif levelStage == LevelStage.STAGE6 then
@@ -296,12 +326,14 @@ function UnlockManager.postNPCDeath(npc)
 					and not SaveData.UnlockData.Mastema.MegaSatan
 					then
 						SaveData.UnlockData.Mastema.MegaSatan = true
-						UpdateCompletion("twistedfaith", "", false)
+						--UpdateCompletion("twistedfaith", "", false)
+						UpdateCompletion("Unlocked Twisted Faith", "", false, false, game.Difficulty)
 					elseif playerType == Character.T_MASTEMA
 					and not SaveData.UnlockData.T_Mastema.MegaSatan
 					then
 						SaveData.UnlockData.T_Mastema.MegaSatan = true
-						UpdateCompletion("satanicritual", "", true)
+						--UpdateCompletion("satanicritual", "", true)
+						UpdateCompletion("Unlocked Satanic Rituals", "", true, false, game.Difficulty)
 					end
 				end
 			elseif levelStage == LevelStage.STAGE7
@@ -311,12 +343,14 @@ function UnlockManager.postNPCDeath(npc)
 				and not SaveData.UnlockData.Mastema.Delirium
 				then
 					SaveData.UnlockData.Mastema.Delirium = true
-					UpdateCompletion("tornwings", "", false)
+					--UpdateCompletion("tornwings", "", false)
+					UpdateCompletion("Unlocked Torn Wings", "", false, false, game.Difficulty)
 				elseif playerType == Character.T_MASTEMA
 				and not SaveData.UnlockData.T_Mastema.Delirium
 				then
 					SaveData.UnlockData.T_Mastema.Delirium = true
-					UpdateCompletion("sinistersight", "", true)
+					--UpdateCompletion("sinistersight", "", true)
+					UpdateCompletion("Unlocked Sinister Sight", "", true, false, game.Difficulty)
 				end
 			elseif (levelStage == LevelStage.STAGE4_1 or levelStage == LevelStage.STAGE4_2)
 			and npc.Type == EntityType.ENTITY_MOTHER
@@ -326,12 +360,14 @@ function UnlockManager.postNPCDeath(npc)
 				and not SaveData.UnlockData.Mastema.Mother
 				then
 					SaveData.UnlockData.Mastema.Mother = true
-					UpdateCompletion("ravenbeak", "", false)
+					--UpdateCompletion("ravenbeak", "", false)
+					UpdateCompletion("Unlocked Raven Beak", "", false, false, game.Difficulty)
 				elseif playerType == Character.T_MASTEMA
 				and not SaveData.UnlockData.T_Mastema.Mother
 				then
 					SaveData.UnlockData.T_Mastema.Mother = true
-					UpdateCompletion("sacrificialchalice", "", true)
+					--UpdateCompletion("sacrificialchalice", "", true)
+					UpdateCompletion("Unlocked Sacrificial Chalice", "", true, false, game.Difficulty)
 				end
 			end
 		end
@@ -359,13 +395,15 @@ function UnlockManager.postPEffectUpdate(player)
 			and not SaveData.UnlockData.Mastema.BlueBaby
 			then
 				SaveData.UnlockData.Mastema.BlueBaby = true
-				UpdateCompletion("bookofjubilees", "", false)
+				--UpdateCompletion("bookofjubilees", "", false)
+				UpdateCompletion("Unlocked Book of Jubilees", "", false, false, game.Difficulty)
 				blueBabyDead = false
 			elseif playerType == Character.T_MASTEMA
 			and not SaveData.UnlockData.T_Mastema.BlueBaby
 			then
 				SaveData.UnlockData.T_Mastema.BlueBaby = true
-				UpdateCompletion("prayerofrepentance", "", true)
+				--UpdateCompletion("prayerofrepentance", "", true)
+				UpdateCompletion("Unlocked Prayer of Repentance", "", true, false, game.Difficulty)
 				blueBabyDead = false
 			end
 		elseif lambDead then
@@ -373,13 +411,15 @@ function UnlockManager.postPEffectUpdate(player)
 			and not SaveData.UnlockData.Mastema.TheLamb
 			then
 				SaveData.UnlockData.Mastema.TheLamb = true
-				UpdateCompletion("bloodyharvest", "", false)
+				--UpdateCompletion("bloodyharvest", "", false)
+				UpdateCompletion("Unlocked Bloody Harvest", "", false, false, game.Difficulty)
 				lambDead = false
 			elseif playerType == Character.T_MASTEMA
 			and not SaveData.UnlockData.T_Mastema.TheLamb
 			then
 				SaveData.UnlockData.T_Mastema.TheLamb = true
-				UpdateCompletion("sanguinejewel", "", true)
+				--UpdateCompletion("sanguinejewel", "", true)
+				UpdateCompletion("Unlocked Sanguine Jewel", "", true, false, game.Difficulty)
 				lambDead = false
 			end
 		end
@@ -392,12 +432,14 @@ function UnlockManager.postPEffectUpdate(player)
 		and not SaveData.UnlockData.Mastema.BossRush
 		then
 			SaveData.UnlockData.Mastema.BossRush = true
-			UpdateCompletion("mastemaswrath", "", false)
+			--UpdateCompletion("mastemaswrath", "", false)
+			UpdateCompletion("Unlocked Mastema's Wrath", "", false, false, game.Difficulty)
 		elseif playerType == Character.T_MASTEMA
 		and not SaveData.UnlockData.T_Mastema.BossRush
 		then
 			SaveData.UnlockData.T_Mastema.BossRush = true
-			UpdateCompletion("brokendice", "", true)
+			--UpdateCompletion("brokendice", "", true)
+			UpdateCompletion("Unlocked Broken Dice", "", true, false, game.Difficulty)
 		end
 	end
 	
@@ -408,12 +450,14 @@ function UnlockManager.postPEffectUpdate(player)
 		and not SaveData.UnlockData.Mastema.Hush
 		then
 			SaveData.UnlockData.Mastema.Hush = true
-			UpdateCompletion("lifedice", "", false)
+			--UpdateCompletion("lifedice", "", false)
+			UpdateCompletion("Unlocked Life Dice", "", false, false, game.Difficulty)
 		elseif playerType == Character.T_MASTEMA
 		and not SaveData.UnlockData.T_Mastema.Hush
 		then
 			SaveData.UnlockData.T_Mastema.Hush = true
-			UpdateCompletion("soulofmastema", "", true)
+			--UpdateCompletion("soulofmastema", "", true)
+			UpdateCompletion("Unlocked Soul of Mastema", "", true, false, game.Difficulty)
 		end
 	end
 	
@@ -426,32 +470,38 @@ function UnlockManager.postPEffectUpdate(player)
 			if playerType == Character.MASTEMA
 			and not SaveData.UnlockData.Mastema.Greed
 			then
-				UpdateCompletion("mantledheart", "", false)
+				--UpdateCompletion("mantledheart", "", false)
+				UpdateCompletion("Unlocked Mantled Heart", "", false, true, game.Difficulty)
 			elseif playerType == Character.T_MASTEMA
 			and not SaveData.UnlockData.T_Mastema.Greed
 			then
-				UpdateCompletion("sataniccharm", "", true)
+				--UpdateCompletion("sataniccharm", "", true)
+				UpdateCompletion("Unlocked Satanic Charm", "", true, true, game.Difficulty)
 			end
 		elseif game.Difficulty == Difficulty.DIFFICULTY_GREEDIER then
 			if playerType == Character.MASTEMA then
 				if not SaveData.UnlockData.Mastema.Greed
 				and not SaveData.UnlockData.Mastema.Greedier
 				then
-					UpdateCompletion("devilsbargain", "mantledheart", false)
+					--UpdateCompletion("devilsbargain", "mantledheart", false)
+					UpdateCompletion("Unlocked Devil's Bargain", "...and Mantled Heart", false, true, game.Difficulty)
 				elseif SaveData.UnlockData.Mastema.Greed
 				and not SaveData.UnlockData.Mastema.Greedier
 				then
-					UpdateCompletion("devilsbargain", "", false)
+					--UpdateCompletion("devilsbargain", "", false)
+					UpdateCompletion("Unlocked Devil's Bargain", "", false, true, game.Difficulty)
 				end
 			elseif playerType == Character.T_MASTEMA then
 				if not SaveData.UnlockData.T_Mastema.Greed
 				and not SaveData.UnlockData.T_Mastema.Greedier
 				then
-					UpdateCompletion("unholycard", "sataniccharm", true)
+					--UpdateCompletion("unholycard", "sataniccharm", true)
+					UpdateCompletion("Unlocked Unholy Card", "...and Satanic Charm", true, true, game.Difficulty)
 				elseif SaveData.UnlockData.T_Mastema.Greed
 				and not SaveData.UnlockData.T_Mastema.Greedier
 				then
-					UpdateCompletion("unholycard", "", true)
+					--UpdateCompletion("unholycard", "", true)
+					UpdateCompletion("Unlocked Unholy Card", "", true, true, game.Difficulty)
 				end
 			end
 		end
