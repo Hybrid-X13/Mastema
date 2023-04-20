@@ -40,6 +40,13 @@ local Blacklist = {
 		TrinketType.TRINKET_DEVILS_CROWN,
 	},
 }
+--[[
+if MinimapAPI then
+	local PurpleTreasureIcon = Sprite()
+	PurpleTreasureIcon:Load("gfx/ui/minimapapi/purpletreasureicon.anm2", true)
+	PurpleTreasureIcon:SetFrame("PurpleTreasureRoom", 0)
+	MinimapAPI:AddIcon("PurpleTreasureRoom", PurpleTreasureIcon)
+end]]
 
 local Character = {}
 
@@ -89,6 +96,7 @@ local function IsBlacklisted(itemID)
 		CollectibleType.COLLECTIBLE_MYSTERY_GIFT,
 		CollectibleType.COLLECTIBLE_EDENS_SOUL,
 		CollectibleType.COLLECTIBLE_ALABASTER_BOX,
+		CollectibleType.COLLECTIBLE_BIBLE,
 		Enums.Collectibles.DEVILS_BARGAIN,
 		--Fiend Folio items
 		Isaac.GetItemIdByName("Tea"),
@@ -96,6 +104,11 @@ local function IsBlacklisted(itemID)
 		Isaac.GetItemIdByName(">3"),
 		Isaac.GetItemIdByName("Dad's Dip"),
 		Isaac.GetItemIdByName("Kinda Egg"),
+		Isaac.GetItemIdByName("Yick Heart"),
+		Isaac.GetItemIdByName("Ka Ching!"),
+		Isaac.GetItemIdByName("Batoomkling!"),
+		Isaac.GetItemIdByName("Badump!"),
+		Isaac.GetItemIdByName("Bzzt!"),
 		--Retribution items
 		Isaac.GetItemIdByName("Brunch"),
 		Isaac.GetItemIdByName("Hundred Dollar Steak"),
@@ -251,6 +264,26 @@ function Character.postNewRoom()
 end
 
 function Character.postNewLevel()
+	--[[
+	if MinimapAPI
+	and Functions.AnyPlayerIsType(Enums.Characters.T_MASTEMA)
+	then
+		local level = game:GetLevel()
+		local rooms = level:GetRooms()
+
+		for i = rooms.Size, 0, -1 do
+			local roomDesc = rooms:Get(i - 1)
+	
+			if roomDesc
+			and roomDesc.Data
+			and roomDesc.Data.Type == RoomType.ROOM_TREASURE
+			then
+				local roomIdx = MinimapAPI:GetRoomByIdx(roomDesc.SafeGridIndex)
+				roomIdx.PermanentIcons = {"PurpleTreasureRoom"}
+			end
+		end
+	end]]
+	
 	for i = 0, game:GetNumPlayers() - 1 do
 		local player = Isaac.GetPlayer(i)
 
