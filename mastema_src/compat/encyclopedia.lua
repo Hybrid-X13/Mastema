@@ -188,6 +188,10 @@ if Encyclopedia then
 				{str = "Trivia", fsize = 2, clr = 3, halign = 0},
 				{str = "This item is based on Krieg's skill with the same name from Borderlands 2, one of my other favorite games besides Isaac."},
 			},
+			{ -- Abyss Locust
+				{str = "Abyss Locust", fsize = 2, clr = 3, halign = 0},
+				{str = "A red locust that deals 1.5x damage and enemies killed by the locust cause a bloodsplosion."},
+			},
 		},
 		DEVILS_BARGAIN = {
 			{ -- Effect
@@ -235,6 +239,10 @@ if Encyclopedia then
 				{str = "Tears have a chance to fear enemies (scales with luck)."},
 				{str = "Feared enemies take 1.5x damage from all sources."},
 			},
+			{ -- Abyss Locust
+				{str = "Abyss Locust", fsize = 2, clr = 3, halign = 0},
+				{str = "A purple locust that has homing, a 15% chance to fear enemies, and deals 1x damage normally but 1.5x damage against enemies that are feared."},
+			},
 		},
 		SACRIFICIAL_CHALICE = {
 			{ -- Effect
@@ -259,6 +267,10 @@ if Encyclopedia then
 				{str = "Synergies", fsize = 2, clr = 3, halign = 0},
 				{str = "Fish Tail", clr = 3, halign = 0},
 				{str = "Doubles the number of black locusts spawned."},
+			},
+			{ -- Abyss Locust
+				{str = "Abyss Locust", fsize = 2, clr = 3, halign = 0},
+				{str = "A black heart locust that deals 1.2x damage and has a very low chance to spawn a black heart when killing an enemy."},
 			},
 		},
 		ETERNAL_CARD = {
