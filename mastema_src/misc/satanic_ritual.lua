@@ -13,13 +13,19 @@ local roomIds = {}
 for i = MIN_ROOM_ID, MAX_ROOM_ID do
 	table.insert(roomIds, i)
 end
---[[
+
 if MinimapAPI then
 	local RitualRoomIcon = Sprite()
-	RitualRoomIcon:Load("gfx/ui/minimapapi/ritualroomicon.anm2", true)
+	RitualRoomIcon:Load("gfx/ui/minimapapi/mastema_minimapapi.anm2", true)
 	RitualRoomIcon:SetFrame("RitualRoom", 0)
-	MinimapAPI:AddIcon("AbandonedPlanetarium", RitualRoomIcon)
-end]]
+	MinimapAPI:AddIcon("RitualRoom", RitualRoomIcon)
+
+	local SatanicRitualIcon = Sprite()
+	SatanicRitualIcon:Load("gfx/ui/minimapapi/mastema_minimapapi.anm2", true)
+	SatanicRitualIcon:SetFrame("SatanicRitual", 0)
+	MinimapAPI:AddIcon("SatanicRitual", SatanicRitualIcon)
+	MinimapAPI:AddPickup("SatanicRitual", "SatanicRitual", EntityType.ENTITY_EFFECT, EffectVariant.DIRT_PATCH, SATANIC_RITUAL, MinimapAPI.PickupSlotMachineNotBroken, "slots")
+end
 
 local Ritual = {}
 
@@ -132,15 +138,11 @@ function Ritual.postNewLevel()
 				local data = level:GetRoomByIdx(GridRooms.ROOM_DEBUG_IDX, 0).Data
 				local sacrificeDesc = level:GetRoomByIdx(roomDesc.SafeGridIndex, 0)
 				sacrificeDesc.Data = data
-				--[[
+				
 				if MinimapAPI then
-					local roomidx = level:GetCurrentRoomIndex()
-			
-					if roomidx ~= GridRooms.ROOM_DEBUG_IDX then
-						local roomIndex = MinimapAPI:GetRoomByIdx(roomidx)
-						roomIndex.PermanentIcons = {"RitualRoom"}
-					end
-				end]]
+					local roomIdx = MinimapAPI:GetRoomByIdx(roomDesc.SafeGridIndex)
+					roomIdx.PermanentIcons = {"RitualRoom"}
+				end
 				
 				game:StartRoomTransition(level:GetStartingRoomIndex(), Direction.NO_DIRECTION, RoomTransitionAnim.FADE)
 			end
@@ -149,21 +151,52 @@ function Ritual.postNewLevel()
 end
 
 function Ritual.postNewRoom()
-	if not IsSatanicRitualRoom() then return end
-	
 	local room = game:GetRoom()
+	local level = game:GetLevel()
+	
+	for i = 0, DoorSlot.NUM_DOOR_SLOTS do
+		local door = room:GetDoor(i)
+
+		if door
+		and (door.TargetRoomType == RoomType.ROOM_SACRIFICE or IsSatanicRitualRoom())
+		and door.TargetRoomType ~= RoomType.ROOM_SECRET
+		and door.TargetRoomType ~= RoomType.ROOM_SUPERSECRET
+		and room:GetType() ~= RoomType.ROOM_SECRET
+		and room:GetType() ~= RoomType.ROOM_SUPERSECRET
+		then
+			local roomIdx = door.TargetRoomIndex
+			local roomDesc = level:GetRoomByIdx(roomIdx, 0)
+			local roomConfig = roomDesc.Data
+
+			if (roomConfig.Variant >= MIN_ROOM_ID and roomConfig.Variant < MAX_ROOM_ID)
+			or IsSatanicRitualRoom()
+			then
+				local doorSprite = door:GetSprite()
+
+				for i = 0, 4 do
+					doorSprite:ReplaceSpritesheet(i, "gfx/grid/ritual_room_door.png")
+				end
+				
+				doorSprite:LoadGraphics()
+			end
+		end
+	end
+	
+	if not IsSatanicRitualRoom() then return end
 
 	if room:GetType() == RoomType.ROOM_SACRIFICE then
 		game:ShowHallucination(0, BackdropType.SHEOL)
 		sfx:Stop(SoundEffect.SOUND_DEATH_CARD)
 
-		if StageAPI
-		and room:IsFirstVisit()
-		then
+		if StageAPI then
 			for _, customGrid in ipairs(StageAPI.GetCustomGrids()) do
 				customGrid:Remove(false)
 			end
 		end
+	end
+
+	if EID then
+		EID:hidePermanentText()
 	end
 
 	if room:IsFirstVisit()
