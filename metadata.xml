@@ -13,7 +13,7 @@ Mastema starts with a few tools of the trade. All typical item rooms will instea
 [h1][b]Tainted Mastema[/b][/h1]
 Mastema’s soul is now fully consumed by temptation. He no longer performs his duties under God and instead pledged his new faith to the devil, and in return, restored Mastema’s torn wings and gave him newfound power, with a catch of course...
 
-Instead of paying for items with his heart containers, Tainted Mastema gains broken hearts when he picks up an item. This might seem drastic, but he has additional ways of removing broken hearts besides Confessionals. Using the spikes in sacrifice rooms or the spikes from Sanguine Bond have a chance of removing broken hearts. With a higher chance of finding soul hearts plus a pocket Satanic Bible, Tainted Mastema's health is always on the edge.
+Instead of paying for items with his heart containers, Tainted Mastema gains broken hearts when he picks up an item. This might seem drastic, but he has additional ways of removing broken hearts besides Confessionals. Using the spikes in sacrifice rooms or the spikes from Sanguine Bond have a chance of removing broken hearts. With a higher chance of finding soul hearts and a need for removing broken hearts, Tainted Mastema's health is always on the edge.
 
 [h1][b]Unlocks[/b][/h1]
 This mod includes [b][u]26[/u][/b] unlocks, a full set for each character. In total there's: 
@@ -32,20 +32,18 @@ You can track your progress with any mod that does so, such as [url=https://stea
 [h1][b]Fandom Wiki[/b][/h1]
 Wanna have the most up to date info on all the mod's content? Then check out the Fandom wiki [url=https://mastema-mod.fandom.com/wiki/Mastema_Mod_Wiki] here![/url]
 
-Now on [url=https://github.com/Hybrid-X13/Mastema]GitHub[/url]
-
-[b]For another cool character, check out[/b] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2722017893] Andromeda[/url].
+[b]For another cool character, check out[/b] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2722017893] Andromeda[/url]!
 
 [h1][b]Credits[/b][/h1]
 [b]Hybrid[/b]: Coder and original idea behind the mod.
 [b]Split[/b]: Spriter for the characters' designs and most of the items.
+[b]Impupzables[/b]: Lots of costume tweaks and some item resprites.
 [b]DejuiceTD[/b]: Sprited both characters' boss portraits.
 [b]Warhamm2000[/b]: Various sprites for items, costumes, starting room drawings, and others.
 [b]JPG[/b]: Sprited some items, costume tweaks, menu art tweaks.
-[b]Impupzables[/b]: Lots of costume tweaks and improvements.
 [b]Nihil[/b]: Sprited one of the mod's runes.
 [b]Ridiculon[/b]: Voiceovers for the mod's consumables (and [b]popjam[/b] for help commissioning him!).</description>
-    <version>1.125</version>
+    <version>1.126</version>
     <visibility>Public</visibility>
     <tag id="Lua"/>
     <tag id="Items"/>
