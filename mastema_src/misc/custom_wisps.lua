@@ -1,29 +1,34 @@
 local Enums = require("mastema_src.enums")
 local sfx = SFXManager()
 local rng = RNG()
+local initSeeds = {}
 
 local Wisp = {}
 
-function Wisp.postEntityKill(entity)
-	rng:SetSeed(entity.InitSeed, 35)
+local function ShouldTriggerOnDeathEffect(npc)
+	for i = 1, #initSeeds do
+		if npc.InitSeed == initSeeds[i] then
+			table.remove(initSeeds, i)
 
-	local randNum = rng:RandomInt(10)
-	
-	if entity:GetData().killedByBHWisp
-	and randNum == 0
-	then
-		Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, 0, entity.Position, Vector.Zero, nil)
+			return true
+		end
 	end
 
+	return false
+end
+
+function Wisp.postEntityKill(entity)
 	if entity.Type ~= EntityType.ENTITY_FAMILIAR then return end
 	if entity.Variant ~= FamiliarVariant.WISP then return end
+
+	rng:SetSeed(entity.InitSeed, 35)
 	
 	if entity.SubType == Enums.Collectibles.RAVEN_BEAK then
 		Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.DEAD_BIRD, 0, entity.Position, Vector.Zero, nil)
 	elseif entity.SubType == Enums.Collectibles.BROKEN_DICE then
 		local familiar = entity:ToFamiliar()
 		local player = familiar.Player
-		randNum = rng:RandomInt(6)
+		local randNum = rng:RandomInt(6)
 		
 		if player:GetBrokenHearts() > 0
 		and randNum == 0
@@ -53,7 +58,18 @@ function Wisp.entityTakeDmg(target, amount, flags, source, countdown)
 	local health = enemy.HitPoints - amount
 
 	if health <= 0 then
-		enemy:GetData().killedByBHWisp = true
+		table.insert(initSeeds, enemy.InitSeed)
+	end
+end
+
+function Wisp.postNPCDeath(npc)
+	if not ShouldTriggerOnDeathEffect(npc) then return end
+	
+	rng:SetSeed(npc.InitSeed, 35)
+	local randFloat = rng:RandomFloat()
+
+	if randFloat < 0.1 then
+		Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, 0, npc.Position, Vector.Zero, nil)
 	end
 end
 
