@@ -31,6 +31,6 @@
 	<color name="fly_doom" r="102" g="90" b="90" or="-25" og="-35" ob="-35"/>
 	
 	<!-- Sinister Sight -->	<locust id="12" color="fly_purple" tearFlags="2" tearFlags2="20" procChance="0.15" />
-	<!-- Corrupy Heart -->	<locust id="13" gfx="mastema/blackheart.png" damageMultiplier="1.2" tearFlags2="41" procChance="0.01" />
+	<!-- Corrupt Heart -->	<locust id="13" gfx="mastema/blackheart.png" damageMultiplier="1.2" tearFlags2="41" procChance="0.01" />
 	<!-- Bloodsplosion -->	<locust id="14" color="fly_red" damageMultiplier="1.5" />
 </locusts>
