@@ -4,6 +4,11 @@ local rng = RNG()
 local sfx = SFXManager()
 local initSeeds = {}
 
+local LocustState = {
+	IDLE = 0,
+	CHARGING = -1,
+}
+
 local entFlags = {
 	EntityFlag.FLAG_POISON,
 	EntityFlag.FLAG_SLOW,
@@ -40,6 +45,14 @@ local function ShouldTriggerOnDeathEffect(npc)
 	return false
 end
 
+function Locust.familiarUpdate(familiar)
+	if familiar.Variant ~= FamiliarVariant.ABYSS_LOCUST then return end
+	if familiar.SubType ~= Enums.Collectibles.SACRIFICIAL_CHALICE then return end
+	if familiar.FrameCount % 30 ~= 0 then return end
+
+	Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_RED, 0, familiar.Position, Vector.Zero, familiar)
+end
+
 function Locust.entityTakeDmg(target, amount, flags, source, countdown)
 	local enemy = target:ToNPC()
 	
@@ -55,7 +68,7 @@ function Locust.entityTakeDmg(target, amount, flags, source, countdown)
 	then
 		local extraDMG = amount / 2
 		enemy:TakeDamage(extraDMG, flags | DamageFlag.DAMAGE_CLONES, source, 0)
-	elseif source.Entity.SubType == Enums.Collectibles.BLOODSPLOSION
+	elseif (source.Entity.SubType == Enums.Collectibles.BLOODSPLOSION or source.Entity.SubType == Enums.Collectibles.BLOODY_HARVEST)
 	and (enemy.HitPoints - amount) <= 0
 	then
 		table.insert(initSeeds, enemy.InitSeed)
@@ -66,28 +79,36 @@ function Locust.postNPCDeath(npc)
 	if not ShouldTriggerOnDeathEffect(npc) then return end
 
 	local bloodsplosionLocust = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.ABYSS_LOCUST, Enums.Collectibles.BLOODSPLOSION)
+	local bloodyHarvestLocst = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.ABYSS_LOCUST, Enums.Collectibles.BLOODY_HARVEST)
 
-	if #bloodsplosionLocust == 0 then return end
-	
-	local familiar = bloodsplosionLocust[1]:ToFamiliar()
-	local player = familiar.Player
-	
-	local explosionFlags = TearFlags.TEAR_NORMAL
-	
-	for i = 1, #entFlags do
-		if npc:HasEntityFlags(entFlags[i]) then
-			explosionFlags = explosionFlags | tearFlags[i]
+	if #bloodsplosionLocust > 0 then
+		local familiar = bloodsplosionLocust[1]:ToFamiliar()
+		local player = familiar.Player
+		
+		local explosionFlags = TearFlags.TEAR_NORMAL
+		
+		for i = 1, #entFlags do
+			if npc:HasEntityFlags(entFlags[i]) then
+				explosionFlags = explosionFlags | tearFlags[i]
+			end
 		end
-	end
-	
-	game:BombExplosionEffects(npc.Position, player.Damage, explosionFlags, Color.Default, player)
-	sfx:Play(SoundEffect.SOUND_DEATH_BURST_LARGE, 1.3)
-	local creep = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_RED, 0, npc.Position, Vector.Zero, npc)
-	
-	if player:HasTrinket(TrinketType.TRINKET_LOST_CORK) then
-		creep.SpriteScale = Vector(2.5, 2.5)
-	else
-		creep.SpriteScale = Vector(2, 2)
+		
+		game:BombExplosionEffects(npc.Position, player.Damage, explosionFlags, Color.Default, player)
+		sfx:Play(SoundEffect.SOUND_DEATH_BURST_LARGE, 1.3)
+		local creep = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_RED, 0, npc.Position, Vector.Zero, npc)
+		
+		if player:HasTrinket(TrinketType.TRINKET_LOST_CORK) then
+			creep.SpriteScale = Vector(2.5, 2.5)
+		else
+			creep.SpriteScale = Vector(2, 2)
+		end
+	elseif #bloodyHarvestLocst > 0 then
+		rng:SetSeed(npc.InitSeed, 35)
+		local randFloat = rng:RandomFloat()
+
+		if randFloat < 0.05 then
+			Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, 0, npc.Position, Vector.Zero, nil)
+		end
 	end
 end
 

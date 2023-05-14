@@ -94,6 +94,10 @@ if Encyclopedia then
 				{str = "The Book of Jubilees is the book that Mastema is from."},
 				{str = "One of the things it mentions is the Year of Jubilee, which occurred after every 49 years. During this year, all debts were pardoned, people were laid off work, and all slaves were freed. It was a time of rest and health."},
 			},
+			{ -- Abyss Locust
+				{str = "Abyss Locust", fsize = 2, clr = 3, halign = 0},
+				{str = "7 locusts that deal 7% damage and each have a small chance of creating a damaging light beam."},
+			},
 		},
 		BLOODY_HARVEST = {
 			{ -- Effect
@@ -105,6 +109,10 @@ if Encyclopedia then
 				{str = "Synergies", fsize = 2, clr = 3, halign = 0},
 				{str = "Book of Virtues", clr = 3, halign = 0},
 				{str = "Spawns a heart wisp. Enemies killed by the wisp's tears have a 10% chance to drop a random heart."},
+			},
+			{ -- Abyss Locust
+				{str = "Abyss Locust", fsize = 2, clr = 3, halign = 0},
+				{str = "A black locust that deals 1x damage and enemies killed by the locust have a 5% chance to drop a random heart."},
 			},
 		},
 		MASTEMAS_WRATH = {
@@ -118,6 +126,10 @@ if Encyclopedia then
 				{str = "Trivia", fsize = 2, clr = 3, halign = 0},
 				{str = "This item's effect is based on the following quote from the Book of Jubilees:"},
 				{str = "For on this night -the beginning of the festival and the beginning of the joy- ye were eating the passover in Egypt, when all the powers of Mastema had been let loose to slay all the first-born in the land of Egypt, from the first-born of Pharaoh to the first-born of the captive maid-servant in the mill, and to the cattle."},
+			},
+			{ -- Abyss Locust
+				{str = "Abyss Locust", fsize = 2, clr = 3, halign = 0},
+				{str = "A black locust that glows red and deals 1.4x damage."},
 			},
 		},
 		TORN_WINGS = {
@@ -146,6 +158,10 @@ if Encyclopedia then
 				{str = "This item is a direct reference to Mastema's torn wings and the fact that he's a fallen angel, which are angels who have sinned and have been cast out of heaven."},
 				{str = "He cry cause no fly."},
 			},
+			{ -- Abyss Locust
+				{str = "Abyss Locust", fsize = 2, clr = 3, halign = 0},
+				{str = "A black locust that charges slowly but deals 2x damage."},
+			},
 		},
 		RAVEN_BEAK = {
 			{ -- Effect
@@ -166,6 +182,10 @@ if Encyclopedia then
 				{str = "Trivia", fsize = 2, clr = 3, halign = 0},
 				{str = "This item is based on the following quote from the Book of Jubilees:"},
 				{str = "And the prince Mastema sent ravens and birds to devour the seed which was sown in the land, in order to destroy the land, and rob the children of men of their labours. Before they could plough in the seed, the ravens picked (it) from the surface of the ground. And for this reason he called his name Terah because the ravens and the birds reduced them to destitution and devoured their seed. And the years began to be barren, owing to the birds, and they devoured all the fruit of the trees from the trees: it was only with great effort that they could save a little of all the fruit of the earth in their days."},
+			},
+			{ -- Abyss Locust
+				{str = "Abyss Locust", fsize = 2, clr = 3, halign = 0},
+				{str = "A black locust that deals 1.25x damage and has increased speed."},
 			},
 		},
 		BLOODSPLOSION = {
@@ -211,6 +231,10 @@ if Encyclopedia then
 				{str = "Interactions", fsize = 2, clr = 3, halign = 0},
 				{str = "Acts as a one-time use item when used by the Lost or tainted Lost."},
 			},
+			{ -- Abyss Locust
+				{str = "Abyss Locust", fsize = 2, clr = 3, halign = 0},
+				{str = "A black locust that deals 1.666x damage."},
+			},
 		},
 		BROKEN_DICE = {
 			{ -- Effect
@@ -229,6 +253,10 @@ if Encyclopedia then
 				{str = "Has no effect."},
 				{str = "The Lost/Tainted Lost", clr = 3, halign = 0},
 				{str = "This item has a 1/6 chance to be removed when used by the Lost or Tainted Lost."},
+			},
+			{ -- Abyss Locust
+				{str = "Abyss Locust", fsize = 2, clr = 3, halign = 0},
+				{str = "2 purple dice locusts that each deal 0.75x damage."},
 			},
 		},
 		SINISTER_SIGHT = {
@@ -255,6 +283,10 @@ if Encyclopedia then
 				{str = "Synergies", fsize = 2, clr = 3, halign = 0},
 				{str = "BFFS!", clr = 3, halign = 0},
 				{str = "The chalice is guaranteed to give at least one reward each floor and can no longer give a negative effect, even if you didn't get hit on the previous floor."},
+			},
+			{ -- Abyss Locust
+				{str = "Abyss Locust", fsize = 2, clr = 3, halign = 0},
+				{str = "A yellow skull locust that deals 1.5x damage and periodically drips red damaging creep."},
 			},
 		},
 		CORRUPT_HEART = {
