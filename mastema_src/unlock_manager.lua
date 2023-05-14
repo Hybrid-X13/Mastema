@@ -547,6 +547,8 @@ end
 function UnlockManager.postPickupInit(pickup)
 	local room = game:GetRoom()
 	local roomType = room:GetType()
+	local level = game:GetLevel()
+	local roomDesc = level:GetCurrentRoomDesc()
 	rng:SetSeed(pickup.InitSeed, 35)
 
 	if pickup.Variant == PickupVariant.PICKUP_COLLECTIBLE then
@@ -588,9 +590,13 @@ function UnlockManager.postPickupInit(pickup)
 				pool = ItemPoolType.POOL_RED_CHEST
 			end
 
-			local newItem = game:GetItemPool():GetCollectible(pool, true, pickup.InitSeed)
-			game:GetItemPool():RemoveCollectible(pickup.SubType)
-			pickup:Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, newItem, true, false, false)
+			if Functions.GetDimension(roomDesc) == 2 then
+				pickup:Remove()
+			else
+				local newItem = game:GetItemPool():GetCollectible(pool, true, pickup.InitSeed)
+				game:GetItemPool():RemoveCollectible(pickup.SubType)
+				pickup:Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, newItem, true, false, false)
+			end
 		end
 	elseif pickup.Variant == PickupVariant.PICKUP_TRINKET then
 		local tab = trinketUnlocks[pickup.SubType]
