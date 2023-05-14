@@ -113,6 +113,7 @@ end
 
 function Ritual.postNewLevel()
 	if not SaveData.UnlockData.T_Mastema.MegaSatan then return end
+	if SaveData.ItemData.RitualRoom.Entered then return end
 
 	local room = game:GetRoom()
 	local level = game:GetLevel()
@@ -187,6 +188,12 @@ function Ritual.postNewRoom()
 	if room:GetType() == RoomType.ROOM_SACRIFICE then
 		game:ShowHallucination(0, BackdropType.SHEOL)
 		sfx:Stop(SoundEffect.SOUND_DEATH_CARD)
+
+		if room:IsFirstVisit()
+		and not SaveData.ItemData.RitualRoom.Entered
+		then
+			SaveData.ItemData.RitualRoom.Entered = true
+		end
 
 		if StageAPI then
 			for _, customGrid in ipairs(StageAPI.GetCustomGrids()) do

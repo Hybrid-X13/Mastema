@@ -86,6 +86,9 @@ SaveData.ItemData = {
 		Luck = 0,
 		Level = 1,
 	},
+	RitualRoom = {
+		Entered = false,
+	},
 }
 
 function SaveData.SaveModData()
@@ -203,6 +206,9 @@ function SaveData.postPlayerInit(player)
 					Speed = 0,
 					Luck = 0,
 					Level = 1,
+				},
+				RitualRoom = {
+					Entered = false,
 				},
 			}
 
