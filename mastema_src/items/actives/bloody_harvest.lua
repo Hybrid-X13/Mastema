@@ -12,6 +12,14 @@ function Item.useItem(item, rng, player, flags, activeSlot, customVarData)
 	local spawnpos = Isaac.GetFreeNearPosition(player.Position, 40)
 	local randNum = rng:RandomInt(10)
 	
+	if flags & UseFlag.USE_NOHUD == UseFlag.USE_NOHUD
+	and player:GetPlayerType() == Enums.Characters.MASTEMA
+	and player:HasTrinket(Enums.Trinkets.MASTEMA_BIRTHCAKE)
+	then
+		randNum = 0
+		spawnpos = room:FindFreePickupSpawnPosition(room:GetCenterPos(), 0)
+	end
+
 	if randNum == 9 then --Spawn devil deal
 		local itemID
 		

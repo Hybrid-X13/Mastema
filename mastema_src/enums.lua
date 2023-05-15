@@ -37,6 +37,8 @@ Enums.Trinkets = {
 	SATANIC_CHARM = Isaac.GetTrinketIdByName("Satanic Charm"),
 	PURISTS_HEART = Isaac.GetTrinketIdByName("Purist's Heart"),
 	SPIRITS_HEART = Isaac.GetTrinketIdByName("Spirit's Heart"),
+	MASTEMA_BIRTHCAKE = Isaac.GetTrinketIdByName("Mastema's Cake"),
+	T_MASTEMA_BIRTHCAKE = Isaac.GetTrinketIdByName("Tainted Mastema's Cake"),
 }
 
 Enums.Cards = {

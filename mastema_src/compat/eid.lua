@@ -34,6 +34,8 @@ if EID then
 	EID:addTrinket(Enums.Trinkets.SATANIC_CHARM, "Paying for a devil deal grants ↑+0.5 damage up#Mastema and Tainted Mastema only gain +0.25 damage", "Satanic Charm")
 	EID:addTrinket(Enums.Trinkets.PURISTS_HEART, "↑ 1.2x Damage multiplier if you don't have any soul or black hearts", "Purist's Heart")
 	EID:addTrinket(Enums.Trinkets.SPIRITS_HEART, "↑ 1.2x Tear multiplier if you don't have any red heart containers or bone hearts", "Spirit's Heart")
+	EID:addTrinket(Enums.Trinkets.MASTEMA_BIRTHCAKE, "An extra pickup surrounded by spikes spawns in shops, treasure, devil, and angel rooms", "Mastema's Cake")
+	EID:addTrinket(Enums.Trinkets.T_MASTEMA_BIRTHCAKE, "{{BrokenHeart}} An additional broken heart is removed at the start of each floor", "Tainted Mastema's Cake")
 	--Cards/runes
 	EID:addCard(Enums.Cards.LIFE_DICE, "Rerolls your health into any combination of heart types", "Life Dice")
 	EID:addCard(Enums.Cards.PRAYER_OF_REPENTANCE, "Spawns a Confessional", "Prayer of Repentance")
@@ -48,6 +50,8 @@ if EID then
 	EID:addGoldenTrinketMetadata(Enums.Trinkets.GOODWILL_TAG, {"{{Shop}} Shop: #{{Blank}} Battery bum", "{{Shop}} Shop: #{{Blank}} Battery bum#{{SecretRoom}} Secret: #{{Blank}} Bomb bum"}, 0, 3)
 	EID:addGoldenTrinketMetadata(Enums.Trinkets.SHATTERED_SOUL, "Reduces the broken heart cost of the item by 1", 0, 2)
 	EID:addGoldenTrinketMetadata(Enums.Trinkets.SATANIC_CHARM, nil, {0.5, 0.25}, 3)
+	EID:addGoldenTrinketMetadata(Enums.Trinkets.MASTEMA_BIRTHCAKE)
+	EID:addGoldenTrinketMetadata(Enums.Trinkets.T_MASTEMA_BIRTHCAKE)
 
 	-- Русский
 	EID:addBirthright(Enums.Characters.MASTEMA, "Цены предметов за сердца теперь меняются в зависимости от текущего здоровья игрока#↑ Покупка предметов теперь даёт плюс к характеристике за каждое потраченное сердце", "Мастема", "ru")

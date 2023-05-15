@@ -248,9 +248,9 @@ local function IsValidRoom()
 	or (level:GetStage() == LevelStage.STAGE6 and roomIndex == startRoomIndex)
 	then
 		return true
-	else
-		return false
 	end
+
+	return false
 end
 
 local function AnyItemCostsHP()
@@ -435,6 +435,22 @@ function Character.postNewRoom()
 					end
 				end
 				ChangeItemPrices()
+			end
+
+			if player:HasTrinket(Enums.Trinkets.MASTEMA_BIRTHCAKE)
+			and room:IsFirstVisit()
+			and (
+				room:GetType() == RoomType.ROOM_TREASURE
+				or room:GetType() == RoomType.ROOM_SHOP
+				or room:GetType() == RoomType.ROOM_DEVIL
+				or room:GetType() == RoomType.ROOM_ANGEL
+			)
+			then
+				local trinketMultiplier = player:GetTrinketMultiplier(Enums.Trinkets.MASTEMA_BIRTHCAKE)
+
+				for i = 1, trinketMultiplier do
+					player:UseActiveItem(Enums.Collectibles.BLOODY_HARVEST, UseFlag.USE_NOANIM | UseFlag.USE_NOHUD)
+				end
 			end
 
 			--Update prices more smoothly
@@ -627,7 +643,7 @@ function Character.prePickupCollision(pickup, collider, low)
 		if pickup.Price == PickupPrice.PRICE_ONE_HEART_AND_TWO_SOULHEARTS
 		or pickup.Price == PickupPrice.PRICE_THREE_SOULHEARTS
 		then
-			for i = 1, 3 do 
+			for i = 1, 3 do
 				randNum = rng:RandomInt(#birthrightStats) + 1
 				SaveData.PlayerData.Mastema.Birthright[birthrightStats[randNum]] = SaveData.PlayerData.Mastema.Birthright[birthrightStats[randNum]] + 1
 			end
@@ -635,7 +651,7 @@ function Character.prePickupCollision(pickup, collider, low)
 		or pickup.Price == PickupPrice.PRICE_TWO_SOUL_HEARTS
 		or pickup.Price == PickupPrice.PRICE_ONE_HEART_AND_ONE_SOUL_HEART
 		then
-			for i = 1, 2 do 
+			for i = 1, 2 do
 				randNum = rng:RandomInt(#birthrightStats) + 1
 				SaveData.PlayerData.Mastema.Birthright[birthrightStats[randNum]] = SaveData.PlayerData.Mastema.Birthright[birthrightStats[randNum]] + 1
 			end

@@ -22,6 +22,8 @@
 	<trinket name="Satanic Charm" description="Down the darkest path" gfx="mastema_sataniccharm.png" />
 	<trinket name="Purist's Heart" description="Power to the purest" gfx="mastema_puristsheart.png" />
 	<trinket name="Spirit's Heart" description="Weep what you sow" gfx="mastema_spiritsheart.png" />
+	<trinket name="Mastema's Cake" description="Temptation up" gfx="mastema_birthcake.png" achievement="999" />
+	<trinket name="Tainted Mastema's Cake" description="Mend your sins" gfx="mastema_birthcake_tainted.png" achievement="999" />
 
 	<passive name="Satanic Ritual DMG" gfx="00_NULLITEM.png" persistent="true" cache="damage" hidden="true" />
 	<passive name="Satanic Ritual Tears" gfx="00_NULLITEM.png" persistent="true" cache="firedelay" hidden="true" />

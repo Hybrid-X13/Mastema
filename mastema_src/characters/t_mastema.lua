@@ -291,7 +291,9 @@ function Character.postNewLevel()
 			newFloor = true
 
 			if player:GetBrokenHearts() > 0 then
-				player:AddBrokenHearts(-1)
+				local numBrokenHearts = 1 + player:GetTrinketMultiplier(Enums.Trinkets.T_MASTEMA_BIRTHCAKE)
+				
+				player:AddBrokenHearts(-numBrokenHearts)
 				sfx:Play(SoundEffect.SOUND_THUMBSUP)
 				sfx:Play(SoundEffect.SOUND_DEATH_CARD)
 			end

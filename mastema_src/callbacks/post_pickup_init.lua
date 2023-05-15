@@ -3,6 +3,7 @@ local Mastema = require("mastema_src.characters.mastema")
 local T_Mastema = require("mastema_src.characters.t_mastema")
 local CorruptHeart = require("mastema_src.items.passives.corrupt_heart")
 local SatanicRitual = require("mastema_src.misc.satanic_ritual")
+local BirthcakeCompat = require("mastema_src.compat.birthcake")
 
 local function MC_POST_PICKUP_INIT(_, pickup)
 	UnlockManager.postPickupInit(pickup)
@@ -13,6 +14,8 @@ local function MC_POST_PICKUP_INIT(_, pickup)
 	CorruptHeart.postPickupInit(pickup)
 	
 	SatanicRitual.postPickupInit(pickup)
+
+	BirthcakeCompat.postPickupInit(pickup)
 end
 
 return MC_POST_PICKUP_INIT
