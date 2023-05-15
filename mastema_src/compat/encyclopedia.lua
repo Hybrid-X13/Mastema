@@ -230,6 +230,8 @@ if Encyclopedia then
 			{ -- Interactions
 				{str = "Interactions", fsize = 2, clr = 3, halign = 0},
 				{str = "Acts as a one-time use item when used by the Lost or tainted Lost."},
+				{str = "Car Battery", clr = 3, halign = 0},
+				{str = "Has no effect."},
 			},
 			{ -- Abyss Locust
 				{str = "Abyss Locust", fsize = 2, clr = 3, halign = 0},
