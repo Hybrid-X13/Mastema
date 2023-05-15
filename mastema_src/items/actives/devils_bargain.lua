@@ -55,6 +55,7 @@ end
 
 function Item.useItem(item, rng, player, flags, activeSlot, customVarData)
 	if item ~= Enums.Collectibles.DEVILS_BARGAIN then return end
+	if flags & UseFlag.USE_CARBATTERY == UseFlag.USE_CARBATTERY then return end
 	
 	local room = game:GetRoom()
 	local roomType = room:GetType()
