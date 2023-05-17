@@ -67,7 +67,7 @@ function Consumable.useCard(card, player, flag)
 			or pool == ItemPoolType.POOL_ANGEL
 			then
 				if devilPrice == 2 then
-					if (player:GetPlayerType() == PlayerType.PLAYER_KEEPER or player:GetPlayerType() == PlayerType.PLAYER_KEEPER_B)
+					if Functions.IsKeeper(player)
 					and player:GetNumCoins() >= 30
 					then
 						player:AddCoins(-30)
@@ -78,7 +78,7 @@ function Consumable.useCard(card, player, flag)
 						player:AddSoulHearts(-4)
 					end
 				else
-					if (player:GetPlayerType() == PlayerType.PLAYER_KEEPER or player:GetPlayerType() == PlayerType.PLAYER_KEEPER_B)
+					if Functions.IsKeeper(player)
 					and player:GetNumCoins() >= 15
 					then
 						player:AddCoins(-15)
@@ -88,7 +88,7 @@ function Consumable.useCard(card, player, flag)
 				end
 			else
 				if quality > 2 then
-					if (player:GetPlayerType() == PlayerType.PLAYER_KEEPER or player:GetPlayerType() == PlayerType.PLAYER_KEEPER_B)
+					if Functions.IsKeeper(player)
 					and player:GetNumCoins() >= 30
 					then
 						player:AddCoins(-30)
@@ -99,7 +99,7 @@ function Consumable.useCard(card, player, flag)
 						player:AddSoulHearts(-4)
 					end
 				else
-					if (player:GetPlayerType() == PlayerType.PLAYER_KEEPER or player:GetPlayerType() == PlayerType.PLAYER_KEEPER_B)
+					if Functions.IsKeeper(player)
 					and player:GetNumCoins() >= 15
 					then
 						player:AddCoins(-15)

@@ -185,7 +185,7 @@ function Familiar.familiarUpdate(familiar)
 					if player:HasTrinket(TrinketType.TRINKET_YOUR_SOUL) then
 						player:TryRemoveTrinket(TrinketType.TRINKET_YOUR_SOUL)
 						player:TryRemoveTrinket(TrinketType.TRINKET_YOUR_SOUL + TrinketType.TRINKET_GOLDEN_FLAG)
-					elseif (player:GetPlayerType() == PlayerType.PLAYER_KEEPER or player:GetPlayerType() == PlayerType.PLAYER_KEEPER_B)
+					elseif Functions.IsKeeper(player)
 					and player:GetNumCoins() >= 30
 					then
 						player:AddCoins(-30)

@@ -39,9 +39,7 @@ function Item.useItem(item, rng, player, flags, activeSlot, customVarData)
 		
 		if player:HasTrinket(TrinketType.TRINKET_YOUR_SOUL) then
 			devilItem.Price = PickupPrice.PRICE_SOUL
-		elseif player:GetPlayerType() == PlayerType.PLAYER_KEEPER
-		or player:GetPlayerType() == PlayerType.PLAYER_KEEPER_B
-		then
+		elseif Functions.IsKeeper(player) then
 			if devilPrice == 2 then
 				devilItem.Price = math.floor(30 / (player:GetCollectibleNum(CollectibleType.COLLECTIBLE_STEAM_SALE) + 1))
 			else
@@ -92,9 +90,7 @@ function Item.useItem(item, rng, player, flags, activeSlot, customVarData)
 		if randNum == 0 then --Spawn one of the heart subtypes below or a coin when playing as Keeper/T. Keeper
 			randNum = rng:RandomInt(100)
 			
-			if player:GetPlayerType() == PlayerType.PLAYER_KEEPER
-			or player:GetPlayerType() == PlayerType.PLAYER_KEEPER_B
-			then
+			if Functions.IsKeeper(player) then
 				spawnPickup = Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COIN, 0, spawnpos, Vector.Zero, nil)
 			elseif randNum == 0 then
 				spawnPickup = Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_GOLDEN, spawnpos, Vector.Zero, nil)

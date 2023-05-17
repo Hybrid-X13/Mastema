@@ -49,8 +49,7 @@ local function TwistedFaithEffect(player)
 				if collectible.Price == 0 then
 					if player:HasTrinket(TrinketType.TRINKET_YOUR_SOUL) then
 						collectible.Price = PickupPrice.PRICE_SOUL
-					elseif player:GetPlayerType() == PlayerType.PLAYER_KEEPER
-					or player:GetPlayerType() == PlayerType.PLAYER_KEEPER_B
+					elseif Functions.IsKeeper(player)
 					or player:HasCollectible(CollectibleType.COLLECTIBLE_POUND_OF_FLESH)
 					then
 						if devilPrice == 2 then
@@ -176,8 +175,7 @@ function Trinket.postPEffectUpdate(player)
 			if collectible.Price ~= 0 then
 				if player:HasTrinket(TrinketType.TRINKET_YOUR_SOUL) then
 					collectible.Price = PickupPrice.PRICE_SOUL
-				elseif player:GetPlayerType() == PlayerType.PLAYER_KEEPER
-				or player:GetPlayerType() == PlayerType.PLAYER_KEEPER_B
+				elseif Functions.IsKeeper(player)
 				or player:HasCollectible(CollectibleType.COLLECTIBLE_POUND_OF_FLESH)
 				then
 					if devilPrice == 2 then

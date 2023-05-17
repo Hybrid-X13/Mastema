@@ -1,4 +1,5 @@
 local Enums = require("mastema_src.enums")
+local Functions = require("mastema_src.functions")
 local game = Game()
 local rng = RNG()
 
@@ -123,9 +124,7 @@ function Item.postPickupInit(pickup)
 
 			if randNum ~= 0 then return end
 
-			if player:GetPlayerType() == PlayerType.PLAYER_KEEPER
-			or player:GetPlayerType() == PlayerType.PLAYER_KEEPER_B
-			then
+			if Functions.IsKeeper(player) then
 				if pickup.SubType == HeartSubType.HEART_BLACK
 				or pickup.SubType == RepPlus.BENIGHTED_HEART
 				or pickup.SubType == RepPlus.DESERTED_HEART

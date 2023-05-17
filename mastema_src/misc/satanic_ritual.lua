@@ -341,7 +341,7 @@ function Ritual.postEffectUpdate(effect)
 		if player:HasTrinket(Enums.Trinkets.LIFE_SAVINGS) then
 			player:TryRemoveTrinket(Enums.Trinkets.LIFE_SAVINGS)
 			player:TryRemoveTrinket(Enums.Trinkets.LIFE_SAVINGS + TrinketType.TRINKET_GOLDEN_FLAG)
-		elseif (player:GetPlayerType() == PlayerType.PLAYER_KEEPER or player:GetPlayerType() == PlayerType.PLAYER_KEEPER_B)
+		elseif Functions.IsKeeper(player)
 		and player:GetNumCoins() >= 15
 		then
 			player:AddCoins(-15)

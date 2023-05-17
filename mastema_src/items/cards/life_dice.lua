@@ -1,4 +1,5 @@
 local Enums = require("mastema_src.enums")
+local Functions = require("mastema_src.functions")
 local rng = RNG()
 
 local Consumable = {}
@@ -22,9 +23,7 @@ function Consumable.useCard(card, player, flag)
 	
 	player:AddMaxHearts(-numHeartContainers)
 
-	if player:GetPlayerType() == PlayerType.PLAYER_KEEPER
-	or player:GetPlayerType() == PlayerType.PLAYER_KEEPER_B
-	then
+	if Functions.IsKeeper(player) then
 		newHealthTotal = rng:RandomInt(heartLimit) + 1
 		filledRedHealth = rng:RandomInt(newHealthTotal) + 1
 
@@ -182,9 +181,7 @@ function Consumable.useCard(card, player, flag)
 		player:AddBrokenHearts(randNum)
 	end
 
-	if player:GetPlayerType() ~= PlayerType.PLAYER_KEEPER
-	and player:GetPlayerType() ~= PlayerType.PLAYER_KEEPER_B
-	then
+	if not Functions.IsKeeper(player) then
 		--5% chance to give an eternal heart on use
 		randNum = rng:RandomInt(20)
 		
