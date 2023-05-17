@@ -590,7 +590,7 @@ function UnlockManager.postPickupInit(pickup)
 				pool = ItemPoolType.POOL_RED_CHEST
 			end
 
-			if Functions.GetDimension(roomDesc) == 2 then
+			if Functions.GetDimension(roomDesc) == Enums.Dimensions.DEATH_CERTIFICATE then
 				pickup:Remove()
 			else
 				local newItem = game:GetItemPool():GetCollectible(pool, true, pickup.InitSeed)

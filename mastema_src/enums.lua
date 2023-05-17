@@ -75,4 +75,8 @@ Enums.Voicelines = {
 	PRAYER_OF_REPENTANCE = Isaac.GetSoundIdByName("PrayerofRepentance"),
 }
 
+Enums.Dimensions = {
+	DEATH_CERTIFICATE = 2,
+}
+
 return Enums

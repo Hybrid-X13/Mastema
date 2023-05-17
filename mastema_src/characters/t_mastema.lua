@@ -451,7 +451,7 @@ function Character.prePickupCollision(pickup, collider, low)
 	and itemConfig.Tags & ItemConfig.TAG_FOOD ~= ItemConfig.TAG_FOOD
 	and not IsBlacklisted(itemID)
 	and roomIndex ~= GridRooms.ROOM_GENESIS_IDX
-	and Functions.GetDimension(roomDesc) ~= 2
+	and Functions.GetDimension(roomDesc) ~= Enums.Dimensions.DEATH_CERTIFICATE
 	and not IsTaintedTreasureRoom(roomDesc)
 	then
 		if quality > 3 then
@@ -623,7 +623,7 @@ function Character.postRender()
 	
 	if room:GetFrameCount() == 0 then return end
 	if roomIndex == GridRooms.ROOM_GENESIS_IDX then return end
-	if Functions.GetDimension(roomDesc) == 2 then return end
+	if Functions.GetDimension(roomDesc) == Enums.Dimensions.DEATH_CERTIFICATE then return end
 	if IsTaintedTreasureRoom(roomDesc) then return end
 	
 	local items = Isaac.FindByType(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE)
