@@ -12,9 +12,7 @@ function Trinket.evaluateCache(player, cacheFlag)
 	local trinketMultiplier = player:GetTrinketMultiplier(Enums.Trinkets.SATANIC_CHARM)
 	local dmg = 0.5
 
-	if player:GetPlayerType() == Enums.Characters.MASTEMA
-	or player:GetPlayerType() == Enums.Characters.T_MASTEMA
-	then
+	if player:GetPlayerType() == Enums.Characters.MASTEMA then
 		dmg = 0.25
 	end
 
