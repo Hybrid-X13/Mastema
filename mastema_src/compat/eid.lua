@@ -31,7 +31,7 @@ if EID then
 	EID:addTrinket(Enums.Trinkets.MANTLED_HEART, "{{SoulHeart}} Picking up a soul heart has a 15% chance of granting a {{Collectible313}} Holy Mantle shield#{{EternalHeart}} 30% chance when picking up eternal hearts", "Mantled Heart")
 	EID:addTrinket(Enums.Trinkets.GOODWILL_TAG, "While held, certain special rooms will always contain a beggar:#{{AngelRoom}} Angel: #{{Blank}} Normal beggar#{{DevilRoom}} Devil: #{{Blank}} Demon beggar#{{TreasureRoom}} Treasure: #{{Blank}} Key beggar", "Goodwill Tag")
 	EID:addTrinket(Enums.Trinkets.SHATTERED_SOUL, "{{DevilRoom}} Devil rooms will have an extra item that costs broken hearts#You can only choose between this item or the room's devil deals#{{SacrificeRoom}} Using a sacrifice room removes all broken hearts but will also destroy the trinket", "Shattered Soul")
-	EID:addTrinket(Enums.Trinkets.SATANIC_CHARM, "Paying for a devil deal grants ↑+0.5 damage up#Mastema and Tainted Mastema only gain +0.25 damage", "Satanic Charm")
+	EID:addTrinket(Enums.Trinkets.SATANIC_CHARM, "Paying for a devil deal grants ↑+0.5 damage up#Mastema only gains +0.25 damage", "Satanic Charm")
 	EID:addTrinket(Enums.Trinkets.PURISTS_HEART, "↑ 1.2x Damage multiplier if you don't have any soul or black hearts", "Purist's Heart")
 	EID:addTrinket(Enums.Trinkets.SPIRITS_HEART, "↑ 1.2x Tear multiplier if you don't have any red heart containers or bone hearts", "Spirit's Heart")
 	EID:addTrinket(Enums.Trinkets.MASTEMA_BIRTHCAKE, "An extra pickup surrounded by spikes spawns in shops, treasure, devil, and angel rooms", "Mastema's Cake")

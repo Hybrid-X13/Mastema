@@ -375,7 +375,7 @@ if Encyclopedia then
 			{ -- Effect
 				{str = "Effect", fsize = 2, clr = 3, halign = 0},
 				{str = "Paying for a devil deal grants +0.5 damage up."},
-				{str = "Mastema and Tainted Mastema only gain +0.25 damage."},
+				{str = "Mastema only gains +0.25 damage."},
 			},
 		},
 		PURISTS_HEART = {
