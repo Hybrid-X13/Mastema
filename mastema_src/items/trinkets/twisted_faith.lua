@@ -11,7 +11,11 @@ local function TwistedFaithEffect(player)
 	local items = Isaac.FindByType(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE)
 	
 	if room:GetType() == RoomType.ROOM_DEVIL then
-		player:UseCard(Card.CARD_CREDIT, UseFlag.USE_NOANIM | UseFlag.USE_NOANNOUNCER)
+		for _, j in pairs(items) do
+			local collectible = j:ToPickup()
+			collectible.Price = 0
+			collectible.OptionsPickupIndex = 666
+		end
 
 		if player:GetTrinketMultiplier(Enums.Trinkets.TWISTED_FAITH) > 1 then
 			local pos = room:FindFreePickupSpawnPosition(room:GetCenterPos(), 0)
@@ -23,11 +27,6 @@ local function TwistedFaithEffect(player)
 			end
 
 			Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_SOUL, pos, Vector.Zero, nil)
-		end
-
-		for _, j in pairs(items) do
-			local collectible = j:ToPickup()
-			collectible.OptionsPickupIndex = 666
 		end
 	elseif room:GetType() == RoomType.ROOM_ANGEL then
 		if player:GetTrinketMultiplier(Enums.Trinkets.TWISTED_FAITH) > 1 then
@@ -46,50 +45,52 @@ local function TwistedFaithEffect(player)
 				
 				collectible.OptionsPickupIndex = 0
 			
-				if collectible.Price == 0 then
-					if player:HasTrinket(TrinketType.TRINKET_YOUR_SOUL) then
-						collectible.Price = PickupPrice.PRICE_SOUL
-					elseif Functions.IsKeeper(player)
-					or player:HasCollectible(CollectibleType.COLLECTIBLE_POUND_OF_FLESH)
-					then
-						if devilPrice == 2 then
-							collectible.Price = math.floor(30 / (player:GetCollectibleNum(CollectibleType.COLLECTIBLE_STEAM_SALE) + 1))
-						else
-							collectible.Price = 15
-						end
-					elseif maxRedHearts > 0
-					and not Functions.IsSoulHeartCharacter(player)
-					then
-						if devilPrice == 2
-						and not player:HasTrinket(TrinketType.TRINKET_JUDAS_TONGUE)
+				if player:GetPlayerType() ~= Enums.Characters.T_MASTEMA then
+					if collectible.Price == 0 then
+						if player:HasTrinket(TrinketType.TRINKET_YOUR_SOUL) then
+							collectible.Price = PickupPrice.PRICE_SOUL
+						elseif Functions.IsKeeper(player)
+						or player:HasCollectible(CollectibleType.COLLECTIBLE_POUND_OF_FLESH)
 						then
-							if maxRedHearts >= 4 then
-								collectible.Price = PickupPrice.PRICE_TWO_HEARTS
-							else
-								collectible.Price = PickupPrice.PRICE_ONE_HEART_AND_TWO_SOULHEARTS
-							end
-						else
-							collectible.Price = PickupPrice.PRICE_ONE_HEART
-						end
-					else
-						if player:GetPlayerType() == PlayerType.PLAYER_BLUEBABY then
 							if devilPrice == 2 then
-								collectible.Price = PickupPrice.PRICE_TWO_SOUL_HEARTS
+								collectible.Price = math.floor(30 / (player:GetCollectibleNum(CollectibleType.COLLECTIBLE_STEAM_SALE) + 1))
 							else
-								collectible.Price = PickupPrice.PRICE_ONE_SOUL_HEART
+								collectible.Price = 15
+							end
+						elseif maxRedHearts > 0
+						and not Functions.IsSoulHeartCharacter(player)
+						then
+							if devilPrice == 2
+							and not player:HasTrinket(TrinketType.TRINKET_JUDAS_TONGUE)
+							then
+								if maxRedHearts >= 4 then
+									collectible.Price = PickupPrice.PRICE_TWO_HEARTS
+								else
+									collectible.Price = PickupPrice.PRICE_ONE_HEART_AND_TWO_SOULHEARTS
+								end
+							else
+								collectible.Price = PickupPrice.PRICE_ONE_HEART
 							end
 						else
-							collectible.Price = PickupPrice.PRICE_THREE_SOULHEARTS
+							if player:GetPlayerType() == PlayerType.PLAYER_BLUEBABY then
+								if devilPrice == 2 then
+									collectible.Price = PickupPrice.PRICE_TWO_SOUL_HEARTS
+								else
+									collectible.Price = PickupPrice.PRICE_ONE_SOUL_HEART
+								end
+							else
+								collectible.Price = PickupPrice.PRICE_THREE_SOULHEARTS
+							end
 						end
-					end
 
-					collectible.ShopItemId = -1
-					
-					if collectible.Price > 15
-					or collectible.Price < 0
-					or (collectible.Price > 0 and player:HasCollectible(CollectibleType.COLLECTIBLE_POUND_OF_FLESH))
-					then
-						collectible.AutoUpdatePrice = false
+						collectible.ShopItemId = -1
+						
+						if collectible.Price > 15
+						or collectible.Price < 0
+						or (collectible.Price > 0 and player:HasCollectible(CollectibleType.COLLECTIBLE_POUND_OF_FLESH))
+						then
+							collectible.AutoUpdatePrice = false
+						end
 					end
 				end
 			end
@@ -158,7 +159,7 @@ function Trinket.postPEffectUpdate(player)
 	end
 
 	if room:GetType() ~= RoomType.ROOM_ANGEL then return end
-	if player:GetPlayerType() == Enums.Characters.MASTEMA then return end
+	if player:GetPlayerType() == Enums.Characters.MASTEMA or player:GetPlayerType() == Enums.Characters.T_MASTEMA then return end
 
 	local items = Isaac.FindByType(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE)
 	
