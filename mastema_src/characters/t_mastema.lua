@@ -308,11 +308,9 @@ function Character.preGetCollectible(pool, decrease, seed)
 	if pool == ItemPoolType.POOL_GREED_BOSS then return end
 	
 	local room = game:GetRoom()
-	local level = game:GetLevel()
-	local roomIndex = level:GetCurrentRoomIndex()
 	
 	if room:GetType() ~= RoomType.ROOM_TREASURE then return end
-	if game:IsGreedMode() and roomIndex == 98 then return end
+	if Functions.IsGreedTreasureRoom() then return end
 
 	rng:SetSeed(seed, 35)
 	local randFloat = rng:RandomFloat()

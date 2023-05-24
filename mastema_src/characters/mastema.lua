@@ -363,7 +363,6 @@ function Character.postNewRoom()
 	rng:SetSeed(room:GetDecorationSeed(), 35)
 	local level = game:GetLevel()
 	local stageType = level:GetStageType()
-	local roomIndex = level:GetCurrentRoomIndex()
 	
 	for i = 0, game:GetNumPlayers() - 1 do
 		local player = Isaac.GetPlayer(i)
@@ -397,7 +396,7 @@ function Character.postNewRoom()
 			and IsValidRoom()
 			then
 				if room:GetType() == RoomType.ROOM_TREASURE
-				and (not game:IsGreedMode() or (game:IsGreedMode() and roomIndex ~= 98))
+				and not Functions.IsGreedTreasureRoom()
 				then
 					local pool = ItemPoolType.POOL_TREASURE
 					local seed = game:GetSeeds():GetStartSeed()
@@ -505,11 +504,9 @@ function Character.preGetCollectible(pool, decrease, seed)
 	if pool == ItemPoolType.POOL_GREED_BOSS then return end
 	
 	local room = game:GetRoom()
-	local level = game:GetLevel()
-	local roomIndex = level:GetCurrentRoomIndex()
 	
 	if room:GetType() ~= RoomType.ROOM_TREASURE then return end
-	if game:IsGreedMode() and roomIndex == 98 then return end
+	if Functions.IsGreedTreasureRoom() then return end
 
 	rng:SetSeed(seed, 35)
 	local randFloat = rng:RandomFloat()

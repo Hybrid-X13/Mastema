@@ -116,12 +116,10 @@ function Item.preGetCollectible(pool, decrease, seed)
 	if pool == ItemPoolType.POOL_DEVIL then return end
 
 	local room = game:GetRoom()
-	local level = game:GetLevel()
-	local roomIndex = level:GetCurrentRoomIndex()
 	
 	if (Functions.AnyPlayerIsType(Enums.Characters.MASTEMA) or Functions.AnyPlayerIsType(Enums.Characters.MASTEMA))
 	and room:GetType() == RoomType.ROOM_TREASURE
-	and (not game:IsGreedMode() or (game:IsGreedMode() and roomIndex ~= 98))
+	and not Functions.IsGreedTreasureRoom()
 	then
 		return
 	end
