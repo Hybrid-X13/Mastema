@@ -81,6 +81,7 @@ local function IsBlacklisted(itemID)
 		CollectibleType.COLLECTIBLE_LATCH_KEY,
 		CollectibleType.COLLECTIBLE_MATCH_BOOK,
 		CollectibleType.COLLECTIBLE_PAGEANT_BOY,
+		CollectibleType.COLLECTIBLE_MOMS_COIN_PURSE,
 		CollectibleType.COLLECTIBLE_BOOM,
 		CollectibleType.COLLECTIBLE_QUARTER,
 		CollectibleType.COLLECTIBLE_BATTERY_PACK,
