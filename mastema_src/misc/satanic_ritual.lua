@@ -117,8 +117,17 @@ function Ritual.postNewLevel()
 
 	local room = game:GetRoom()
 	local level = game:GetLevel()
+	local stageType = level:GetStageType()
 
 	if level:GetStage() == LevelStage.STAGE1_1 then return end
+
+	--Fix incompatibility with custom floors
+	if StageAPI
+	and level:GetStage() == LevelStage.STAGE2_1
+	and stageType == StageType.STAGETYPE_WOTL
+	then
+		return
+	end
 
 	rng:SetSeed(room:GetDecorationSeed(), 35)
 	local rooms = level:GetRooms()
