@@ -141,6 +141,10 @@ function Ritual.postNewLevel()
 		then
 			local randFloat = rng:RandomFloat()
 			local chance = 0.05 + (game:GetDevilRoomDeals() / 100)
+
+			if Functions.AnyPlayerIsType(Enums.Characters.MASTEMA) then
+				chance = 0.01 + (game:GetDevilRoomDeals() / 100)
+			end
 			
 			if randFloat < chance then
 				local randNum = rng:RandomInt(#roomIds) + MIN_ROOM_ID
