@@ -555,8 +555,7 @@ function Character.postPEffectUpdate(player)
 	and not player:IsCoopGhost()
 	then
 		if not player:HasTrinket(TrinketType.TRINKET_DEVILS_CROWN, false) then
-			player:AddTrinket(TrinketType.TRINKET_DEVILS_CROWN)
-			player:UseActiveItem(CollectibleType.COLLECTIBLE_SMELTER, false)
+			Functions.AddSmeltedTrinket(player, TrinketType.TRINKET_DEVILS_CROWN)
 		end
 
 		if not Functions.HasInnateItem(CollectibleType.COLLECTIBLE_DUALITY) then
