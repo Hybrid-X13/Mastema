@@ -371,8 +371,9 @@ function Character.postNPCDeath(npc)
 	if #confessionals > 0 then return end
 
 	local pos = room:FindFreePickupSpawnPosition(Vector(320, 240), 0)
-	local confessional = Isaac.Spawn(EntityType.ENTITY_SLOT, Enums.Slots.CONFESSIONAL, 0, pos, Vector.Zero, nil)
-	Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, 0, confessional.Position, Vector.Zero, confessional)
+	local lightBeam = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.CRACK_THE_SKY, 0, pos, Vector.Zero, nil)
+	lightBeam:AddEntityFlags(EntityFlag.FLAG_FRIENDLY)
+	lightBeam:GetData().tMastemaBeam = game:GetFrameCount()
 end
 
 function Character.postPickupInit(pickup)
@@ -654,21 +655,26 @@ function Character.postRender()
 end
 
 function Character.postEffectUpdate(effect)
-	if effect.SpawnerEntity == nil then return end
+	if effect.SpawnerEntity then
+		local player = effect.SpawnerEntity:ToPlayer()
 
-	local player = effect.SpawnerEntity:ToPlayer()
-
-  	if player == nil then return end
-	if player:GetPlayerType() ~= Enums.Characters.T_MASTEMA then return end
-	if player:HasCollectible(CollectibleType.COLLECTIBLE_PLAYDOUGH_COOKIE) then return end
-
-	if effect.Variant == EffectVariant.BRIMSTONE_SWIRL
-	or effect.Variant == EffectVariant.TECH_DOT
+		if player
+		and player:GetPlayerType() == Enums.Characters.T_MASTEMA
+		and not player:HasCollectible(CollectibleType.COLLECTIBLE_PLAYDOUGH_COOKIE)
+		and (effect.Variant == EffectVariant.BRIMSTONE_SWIRL or effect.Variant == EffectVariant.TECH_DOT)
+		then
+			local color = Color(1, 0, 1, 1, 0, 0, 0)
+			local sprite = effect:GetSprite()
+			color:SetColorize(4, 0, 4, 1)
+			sprite.Color = color
+		end
+	elseif effect.Variant == EffectVariant.CRACK_THE_SKY
+	and effect:GetData().tMastemaBeam
+	and game:GetFrameCount() >= effect:GetData().tMastemaBeam + 23
 	then
-		local color = Color(1, 0, 1, 1, 0, 0, 0)
-		local sprite = effect:GetSprite()
-		color:SetColorize(4, 0, 4, 1)
-		sprite.Color = color
+		local confessional = Isaac.Spawn(EntityType.ENTITY_SLOT, Enums.Slots.CONFESSIONAL, 0, effect.Position, Vector.Zero, nil)
+		Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, 0, confessional.Position, Vector.Zero, confessional)
+		sfx:Play(SoundEffect.SOUND_UNHOLY, 1, 2, false, 0.9)
 	end
 end
 
