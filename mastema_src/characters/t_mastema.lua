@@ -202,8 +202,10 @@ function Character.postPlayerInit(player)
 	if player:GetPlayerType() ~= Enums.Characters.T_MASTEMA then return end
 	
 	local level = game:GetLevel()
+	local roomIndex = level:GetCurrentRoomIndex()
+	local startRoomIndex = level:GetStartingRoomIndex()
 	
-	if game:GetFrameCount() == 0
+	if roomIndex == startRoomIndex
 	or level:GetCurrentRoomIndex() == GridRooms.ROOM_GENESIS_IDX
 	then
 		local lordPit = Isaac.GetItemConfig():GetCollectible(CollectibleType.COLLECTIBLE_LORD_OF_THE_PIT)

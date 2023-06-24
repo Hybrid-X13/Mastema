@@ -342,8 +342,10 @@ function Character.postPlayerInit(player)
 	if player:GetPlayerType() ~= Enums.Characters.MASTEMA then return end
 	
 	local level = game:GetLevel()
+	local roomIndex = level:GetCurrentRoomIndex()
+	local startRoomIndex = level:GetStartingRoomIndex()
 
-	if game:GetFrameCount() == 0
+	if roomIndex == startRoomIndex
 	or level:GetCurrentRoomIndex() == GridRooms.ROOM_GENESIS_IDX
 	then
 		for i = 1, #Blacklist.Items do
@@ -689,6 +691,9 @@ function Character.postPEffectUpdate(player)
 	if player:GetPlayerType() ~= Enums.Characters.MASTEMA then return end
 	if player.Parent then return end
 
+	local level = game:GetLevel()
+	local stageType = level:GetStageType()
+
 	if not player:HasCurseMistEffect()
 	and not player:IsCoopGhost()
 	then
@@ -702,6 +707,14 @@ function Character.postPEffectUpdate(player)
 
 		if not Functions.HasInnateItem(CollectibleType.COLLECTIBLE_DUALITY) then
 			Functions.AddInnateItem(player, CollectibleType.COLLECTIBLE_DUALITY, true)
+		end
+
+		if level:GetStage() == LevelStage.STAGE1_1
+		and stageType ~= StageType.STAGETYPE_REPENTANCE
+		and stageType ~= StageType.STAGETYPE_REPENTANCE_B
+		and not Functions.HasInnateItem(CollectibleType.COLLECTIBLE_MORE_OPTIONS)
+		then
+			Functions.AddInnateItem(player, CollectibleType.COLLECTIBLE_MORE_OPTIONS, true)
 		end
 	end
 
