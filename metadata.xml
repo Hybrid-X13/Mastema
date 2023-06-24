@@ -40,10 +40,10 @@ Wanna have the most up to date info on all the mod's content? Then check out the
 [b]Impupzables[/b]: Lots of costume tweaks and some item resprites.
 [b]DejuiceTD[/b]: Sprited both characters' boss portraits.
 [b]Warhamm2000[/b]: Various sprites for items, costumes, starting room drawings, and others.
-[b]JPG[/b]: Sprited some items, costume tweaks, menu art tweaks.
+[b]Nathaniel_JPG[/b]: Sprited some items, costume tweaks, menu art tweaks.
 [b]Nihil[/b]: Sprited one of the mod's runes.
 [b]Ridiculon[/b]: Voiceovers for the mod's consumables (and [b]popjam[/b] for help commissioning him!).</description>
-    <version>1.127</version>
+    <version>1.129</version>
     <visibility>Public</visibility>
     <tag id="Lua"/>
     <tag id="Items"/>
