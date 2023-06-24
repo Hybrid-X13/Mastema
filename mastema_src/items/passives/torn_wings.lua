@@ -140,6 +140,7 @@ function Item.postPEffectUpdate(player)
 	if player:GetPlayerType() == Isaac.GetPlayerTypeByName("Gomorrah", false) then return end
 	if player:GetPlayerType() == Isaac.GetPlayerTypeByName("Gomorrah", true) then return end
 	if player:GetPlayerType() == PlayerType.PLAYER_THEFORGOTTEN_B then return end
+	if player:IsCoopGhost() then return end
 	
 	local level = game:GetLevel()
 
