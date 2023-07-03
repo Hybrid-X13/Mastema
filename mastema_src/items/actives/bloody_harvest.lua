@@ -17,7 +17,12 @@ function Item.useItem(item, rng, player, flags, activeSlot, customVarData)
 	and player:HasTrinket(Enums.Trinkets.MASTEMA_BIRTHCAKE)
 	then
 		randNum = 0
-		spawnpos = room:FindFreePickupSpawnPosition(room:GetCenterPos(), 0)
+
+		if room:GetType() == RoomType.ROOM_DEVIL then
+			spawnpos = Isaac.GetFreeNearPosition(room:GetCenterPos(), 40)
+		else
+			spawnpos = room:FindFreePickupSpawnPosition(room:GetCenterPos(), 0)
+		end
 	end
 
 	if randNum == 9 then --Spawn devil deal
