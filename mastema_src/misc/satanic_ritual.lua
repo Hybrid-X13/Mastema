@@ -123,7 +123,7 @@ function Ritual.postNewLevel()
 
 	--Fix incompatibility with custom floors
 	if StageAPI
-	and level:GetStage() == LevelStage.STAGE2_1
+	and (level:GetStage() == LevelStage.STAGE2_1 or level:GetStage() == LevelStage.STAGE2_2)
 	and stageType == StageType.STAGETYPE_WOTL
 	then
 		return
