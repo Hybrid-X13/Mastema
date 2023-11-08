@@ -40,6 +40,7 @@ local function HasBloodTears(player)
 	or tearVariant == TearVariant.KEY_BLOOD
 	or player:HasCollectible(CollectibleType.COLLECTIBLE_LEAD_PENCIL)
 	or player:HasCollectible(CollectibleType.COLLECTIBLE_HAEMOLACRIA)
+	or player:HasCollectible(CollectibleType.COLLECTIBLE_APPLE)
 	then
 		return true
 	end
