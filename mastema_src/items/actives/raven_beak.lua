@@ -1,4 +1,5 @@
 local Enums = require("mastema_src.enums")
+local Functions = require("mastema_src.functions")
 local SaveData = require("mastema_src.savedata")
 local rng = RNG()
 
@@ -21,15 +22,7 @@ function Item.evaluateCache(player, cacheFlag)
 	if player:HasCollectible(Enums.Collectibles.RAVEN_BEAK)
 	or SaveData.ItemData.RavenBeak.DMG > 0
 	then
-		if player:HasCollectible(CollectibleType.COLLECTIBLE_SOY_MILK) then
-			player.Damage = player.Damage + (SaveData.ItemData.RavenBeak.DMG * 0.2)
-		elseif player:HasCollectible(CollectibleType.COLLECTIBLE_ALMOND_MILK) then
-			player.Damage = player.Damage + (SaveData.ItemData.RavenBeak.DMG * 0.3)
-		elseif player:HasCollectible(CollectibleType.COLLECTIBLE_20_20) then
-			player.Damage = player.Damage + (SaveData.ItemData.RavenBeak.DMG * 0.8)
-		else
-			player.Damage = player.Damage + SaveData.ItemData.RavenBeak.DMG
-		end
+		player.Damage = player.Damage + (SaveData.ItemData.RavenBeak.DMG * Functions.GetDamageMultiplier(player))
 	end
 end
 
