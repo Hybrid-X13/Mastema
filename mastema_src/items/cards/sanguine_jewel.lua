@@ -1,4 +1,5 @@
 local Enums = require("mastema_src.enums")
+local Functions = require("mastema_src.functions")
 local game = Game()
 local rng = RNG()
 
@@ -34,15 +35,7 @@ function Consumable.evaluateCache(player, cacheFlag)
 	local tempEffects = player:GetEffects()
 	local effectCount = tempEffects:GetCollectibleEffectNum(Enums.Collectibles.SANGUINE_JEWEL_DMG_NULL)
 
-	if player:HasCollectible(CollectibleType.COLLECTIBLE_SOY_MILK) then
-		player.Damage = player.Damage + (0.5 * effectCount * 0.2)
-	elseif player:HasCollectible(CollectibleType.COLLECTIBLE_ALMOND_MILK) then
-		player.Damage = player.Damage + (0.5 * effectCount * 0.3)
-	elseif player:HasCollectible(CollectibleType.COLLECTIBLE_20_20) then
-		player.Damage = player.Damage + (0.5 * effectCount * 0.8)
-	else
-		player.Damage = player.Damage + (0.5 * effectCount)
-	end
+	player.Damage = player.Damage + (0.5 * effectCount * Functions.GetDamageMultiplier(player))
 end
 
 function Consumable.useCard(card, player, flag)
