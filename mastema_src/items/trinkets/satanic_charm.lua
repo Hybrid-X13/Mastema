@@ -16,15 +16,7 @@ function Trinket.evaluateCache(player, cacheFlag)
 		dmg = 0.25
 	end
 
-	if player:HasCollectible(CollectibleType.COLLECTIBLE_SOY_MILK) then
-		player.Damage = player.Damage + (dmg * SaveData.ItemData.SatanicCharm.DMG * trinketMultiplier * 0.2)
-	elseif player:HasCollectible(CollectibleType.COLLECTIBLE_ALMOND_MILK) then
-		player.Damage = player.Damage + (dmg * SaveData.ItemData.SatanicCharm.DMG * trinketMultiplier * 0.3)
-	elseif player:HasCollectible(CollectibleType.COLLECTIBLE_20_20) then
-		player.Damage = player.Damage + (dmg * SaveData.ItemData.SatanicCharm.DMG * trinketMultiplier * 0.8)
-	else
-		player.Damage = player.Damage + (dmg * SaveData.ItemData.SatanicCharm.DMG * trinketMultiplier)
-	end
+	player.Damage = player.Damage + (dmg * SaveData.ItemData.SatanicCharm.DMG * trinketMultiplier * Functions.GetDamageMultiplier(player))
 end
 
 function Trinket.prePickupCollision(pickup, collider, low)
