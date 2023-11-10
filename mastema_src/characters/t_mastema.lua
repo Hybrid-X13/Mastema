@@ -177,15 +177,7 @@ function Character.evaluateCache(player, cacheFlag)
 		local numBrokenHearts = player:GetBrokenHearts()
 
 		if cacheFlag == CacheFlag.CACHE_DAMAGE then
-			if player:HasCollectible(CollectibleType.COLLECTIBLE_SOY_MILK) then
-				player.Damage = player.Damage + (0.25 * numBrokenHearts * 0.2)
-			elseif player:HasCollectible(CollectibleType.COLLECTIBLE_ALMOND_MILK) then
-				player.Damage = player.Damage + (0.25 * numBrokenHearts * 0.3)
-			elseif player:HasCollectible(CollectibleType.COLLECTIBLE_20_20) then
-				player.Damage = player.Damage + (0.25 * numBrokenHearts * 0.8)
-			else
-				player.Damage = player.Damage + (0.25 * numBrokenHearts)
-			end
+			player.Damage = player.Damage + (0.25 * numBrokenHearts * Functions.GetDamageMultiplier(player))
 		end
 		
 		if cacheFlag == CacheFlag.CACHE_FIREDELAY then
