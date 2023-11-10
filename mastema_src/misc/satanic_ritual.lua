@@ -78,15 +78,7 @@ function Ritual.evaluateCache(player, cacheFlag)
 	and SaveData.ItemData.SatanicRitual.DMG > 0
 	and tempEffects:HasCollectibleEffect(Enums.Collectibles.SATANIC_RITUAL_DMG_NULL)
 	then
-		if player:HasCollectible(CollectibleType.COLLECTIBLE_SOY_MILK) then
-			player.Damage = player.Damage + (SaveData.ItemData.SatanicRitual.DMG * 0.2)
-		elseif player:HasCollectible(CollectibleType.COLLECTIBLE_ALMOND_MILK) then
-			player.Damage = player.Damage + (SaveData.ItemData.SatanicRitual.DMG * 0.3)
-		elseif player:HasCollectible(CollectibleType.COLLECTIBLE_20_20) then
-			player.Damage = player.Damage + (SaveData.ItemData.SatanicRitual.DMG * 0.8)
-		else
-			player.Damage = player.Damage + SaveData.ItemData.SatanicRitual.DMG
-		end
+		player.Damage = player.Damage + (SaveData.ItemData.SatanicRitual.DMG * Functions.GetDamageMultiplier(player))
 	end
 
 	if cacheFlag == CacheFlag.CACHE_FIREDELAY
