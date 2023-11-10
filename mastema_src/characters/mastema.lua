@@ -281,15 +281,7 @@ function Character.evaluateCache(player, cacheFlag)
 	if player:GetPlayerType() ~= Enums.Characters.MASTEMA then return end
 	
 	if cacheFlag == CacheFlag.CACHE_DAMAGE then
-		if player:HasCollectible(CollectibleType.COLLECTIBLE_SOY_MILK) then
-			player.Damage = player.Damage + (Stats.DMG * 0.2)
-		elseif player:HasCollectible(CollectibleType.COLLECTIBLE_ALMOND_MILK) then
-			player.Damage = player.Damage + (Stats.DMG * 0.3)
-		elseif player:HasCollectible(CollectibleType.COLLECTIBLE_20_20) then
-			player.Damage = player.Damage + (Stats.DMG * 0.8)
-		else
-			player.Damage = player.Damage + Stats.DMG
-		end
+		player.Damage = player.Damage + (Stats.DMG * Functions.GetDamageMultiplier(player))
 	end
 	if cacheFlag == CacheFlag.CACHE_FIREDELAY then
 		player.MaxFireDelay = Functions.TearsUp(player.MaxFireDelay, Stats.Tears)
@@ -309,15 +301,7 @@ function Character.evaluateCache(player, cacheFlag)
 
 	if player:HasCollectible(CollectibleType.COLLECTIBLE_BIRTHRIGHT) then
 		if cacheFlag == CacheFlag.CACHE_DAMAGE then
-			if player:HasCollectible(CollectibleType.COLLECTIBLE_SOY_MILK) then
-				player.Damage = player.Damage + (0.5 * SaveData.PlayerData.Mastema.Birthright.DMG * 0.2)
-			elseif player:HasCollectible(CollectibleType.COLLECTIBLE_ALMOND_MILK) then
-				player.Damage = player.Damage + (0.5 * SaveData.PlayerData.Mastema.Birthright.DMG * 0.3)
-			elseif player:HasCollectible(CollectibleType.COLLECTIBLE_20_20) then
-				player.Damage = player.Damage + (0.5 * SaveData.PlayerData.Mastema.Birthright.DMG * 0.8)
-			else
-				player.Damage = player.Damage + (0.5 * SaveData.PlayerData.Mastema.Birthright.DMG)
-			end
+			player.Damage = player.Damage + (0.5 * SaveData.PlayerData.Mastema.Birthright.DMG * Functions.GetDamageMultiplier(player))
 		end
 		
 		if cacheFlag == CacheFlag.CACHE_FIREDELAY then
