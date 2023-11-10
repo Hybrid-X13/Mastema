@@ -1,4 +1,5 @@
 local Enums = require("mastema_src.enums")
+local Functions = require("mastema_src.functions")
 local game = Game()
 local rng = RNG()
 local slayerIcon = Enums.Effects.MASTEMAS_WRATH_INDICATOR
@@ -10,29 +11,13 @@ function Item.evaluateCache(player, cacheFlag)
 	if cacheFlag ~= CacheFlag.CACHE_DAMAGE then return end
 	
 	if player:GetData().roomDmg then
-		if player:HasCollectible(CollectibleType.COLLECTIBLE_SOY_MILK) then
-			player.Damage = player.Damage + 0.4
-		elseif player:HasCollectible(CollectibleType.COLLECTIBLE_ALMOND_MILK) then
-			player.Damage = player.Damage + 0.6
-		elseif player:HasCollectible(CollectibleType.COLLECTIBLE_20_20) then
-			player.Damage = player.Damage + 1.6
-		else
-			player.Damage = player.Damage + 2
-		end
+		player.Damage = player.Damage + (2 * Functions.GetDamageMultiplier(player))
 	end
 
 	if player:GetData().fadingDmg ~= nil
 	and player:GetData().fadingDmg > 0
 	then
-		if player:HasCollectible(CollectibleType.COLLECTIBLE_SOY_MILK) then
-			player.Damage = player.Damage + (player:GetData().fadingDmg * 0.2)
-		elseif player:HasCollectible(CollectibleType.COLLECTIBLE_ALMOND_MILK) then
-			player.Damage = player.Damage + (player:GetData().fadingDmg * 0.3)
-		elseif player:HasCollectible(CollectibleType.COLLECTIBLE_20_20) then
-			player.Damage = player.Damage + (player:GetData().fadingDmg * 0.8)
-		else
-			player.Damage = player.Damage + player:GetData().fadingDmg
-		end
+		player.Damage = player.Damage + (player:GetData().fadingDmg * Functions.GetDamageMultiplier(player))
 	end
 end
 
