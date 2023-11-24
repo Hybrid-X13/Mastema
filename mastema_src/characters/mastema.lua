@@ -68,7 +68,7 @@ local function ChangeItemPrices()
 				local itemConfig = Isaac.GetItemConfig():GetCollectible(itemID)
 				local quality = itemConfig.Quality
 			
-				if (pickup.Price >= 0 and (room:GetType() == RoomType.ROOM_ANGEL or room:GetType() == RoomType.ROOM_LIBRARY or room:GetType() == RoomType.ROOM_SECRET or room:GetType() == RoomType.ROOM_ULTRASECRET))
+				if (pickup.Price >= 0 and (room:GetType() == RoomType.ROOM_ANGEL or room:GetType() == RoomType.ROOM_LIBRARY or room:GetType() == RoomType.ROOM_SECRET or room:GetType() == RoomType.ROOM_ULTRASECRET or room:GetType() == RoomType.ROOM_PLANETARIUM))
 				or (pickup.Price ~= 0 and room:GetType() == RoomType.ROOM_SHOP)
 				or (pickup.Price < 0 and (room:GetType() == RoomType.ROOM_TREASURE or room:GetType() == RoomType.ROOM_DEVIL or room:GetType() == RoomType.ROOM_BLACK_MARKET))
 				then
@@ -245,6 +245,7 @@ local function IsValidRoom()
 	or room:GetType() == RoomType.ROOM_SECRET
 	or room:GetType() == RoomType.ROOM_BLACK_MARKET
 	or room:GetType() == RoomType.ROOM_ULTRASECRET
+	or room:GetType() == RoomType.ROOM_PLANETARIUM
 	or (level:GetStage() == LevelStage.STAGE6 and roomIndex == startRoomIndex)
 	then
 		return true
@@ -261,17 +262,11 @@ local function AnyItemCostsHP()
 	for _, item in pairs(items) do
 		local pickup = item:ToPickup()
 
-		if pickup.Variant == PickupVariant.PICKUP_COLLECTIBLE then
-			if (pickup.Price < 0 and pickup.Price > PickupPrice.PRICE_SPIKES)
-			or (pickup.Price < PickupPrice.PRICE_SOUL and pickup.Price >= PickupPrice.PRICE_TWO_SOUL_HEARTS)
-			then
-				return true
-			end
-		else
-			if pickup.Price == PickupPrice.PRICE_SPIKES then
-				return true
-			end
-		end
+        if (pickup.Price < 0 and pickup.Price > PickupPrice.PRICE_SOUL)
+        or (pickup.Price < PickupPrice.PRICE_SOUL and pickup.Price >= PickupPrice.PRICE_TWO_SOUL_HEARTS)
+        then
+            return true
+        end
 	end
 
 	return false
